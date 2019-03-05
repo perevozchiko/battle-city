@@ -61,6 +61,7 @@ void Game::processEvents()
         if (Event::key)
     }
 }
+
 void Game::render()
 {
     window.clear();
