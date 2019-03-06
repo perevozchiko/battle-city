@@ -1,4 +1,4 @@
-#include "include/tank.h"
+#include "tank.h"
 #include <iostream>
 
 Tank::Tank(Texture& _texture, int _x, int _y, int _width, int _height) :

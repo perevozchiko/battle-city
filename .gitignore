@@ -71,6 +71,6 @@ Thumbs.db
 *.dll
 *.exe
 
-# folder 
+# folders
 bin
-built
+build
