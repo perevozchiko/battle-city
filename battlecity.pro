@@ -23,7 +23,7 @@ HEADERS  += \
 LIBS += -L$$(HOME)/Projects/sfml25/lib
 
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
-CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsafml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
+CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 
 INCLUDEPATH += $$(HOME)/Projects/sfml25/include
 INCLUDEPATH += $$(HOME)/Projects/battlecity/include
