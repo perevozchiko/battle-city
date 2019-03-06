@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map.h"
 
 const Time TimePerFrame = sf::seconds(1.0f/60.f);
 
@@ -40,72 +41,45 @@ void Game::processEvents()
         case Event::Closed:
             window.close();
             break;
-
-        case Event::KeyPressed:
-            handleInput(event.key.code, true);
-            break;
-
-        case Event::KeyReleased:
-            handleInput(event.key.code, false);
-            break;
-
+//        case Event::KeyPressed:
+//            handleInput(event.key.code, true);
+//            break;
+//        case Event::KeyReleased:
+//            handleInput(event.key.code, false);
+//            break;
         default:
             break;
         }
     }
+    handleRealTimeInput();
 }
 
-void Game::handleInput(Keyboard::Key key, bool isPressed)
+void Game::handleRealTimeInput()
 {
-    switch (key)
+    if (Keyboard::isKeyPressed(Keyboard::Left))
     {
-    case Keyboard::Left:
-        if (isPressed)
-        {
-            heroTank.setDir(Tank::Direction::LEFT);
-        }
-        else
-        {
-            heroTank.setDir(Tank::Direction::NO);
-        }
-        break;
-    case Keyboard::Right:
-        if (isPressed)
-        {
-            heroTank.setDir(Tank::Direction::RIGHT);
-        }
-        else
-        {
-            heroTank.setDir(Tank::Direction::NO);
-        }
-        break;
-    case Keyboard::Up:
-        if (isPressed)
-        {
-            heroTank.setDir(Tank::Direction::UP);
-        }
-        else
-        {
-            heroTank.setDir(Tank::Direction::NO);
-        }
-        break; case Keyboard::Down:
-        if (isPressed)
-        {
-            heroTank.setDir(Tank::Direction::DOWN);
-        }
-        else
-        {
-            heroTank.setDir(Tank::Direction::NO);
-        }
-        break;
-    default:
-        break;
+        heroTank.setDir(Tank::Direction::LEFT);
+    }
+
+    if (Keyboard::isKeyPressed(Keyboard::Right))
+    {
+        heroTank.setDir(Tank::Direction::RIGHT);
+    }
+
+    if (Keyboard::isKeyPressed(Keyboard::Up))
+    {
+        heroTank.setDir(Tank::Direction::UP);
+    }
+
+    if (Keyboard::isKeyPressed(Keyboard::Down))
+    {
+        heroTank.setDir(Tank::Direction::DOWN);
     }
 }
 
 void Game::update(const Time &elapsedTime)
 {
-    heroTank.update();
+    heroTank.update(elapsedTime);
 }
 
 void Game::render()

@@ -19,8 +19,9 @@ public:
 
     Sprite& getSprite() {return sprite;}
     Direction getDir() {return dir;}
-    void update();
+    void update(Time timeMove);
     void setDir(Direction dir);
+    void setSpeed(float speed);
 
 private:
     Texture& texture;
@@ -29,6 +30,8 @@ private:
     Sprite sprite;
     Direction dir;
     float speed;
+    float dx;
+    float dy;
 };
 
 #endif // TANK_H

@@ -14,11 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     src/tank.cpp \
-    src/game.cpp
+    src/game.cpp \
+    src/map.cpp
 
 HEADERS  += \
     include/tank.h \
-    include/game.h
+    include/game.h \
+    include/map.h
 
 LIBS += -L$$(HOME)/Projects/sfml25/lib
 

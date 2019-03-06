@@ -1,9 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <sstream>
-#include <iostream>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "tank.h"
@@ -18,7 +15,7 @@ private:
     void processEvents();
     void update(const Time& elapsedTime);
     void render();
-    void handleInput(Keyboard::Key key, bool isPressed);
+    void handleRealTimeInput();
     RenderWindow window;
     Texture gameTexture;
     Tank heroTank;

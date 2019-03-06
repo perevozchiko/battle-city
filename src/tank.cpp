@@ -1,11 +1,13 @@
 #include "include/tank.h"
+#include <iostream>
 
 Tank::Tank(Texture& _texture, int _x, int _y, int _width, int _height) :
     texture {_texture},
     position{_x, _y},
     size{_width, _height},
-    dir{Direction::NO},
-    speed{0.0f}
+    speed{0.0f},
+    dx{0},
+    dy{0}
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(IntRect(0, 0, size.x, size.y));
@@ -13,29 +15,39 @@ Tank::Tank(Texture& _texture, int _x, int _y, int _width, int _height) :
     sprite.setPosition(position.x, position.y);
 }
 
-void Tank::update()
+void Tank::update(Time timeMove)
 {
     switch (dir)
     {
     case Direction::LEFT:
-        sprite.move(-0.1f,0.0f);
+        dx = -speed;
+        dy = 0;
         break;
     case Direction::RIGHT:
-        sprite.move(0.1f,0.0f);
+        dx = speed;
+        dy = 0;
         break;
     case Direction::UP:
-        sprite.move(0.0f,-0.1f);
+        dx = 0;
+        dy = -speed;
         break;
     case Direction::DOWN:
-        sprite.move(0.0f,0.1f);
+        dx = 0;
+        dy = speed;
         break;
     default:
         break;
     }
+
+
+    speed = 0;
+    sprite.move(dx * timeMove.asSeconds(), dy * timeMove.asSeconds());
+
 }
 
 void Tank::setDir(Direction dir)
 {
+    speed = 40.0f;
     this->dir = dir;
     switch (dir)
     {
@@ -54,6 +66,11 @@ void Tank::setDir(Direction dir)
     default:
         break;
     }
+}
+
+void Tank::setSpeed(float speed)
+{
+    this->speed = speed;
 }
 
 
