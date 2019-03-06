@@ -71,5 +71,6 @@ Thumbs.db
 *.dll
 *.exe
 
-# clion
+# folder 
 bin
+built
