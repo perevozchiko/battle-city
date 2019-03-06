@@ -19,6 +19,7 @@ void Game::run()
     while (window.isOpen())
     {
         Time elapsedTime = clock.restart();
+
         timeSinceLastUpdate += elapsedTime;
         while (timeSinceLastUpdate > TimePerFrame)
         {
