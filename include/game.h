@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "tank.h"
+#include "map.h"
 
 
 class Game
@@ -20,6 +21,7 @@ private:
     RenderWindow window;
     Texture gameTexture;
     Tank heroTank;
+    Map map;
 };
 
 #endif // GAME_H

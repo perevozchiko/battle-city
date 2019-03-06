@@ -6,7 +6,8 @@ const Time TimePerFrame = sf::seconds(1.0f/60.f);
 Game::Game() :
     window(VideoMode(640, 480), "Battle City"),
     gameTexture(),
-    heroTank(gameTexture, 320, 240, 32, 32)
+    heroTank(gameTexture, 320, 240, 32, 32),
+    map(640, 480)
 {
     gameTexture.loadFromFile("sprite.bmp");
 }
