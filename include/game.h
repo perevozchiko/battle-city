@@ -1,10 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <iostream>
 #include "tank.h"
 #include "SFML/Graphics.hpp"
 
-using namespace sf;
 
 class Game
 {
@@ -14,11 +14,11 @@ public:
 
 private:
     void processEvents();
-    void update(const Time& elapsedTime);
+    void update(const sf::Time& elapsedTime);
     void render();
-    void handleInput(Keyboard::Key key, bool isPressed);
-    RenderWindow window;
-    Texture gameTexture;
+    void handleInput(sf::Keyboard::Key key, bool isPressed);
+    sf::RenderWindow window;
+    sf::Texture gameTexture;
     Tank heroTank;
 };
 

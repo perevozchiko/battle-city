@@ -1,12 +1,12 @@
 #include "game.h"
 
-const Time TimePerFrame = sf::seconds(1.0f/60.f);
+const sf::Time TimePerFrame = sf::seconds(1.0f/60.f);
 
-void Game::handleInput(Keyboard::Key key, bool isPressed)
+void Game::handleInput(sf::Keyboard::Key key, bool isPressed)
 {
     switch (key)
     {
-    case Keyboard::Left:
+    case sf::Keyboard::Left:
         if (isPressed)
         {
             Direction::LEFT;
@@ -18,7 +18,7 @@ void Game::handleInput(Keyboard::Key key, bool isPressed)
 }
 
 Game::Game() :
-    window(sf::VideoMode(640, 480), "testSfml1"),
+    window(sf::VideoMode(640, 480), "Battle City"),
     gameTexture(),
     heroTank(gameTexture, 150, 150, 32, 32)
 {    
@@ -27,12 +27,14 @@ Game::Game() :
 
 void Game::run()
 {
-    Clock clock;
-    Time timeSinceLastUpdate = sf::Time::Zero;
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
     while (window.isOpen())
     {
-        Time elapsedTime = clock.restart();
+        sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
+
         while (timeSinceLastUpdate > TimePerFrame)
         {
             timeSinceLastUpdate -= TimePerFrame;
@@ -45,20 +47,19 @@ void Game::run()
     }
 }
 
-void Game::update(const Time &elapsedTime)
+void Game::update(const sf::Time &elapsedTime)
 {
+    switch()
 
 }
 
 void Game::processEvents()
 {
-    Event event;
+    sf::Event event;
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
             window.close();
-
-        if (Event::key)
     }
 }
 
