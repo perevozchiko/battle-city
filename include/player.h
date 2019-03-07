@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-class Tank
+class Player
 {
 public:
     enum class Direction
@@ -15,7 +15,7 @@ public:
         UP
     };
 
-    Tank(Texture& _texture, int _x, int _y, int _width, int _height);
+    Player(Texture& _texture, int _x, int _y, int _width, int _height);
 
     Sprite& getSprite() {return sprite;}
     Direction getDir() {return dir;}

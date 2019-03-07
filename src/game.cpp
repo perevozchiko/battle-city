@@ -6,8 +6,7 @@ const Time TimePerFrame = sf::seconds(1.0f/60.f);
 Game::Game() :
     window(VideoMode(640, 480), "Battle City"),
     gameTexture(),
-    heroTank(gameTexture, 320, 240, 32, 32),
-    map(gameTexture, 640, 480)
+    heroTank(gameTexture, 320, 240, 32, 32)
 {
     gameTexture.loadFromFile("sprite.bmp");
 }
@@ -60,22 +59,22 @@ void Game::handleRealTimeInput()
 {
     if (Keyboard::isKeyPressed(Keyboard::Left))
     {
-        heroTank.setDir(Tank::Direction::LEFT);
+        heroTank.setDir(Player::Direction::LEFT);
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Right))
     {
-        heroTank.setDir(Tank::Direction::RIGHT);
+        heroTank.setDir(Player::Direction::RIGHT);
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Up))
     {
-        heroTank.setDir(Tank::Direction::UP);
+        heroTank.setDir(Player::Direction::UP);
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Down))
     {
-        heroTank.setDir(Tank::Direction::DOWN);
+        heroTank.setDir(Player::Direction::DOWN);
     }
 }
 
@@ -88,20 +87,20 @@ void Game::render()
 {
     window.clear();
 
-    for (int i = 0; i < 25; i++)
-    {
-        for (int j = 0; j < 40; j++)
-        {
-            if (map.getTileMap()[i][j] == ' ')  map.getSprite().setTextureRect(IntRect(0, 0, 32, 32));
-            if (map.getTileMap()[i][j] == 's')  map.getSprite().setTextureRect(IntRect(32, 0, 32, 32));
-            if ((map.getTileMap()[i][j] == '0')) map.getSprite().setTextureRect(IntRect(64, 0, 32, 32));
+//    for (int i = 0; i < 25; i++)
+//    {
+//        for (int j = 0; j < 40; j++)
+//        {
+//            if (map.getTileMap()[i][j] == ' ')  map.getSprite().setTextureRect(IntRect(0, 0, 32, 32));
+//            if (map.getTileMap()[i][j] == 's')  map.getSprite().setTextureRect(IntRect(32, 0, 32, 32));
+//            if ((map.getTileMap()[i][j] == '0')) map.getSprite().setTextureRect(IntRect(64, 0, 32, 32));
 
 
-            map.getSprite().setPosition(j * 32, i * 32);
+//            map.getSprite().setPosition(j * 32, i * 32);
 
-            window.draw(map.getSprite());
-        }
-    }
+//            window.draw(map.getSprite());
+//        }
+//    }
 
 
     window.draw(heroTank.getSprite());

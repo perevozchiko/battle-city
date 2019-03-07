@@ -1,7 +1,7 @@
-#include "tank.h"
+#include "player.h"
 #include <iostream>
 
-Tank::Tank(Texture& _texture, int _x, int _y, int _width, int _height) :
+Player::Player(Texture& _texture, int _x, int _y, int _width, int _height) :
     texture {_texture},
     position{_x, _y},
     size{_width, _height},
@@ -15,7 +15,7 @@ Tank::Tank(Texture& _texture, int _x, int _y, int _width, int _height) :
     sprite.setPosition(position.x, position.y);
 }
 
-void Tank::update(Time timeMove)
+void Player::update(Time timeMove)
 {
     switch (dir)
     {
@@ -45,22 +45,22 @@ void Tank::update(Time timeMove)
 
 }
 
-void Tank::setDir(Direction dir)
+void Player::setDir(Direction dir)
 {
     speed = 40.0f;
     this->dir = dir;
     switch (dir)
     {
-    case Tank::Direction::LEFT:
+    case Player::Direction::LEFT:
         sprite.setRotation(-90.0f);
         break;
-    case Tank::Direction::RIGHT:
+    case Player::Direction::RIGHT:
         sprite.setRotation(90.0f);
         break;
-    case Tank::Direction::UP:
+    case Player::Direction::UP:
         sprite.setRotation(0.0f);
         break;
-    case Tank::Direction::DOWN:
+    case Player::Direction::DOWN:
         sprite.setRotation(180.0f);
         break;
     default:
@@ -68,7 +68,7 @@ void Tank::setDir(Direction dir)
     }
 }
 
-void Tank::setSpeed(float speed)
+void Player::setSpeed(float speed)
 {
     this->speed = speed;
 }

@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
-#include "tank.h"
-#include "map.h"
+#include "player.h"
+
 
 
 class Game
@@ -20,8 +20,7 @@ private:
     void handleRealTimeInput();
     RenderWindow window;
     Texture gameTexture;
-    Tank heroTank;
-    Map map;
+    Player heroTank;
 };
 
 #endif // GAME_H
