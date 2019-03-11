@@ -1,14 +1,9 @@
 #include "game.h"
 
-
-const Time TimePerFrame = sf::seconds(1.0f/30.f);
-const int WidthResolution = 640;
-const int HeightResolution = 480;
-
 Game::Game() :
-    window(VideoMode(WidthResolution, HeightResolution), "Battle City"),
+    window(VideoMode(Conf::WINDOW_WIDTH, Conf::WINDOW_HEIGHT), Conf::GAME_NAME),
     gameTexture(),
-    heroTank(gameTexture, 320, 240, 32, 32)
+    heroTank(gameTexture, Conf::WINDOW_WIDTH/2, Conf::WINDOW_HEIGHT/2, Conf::SIZE_TEXTURE, Conf::SIZE_TEXTURE)
 {
     gameTexture.loadFromFile("sprite.bmp");
 }
@@ -23,15 +18,29 @@ void Game::run()
         Time elapsedTime = clock.restart();
 
         timeSinceLastUpdate += elapsedTime;
-        while (timeSinceLastUpdate > TimePerFrame)
+        while (timeSinceLastUpdate > Conf::TIME_PER_FRAME)
         {
-            timeSinceLastUpdate -= TimePerFrame;
+            timeSinceLastUpdate -= Conf::TIME_PER_FRAME;
             processEvents();
-            update(TimePerFrame);
+            update(Conf::TIME_PER_FRAME);
         }
 
         render();
     }
+}
+
+void Game::adaptPlayerPosition()
+{
+    Vector2f position = heroTank.getPosition();
+
+    position.x = std::max(position.x, Conf::WINDOW_WIDTH);
+    position.x = std::min(position.x, Conf::WINDOW_WIDTH);
+
+    position.y = std::max(position.y, Conf::WINDOW_HEIGHT);
+    position.y = std::min(position.y, Conf::WINDOW_HEIGHT);
+
+    heroTank.setPosition(position);
+
 }
 
 void Game::processEvents()
@@ -77,11 +86,8 @@ void Game::handleRealTimeInput()
 
 void Game::update(const Time &elapsedTime)
 {
-    if (heroTank.getSprite().getPosition().x - heroTank.getSize().x/2 < 0)
-    {
-        heroTank.collisionDetect = true;
-    }
-
+    //std::cout << heroTank.getSprite().getPosition().x << ", " <<  heroTank.getSprite().getPosition().y << std::endl;
+    adaptPlayerPosition();
     heroTank.update(elapsedTime);
 }
 
@@ -95,3 +101,18 @@ void Game::render()
     window.display();
 }
 
+
+
+//void World::adaptPlayerPosition()
+//{
+//  // Keep player's position inside the screen bounds, at least borderDistance units from the border
+//  sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+//  const float borderDistance = 40.f;
+
+//  sf::Vector2f position = mPlayerAircraft->getPosition();
+//  position.x = std::max(position.x, viewBounds.left + borderDistance);
+//  position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+//  position.y = std::max(position.y, viewBounds.top + borderDistance);
+//  position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+//  mPlayerAircraft->setPosition(position);
+//}

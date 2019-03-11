@@ -1,6 +1,7 @@
 #ifndef TANK_H
 #define TANK_H
 #include <SFML/Graphics.hpp>
+#include <conf.h>
 using namespace sf;
 
 class Player
@@ -22,13 +23,15 @@ public:
     Direction getDir() {return dir;}
     Vector2i getSize() {return size;}
     void update(Time timeMove);
-    void setDir(Direction dir);
-    void setSpeed(float speed);
+    void setDir(Direction _dir);
+    void setSpeed(float _speed);
+    Vector2f getPosition() const;
+    void setPosition(const Vector2f &value);
 
 
 private:
     Texture& texture;
-    Vector2i position;
+    Vector2f position;
     Vector2i size;
     Sprite sprite;
     Direction dir;

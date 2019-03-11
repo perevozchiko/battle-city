@@ -1,15 +1,15 @@
 #include "player.h"
 #include <iostream>
 
-const float SPEED = 100.0f;
+
 
 Player::Player(Texture& _texture, int _x, int _y, int _width, int _height) :
-    texture {_texture},
-    position{_x, _y},
-    size{_width, _height},
-    speed{0.0f},
-    dx{0},
-    dy{0}
+    texture (_texture),
+    position(_x, _y),
+    size(_width, _height),
+    speed(0),
+    dx(0),
+    dy(0)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(IntRect(0, 0, size.x, size.y));
@@ -40,22 +40,14 @@ void Player::update(Time timeMove)
     default:
         break;
     }
-
     speed = 0;
-    if (collisionDetect == false)
-    {
-        sprite.move(dx * timeMove.asSeconds(), dy * timeMove.asSeconds());
-    }
-    else {
-        sprite.setPosition(sprite.getPosition().x+1, sprite.getPosition().y);
-        collisionDetect = false;
-    }
+    sprite.move(dx, dy);
 }
 
-void Player::setDir(Direction dir)
+void Player::setDir(Direction _dir)
 {
-    speed = SPEED;
-    this->dir = dir;
+    speed = Conf::SPEED;
+    dir = _dir;
     switch (dir)
     {
     case Player::Direction::LEFT:
@@ -75,9 +67,19 @@ void Player::setDir(Direction dir)
     }
 }
 
-void Player::setSpeed(float speed)
+void Player::setSpeed(float _speed)
 {
-    this->speed = speed;
+    speed = _speed;
+}
+
+Vector2f Player::getPosition() const
+{
+    return position;
+}
+
+void Player::setPosition(const Vector2f &value)
+{
+    position = value;
 }
 
 

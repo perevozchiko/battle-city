@@ -18,7 +18,8 @@ SOURCES += main.cpp \
 
 HEADERS  += \
     include/game.h \
-    include/player.h
+    include/player.h \
+    include/conf.h
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"

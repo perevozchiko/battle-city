@@ -1,9 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <iostream>
+#include <algorithm>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "player.h"
+#include "conf.h"
 
 
 
@@ -12,6 +15,7 @@ class Game
 public:
     Game();
     void run();
+    void adaptPlayerPosition();
 
 private:
     void processEvents();
