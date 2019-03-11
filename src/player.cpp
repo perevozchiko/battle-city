@@ -17,7 +17,7 @@ Player::Player(Texture& _texture, int _x, int _y, int _width, int _height) :
     sprite.setPosition(position.x, position.y);
 }
 
-void Player::update(Time timeMove)
+void Player::update(Time elapsedTime)
 {
     switch (dir)
     {

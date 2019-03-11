@@ -32,14 +32,17 @@ void Game::run()
 void Game::adaptPlayerPosition()
 {
     Vector2f position = heroTank.getPosition();
+    float halfSizeX = heroTank.getSize().x / 2.0f;
+    float halfSizeY = heroTank.getSize().y / 2.0f;
 
-    position.x = std::max(position.x, Conf::WINDOW_WIDTH);
-    position.x = std::min(position.x, Conf::WINDOW_WIDTH);
+    position.x = std::max(position.x, halfSizeX);
+    position.x = std::min(position.x, Conf::WINDOW_WIDTH - halfSizeX);
 
-    position.y = std::max(position.y, Conf::WINDOW_HEIGHT);
-    position.y = std::min(position.y, Conf::WINDOW_HEIGHT);
+    position.y = std::max(position.y, halfSizeY);
+    position.y = std::min(position.y, Conf::WINDOW_HEIGHT - halfSizeY);
 
-    heroTank.setPosition(position);
+    Vector2f pos (2.0f, 5.0f);
+    heroTank.setPosition(pos);
 
 }
 
@@ -86,9 +89,12 @@ void Game::handleRealTimeInput()
 
 void Game::update(const Time &elapsedTime)
 {
-    //std::cout << heroTank.getSprite().getPosition().x << ", " <<  heroTank.getSprite().getPosition().y << std::endl;
+
+
     adaptPlayerPosition();
     heroTank.update(elapsedTime);
+
+
 }
 
 
