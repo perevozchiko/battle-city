@@ -1,10 +1,12 @@
 #include "game.h"
 
 
-const Time TimePerFrame = sf::seconds(1.0f/60.f);
+const Time TimePerFrame = sf::seconds(1.0f/30.f);
+const int WidthResolution = 640;
+const int HeightResolution = 480;
 
 Game::Game() :
-    window(VideoMode(640, 480), "Battle City"),
+    window(VideoMode(WidthResolution, HeightResolution), "Battle City"),
     gameTexture(),
     heroTank(gameTexture, 320, 240, 32, 32)
 {
@@ -42,12 +44,7 @@ void Game::processEvents()
         case Event::Closed:
             window.close();
             break;
-//        case Event::KeyPressed:
-//            handleInput(event.key.code, true);
-//            break;
-//        case Event::KeyReleased:
-//            handleInput(event.key.code, false);
-//            break;
+
         default:
             break;
         }
@@ -80,30 +77,21 @@ void Game::handleRealTimeInput()
 
 void Game::update(const Time &elapsedTime)
 {
+    if (heroTank.getSprite().getPosition().x - heroTank.getSize().x/2 < 0)
+    {
+        heroTank.collisionDetect = true;
+    }
+
     heroTank.update(elapsedTime);
 }
+
 
 void Game::render()
 {
     window.clear();
 
-//    for (int i = 0; i < 25; i++)
-//    {
-//        for (int j = 0; j < 40; j++)
-//        {
-//            if (map.getTileMap()[i][j] == ' ')  map.getSprite().setTextureRect(IntRect(0, 0, 32, 32));
-//            if (map.getTileMap()[i][j] == 's')  map.getSprite().setTextureRect(IntRect(32, 0, 32, 32));
-//            if ((map.getTileMap()[i][j] == '0')) map.getSprite().setTextureRect(IntRect(64, 0, 32, 32));
-
-
-//            map.getSprite().setPosition(j * 32, i * 32);
-
-//            window.draw(map.getSprite());
-//        }
-//    }
-
-
     window.draw(heroTank.getSprite());
+
     window.display();
 }
 

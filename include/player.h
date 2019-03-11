@@ -17,11 +17,14 @@ public:
 
     Player(Texture& _texture, int _x, int _y, int _width, int _height);
 
+    bool collisionDetect = false;
     Sprite& getSprite() {return sprite;}
     Direction getDir() {return dir;}
+    Vector2i getSize() {return size;}
     void update(Time timeMove);
     void setDir(Direction dir);
     void setSpeed(float speed);
+
 
 private:
     Texture& texture;

@@ -1,6 +1,8 @@
 #include "player.h"
 #include <iostream>
 
+const float SPEED = 100.0f;
+
 Player::Player(Texture& _texture, int _x, int _y, int _width, int _height) :
     texture {_texture},
     position{_x, _y},
@@ -39,15 +41,20 @@ void Player::update(Time timeMove)
         break;
     }
 
-
     speed = 0;
-    sprite.move(dx * timeMove.asSeconds(), dy * timeMove.asSeconds());
-
+    if (collisionDetect == false)
+    {
+        sprite.move(dx * timeMove.asSeconds(), dy * timeMove.asSeconds());
+    }
+    else {
+        sprite.setPosition(sprite.getPosition().x+1, sprite.getPosition().y);
+        collisionDetect = false;
+    }
 }
 
 void Player::setDir(Direction dir)
 {
-    speed = 40.0f;
+    speed = SPEED;
     this->dir = dir;
     switch (dir)
     {
