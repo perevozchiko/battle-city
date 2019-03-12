@@ -1,7 +1,7 @@
 #include "game.h"
 
 Game::Game() :
-    window(VideoMode(Conf::WINDOW_WIDTH, Conf::WINDOW_HEIGHT), Conf::GAME_NAME),
+    window(sf::VideoMode(Conf::WINDOW_WIDTH, Conf::WINDOW_HEIGHT), Conf::GAME_NAME),
     gameTexture(),
     heroTank(gameTexture, Conf::WINDOW_WIDTH/2, Conf::WINDOW_HEIGHT/2, Conf::SIZE_TEXTURE, Conf::SIZE_TEXTURE)
 {
@@ -10,12 +10,12 @@ Game::Game() :
 
 void Game::run()
 {
-    Clock clock;
-    Time timeSinceLastUpdate = sf::Time::Zero;
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while (window.isOpen())
     {
-        Time elapsedTime = clock.restart();
+        sf::Time elapsedTime = clock.restart();
 
         timeSinceLastUpdate += elapsedTime;
         while (timeSinceLastUpdate > Conf::TIME_PER_FRAME)
@@ -31,7 +31,7 @@ void Game::run()
 
 void Game::adaptPlayerPosition()
 {
-    Vector2f position = heroTank.getPosition();
+    sf::Vector2f position = heroTank.getPosition();
     float halfSizeX = heroTank.getSize().x / 2.0f;
     float halfSizeY = heroTank.getSize().y / 2.0f;
 
@@ -47,12 +47,12 @@ void Game::adaptPlayerPosition()
 
 void Game::processEvents()
 {
-    Event event;
+    sf::Event event;
     while (window.pollEvent(event))
     {
         switch(event.type)
         {
-        case Event::Closed:
+        case sf::Event::Closed:
             window.close();
             break;
 
@@ -65,28 +65,28 @@ void Game::processEvents()
 
 void Game::handleRealTimeInput()
 {
-    if (Keyboard::isKeyPressed(Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         heroTank.setDir(Player::Direction::LEFT);
     }
 
-    if (Keyboard::isKeyPressed(Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         heroTank.setDir(Player::Direction::RIGHT);
     }
 
-    if (Keyboard::isKeyPressed(Keyboard::Up))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         heroTank.setDir(Player::Direction::UP);
     }
 
-    if (Keyboard::isKeyPressed(Keyboard::Down))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         heroTank.setDir(Player::Direction::DOWN);
     }
 }
 
-void Game::update(const Time &elapsedTime)
+void Game::update(const sf::Time &elapsedTime)
 {
 
 

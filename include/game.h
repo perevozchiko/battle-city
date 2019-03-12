@@ -19,11 +19,11 @@ public:
 
 private:
     void processEvents();
-    void update(const Time& elapsedTime);
+    void update(const sf::Time& elapsedTime);
     void render();
     void handleRealTimeInput();
-    RenderWindow window;
-    Texture gameTexture;
+    sf::RenderWindow window;
+    sf::Texture gameTexture;
     Player heroTank;
 };
 

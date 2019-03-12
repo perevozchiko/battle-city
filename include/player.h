@@ -2,7 +2,6 @@
 #define TANK_H
 #include <SFML/Graphics.hpp>
 #include <conf.h>
-using namespace sf;
 
 class Player
 {
@@ -16,24 +15,24 @@ public:
         UP
     };
 
-    Player(Texture& _texture, int _x, int _y, int _width, int _height);
+    Player(sf::Texture& _texture, int _x, int _y, int _width, int _height);
 
     bool collisionDetect = false;
-    Sprite& getSprite() {return sprite;}
+    sf::Sprite& getSprite() {return sprite;}
     Direction getDir() {return dir;}
-    Vector2i getSize() {return size;}
-    void update(Time timeMove);
+    sf::Vector2i getSize() {return size;}
+    void update(sf::Time timeMove);
     void setDir(Direction _dir);
     void setSpeed(float _speed);
-    Vector2f getPosition() const;
-    void setPosition(const Vector2f &value);
+    sf::Vector2f getPosition() const;
+    void setPosition(const sf::Vector2f &value);
 
 
 private:
-    Texture& texture;
-    Vector2f position;
-    Vector2i size;
-    Sprite sprite;
+    sf::Texture& texture;
+    sf::Vector2f position;
+    sf::Vector2i size;
+    sf::Sprite sprite;
     Direction dir;
     float speed;
     float dx;

@@ -3,7 +3,7 @@
 
 
 
-Player::Player(Texture& _texture, int _x, int _y, int _width, int _height) :
+Player::Player(sf::Texture& _texture, int _x, int _y, int _width, int _height) :
     texture (_texture),
     position(_x, _y),
     size(_width, _height),
@@ -12,12 +12,12 @@ Player::Player(Texture& _texture, int _x, int _y, int _width, int _height) :
     dy(0)
 {
     sprite.setTexture(texture);
-    sprite.setTextureRect(IntRect(0, 0, size.x, size.y));
+    sprite.setTextureRect(sf::IntRect(0, 0, size.x, size.y));
     sprite.setOrigin(size.x/2, size.y/2);
     sprite.setPosition(position.x, position.y);
 }
 
-void Player::update(Time elapsedTime)
+void Player::update(sf::Time elapsedTime)
 {
     switch (dir)
     {
@@ -72,12 +72,12 @@ void Player::setSpeed(float _speed)
     speed = _speed;
 }
 
-Vector2f Player::getPosition() const
+sf::Vector2f Player::getPosition() const
 {
     return position;
 }
 
-void Player::setPosition(const Vector2f &value)
+void Player::setPosition(const sf::Vector2f &value)
 {
     position = value;
 }
