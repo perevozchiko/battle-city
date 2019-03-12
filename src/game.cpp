@@ -41,8 +41,7 @@ void Game::adaptPlayerPosition()
     position.y = std::max(position.y, halfSizeY);
     position.y = std::min(position.y, Conf::WINDOW_HEIGHT - halfSizeY);
 
-    Vector2f pos (2.0f, 5.0f);
-    heroTank.setPosition(pos);
+    heroTank.setPosition(position);
 
 }
 
@@ -91,7 +90,7 @@ void Game::update(const Time &elapsedTime)
 {
 
 
-    adaptPlayerPosition();
+   // adaptPlayerPosition();
     heroTank.update(elapsedTime);
 
 

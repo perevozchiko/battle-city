@@ -41,7 +41,7 @@ void Player::update(Time elapsedTime)
         break;
     }
     speed = 0;
-    sprite.move(dx, dy);
+    sprite.setPosition (dx * elapsedTime.asMicroseconds(), dy * elapsedTime.asMicroseconds());
 }
 
 void Player::setDir(Direction _dir)
