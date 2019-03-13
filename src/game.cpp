@@ -31,7 +31,7 @@ void Game::run()
 
 void Game::adaptPlayerPosition()
 {
-    sf::Vector2f position = heroTank.getSprite().getPosition();
+    sf::Vector2f position = heroTank.getPosition();
     float halfSizeX = heroTank.getSize().x / 2.0f;
     float halfSizeY = heroTank.getSize().y / 2.0f;
 
@@ -41,7 +41,7 @@ void Game::adaptPlayerPosition()
     position.y = std::max(position.y, halfSizeY);
     position.y = std::min(position.y, Conf::WindowHeight - halfSizeY);
 
-    heroTank.getSprite().setPosition(position);
+    heroTank.setPosition(position);
 
 }
 
@@ -88,8 +88,9 @@ void Game::handleRealTimeInput()
 
 void Game::update(const sf::Time &elapsedTime)
 {
-    adaptPlayerPosition();
+
     heroTank.update();
+    adaptPlayerPosition();
 }
 
 

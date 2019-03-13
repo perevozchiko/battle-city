@@ -74,12 +74,12 @@ void Player::setSpeed(float _speed)
 
 sf::Vector2f Player::getPosition() const
 {
-    return position;
+    return sprite.getPosition();
 }
 
 void Player::setPosition(const sf::Vector2f &value)
 {
-    position = value;
+    sprite.setPosition(value);
 }
 
 
