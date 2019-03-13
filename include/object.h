@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <conf.h>
 
-class Player
+class Object
 {
 public:
     enum class Direction
@@ -14,25 +14,22 @@ public:
         UP
     };
 
-    Player(sf::Texture& _texture, int _x, int _y, int _width, int _height);
+    Object(sf::Texture& _texture, int _x, int _y, int _width, int _height);
 
     Direction getDir() const;
-    void update();
+    void update(const sf::Time elapsedTime);
     void setDir(Direction _dir);
     void setSpeed(float _speed);
     void setPosition(const sf::Vector2f &value);
-    void setHalfSize(const sf::Vector2f &value);
 
-    sf::Vector2f getHalfSize() const;
     sf::Vector2f getPosition() const;
     sf::Sprite getSprite() const;
-    sf::Vector2f getSize() const;
+    sf::Vector2i getSize() const;
 
 private:
     sf::Texture& texture;
     sf::Vector2f position;
-    sf::Vector2f size;
-    sf::Vector2f halfSize;
+    sf::Vector2i size;
     sf::Sprite sprite;
     Direction dir;
     float speed;

@@ -3,9 +3,16 @@
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName),
     gameTexture(),
-    heroTank(gameTexture, Conf::WindowWidth/2, Conf::WindowHeight/2, Conf::SizeTexture, Conf::SizeTexture)
+    player(gameTexture, Conf::WindowWidth/2, Conf::WindowHeight/2, Conf::SizeTexture, Conf::SizeTexture),
+    enemy(gameTexture, Conf::WindowWidth/3, Conf::WindowHeight/3, Conf::SizeTexture, Conf::SizeTexture)
 {
     gameTexture.loadFromFile("sprite.bmp");
+
+    font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
+    fpsInfo.text.setFont(font);
+    fpsInfo.text.setPosition(5.0f, 5.0f);
+    fpsInfo.text.setCharacterSize(12);
+
 }
 
 void Game::run()
@@ -16,31 +23,31 @@ void Game::run()
     while (window.isOpen())
     {
         sf::Time elapsedTime = clock.restart();
-
         timeSinceLastUpdate += elapsedTime;
+
         while (timeSinceLastUpdate > Conf::TimePerFrame)
         {
             timeSinceLastUpdate -= Conf::TimePerFrame;
+
             processEvents();
             update(Conf::TimePerFrame);
         }
-
+        updateFPS(elapsedTime);
         render();
     }
 }
 
 void Game::adaptPlayerPosition()
 {
-    sf::Vector2f position = heroTank.getPosition();
+    sf::Vector2f position = player.getPosition();
 
-    position.x = std::max(position.x, heroTank.getHalfSize().x);
-    position.x = std::min(position.x, Conf::WindowWidth - heroTank.getHalfSize().x);
+    position.x = std::max(position.x, static_cast<float>(player.getSize().x/2));
+    position.x = std::min(position.x, static_cast<float>(Conf::WindowWidth - player.getSize().x/2));
 
-    position.y = std::max(position.y, heroTank.getHalfSize().y);
-    position.y = std::min(position.y, Conf::WindowHeight - heroTank.getHalfSize().y);
+    position.y = std::max(position.y, static_cast<float>(player.getSize().y/2));
+    position.y = std::min(position.y, static_cast<float>(Conf::WindowHeight - player.getSize().y/2));
 
-    heroTank.setPosition(position);
-
+    player.setPosition(position);
 }
 
 void Game::processEvents()
@@ -59,35 +66,63 @@ void Game::processEvents()
         }
     }
     handleRealTimeInput();
+
+    enemyMoving();
+
 }
 
 void Game::handleRealTimeInput()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        heroTank.setDir(Player::Direction::LEFT);
+        player.setDir(Object::Direction::LEFT);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        heroTank.setDir(Player::Direction::RIGHT);
+        player.setDir(Object::Direction::RIGHT);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        heroTank.setDir(Player::Direction::UP);
+        player.setDir(Object::Direction::UP);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        heroTank.setDir(Player::Direction::DOWN);
+        player.setDir(Object::Direction::DOWN);
+    }
+}
+
+void Game::enemyMoving()
+{
+
+    int random = getRandomNumber(1,4);
+    random = 1;
+    switch(random)
+    {
+    case 1:
+        enemy.setDir(Object::Direction::LEFT);
+        break;
+    case 2:
+        enemy.setDir(Object::Direction::RIGHT);
+        break;
+    case 3:
+        enemy.setDir(Object::Direction::UP);
+        break;
+    case 4:
+        enemy.setDir(Object::Direction::DOWN);
+        break;
     }
 }
 
 void Game::update(const sf::Time &elapsedTime)
 {
 
-    heroTank.update();
+    player.update(elapsedTime);
+
+    //enemy.update(elapsedTime);
+
     adaptPlayerPosition();
 }
 
@@ -96,7 +131,32 @@ void Game::render()
 {
     window.clear();
 
-    window.draw(heroTank.getSprite());
+    window.draw(player.getSprite());
+    window.draw(enemy.getSprite());
 
+
+    window.draw(fpsInfo.text);
     window.display();
+}
+
+
+int getRandomNumber(int min, int max)
+{
+    static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+    // равномерно распределяем рандомное число в нашем диапазоне
+    return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+}
+
+
+void Game::updateFPS(const sf::Time &elapsedTime)
+{
+    fpsInfo.updateTime += elapsedTime;
+    ++fpsInfo.frame;
+
+    if (fpsInfo.updateTime >= sf::seconds(1.0f))
+    {
+        fpsInfo.text.setString("FPS = " + std::to_string(fpsInfo.frame) + "\n");
+        fpsInfo.updateTime -= sf::seconds(1.0f);
+        fpsInfo.frame = 0;
+    }
 }

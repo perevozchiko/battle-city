@@ -14,12 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     src/game.cpp \
-    src/player.cpp
+    src/object.cpp
 
 HEADERS  += \
     include/game.h \
-    include/player.h \
-    include/conf.h
+    include/conf.h \
+    include/object.h
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"

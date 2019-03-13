@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
-#include "player.h"
+#include "object.h"
 #include "conf.h"
 
 
@@ -22,9 +22,24 @@ private:
     void update(const sf::Time &elapsedTime);
     void render();
     void handleRealTimeInput();
+    void enemyMoving();
     sf::RenderWindow window;
     sf::Texture gameTexture;
-    Player heroTank;
+    Object player;
+    Object enemy;
+    void updateFPS(const sf::Time &elapsedTime);
+
+    sf::Font font;
+    struct FPSInfo
+        {
+            sf::Time updateTime{sf::Time::Zero};
+            int frame{0};
+            sf::Text text;
+        };
+    FPSInfo fpsInfo;
+
 };
+
+int getRandomNumber(int min, int max);
 
 #endif // GAME_H
