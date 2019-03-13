@@ -8,7 +8,6 @@ class Player
 public:
     enum class Direction
     {
-        NO,
         LEFT,
         RIGHT,
         DOWN,
@@ -17,19 +16,17 @@ public:
 
     Player(sf::Texture& _texture, int _x, int _y, int _width, int _height);
 
-
-    sf::Sprite& getSprite() {return sprite;}
-    Direction getDir() {return dir;}
-    sf::Vector2f getSize() {return size;}
+    Direction getDir() const;
     void update();
     void setDir(Direction _dir);
     void setSpeed(float _speed);
-    sf::Vector2f getPosition() const;
     void setPosition(const sf::Vector2f &value);
+    void setHalfSize(const sf::Vector2f &value);
 
     sf::Vector2f getHalfSize() const;
-
-    void setHalfSize(const sf::Vector2f &value);
+    sf::Vector2f getPosition() const;
+    sf::Sprite getSprite() const;
+    sf::Vector2f getSize() const;
 
 private:
     sf::Texture& texture;

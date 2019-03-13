@@ -8,7 +8,7 @@ Player::Player(sf::Texture& _texture, int _x, int _y, int _width, int _height) :
     position(_x, _y),
     size(_width, _height),
     halfSize(_width/2, _height/2),
-    speed(0),
+    speed(0.f),
     dx(0),
     dy(0)
 {
@@ -69,6 +69,11 @@ void Player::setDir(Direction _dir)
     }
 }
 
+Player::Direction Player::getDir() const
+{
+    return dir;
+}
+
 void Player::setSpeed(float _speed)
 {
     speed = _speed;
@@ -93,6 +98,17 @@ void Player::setHalfSize(const sf::Vector2f &value)
 {
     halfSize = value;
 }
+
+sf::Sprite Player::getSprite() const
+{
+    return sprite;
+}
+
+sf::Vector2f Player::getSize() const
+{
+    return size;
+}
+
 
 
 

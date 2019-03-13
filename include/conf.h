@@ -7,8 +7,8 @@ namespace Conf {
 
 const int WindowWidth = 640;
 const int WindowHeight = 480;
-const sf::Time TimePerFrame = sf::seconds(1.0f/60.f);
-const float TankSpeed = 3.0f;
+const sf::Time TimePerFrame = sf::seconds(1.f/60.f);
+const float TankSpeed = 3.f;
 const std::string GameName = "Battle City";
 const int SizeTexture = 32;
 
