@@ -17,7 +17,7 @@ Player::Player(sf::Texture& _texture, int _x, int _y, int _width, int _height) :
     sprite.setPosition(position.x, position.y);
 }
 
-void Player::update(sf::Time elapsedTime)
+void Player::update()
 {
     switch (dir)
     {
@@ -41,12 +41,12 @@ void Player::update(sf::Time elapsedTime)
         break;
     }
     speed = 0;
-    sprite.setPosition (dx * elapsedTime.asMicroseconds(), dy * elapsedTime.asMicroseconds());
+    sprite.move(dx, dy);
 }
 
 void Player::setDir(Direction _dir)
 {
-    speed = Conf::SPEED;
+    speed = Conf::TankSpeed;
     dir = _dir;
     switch (dir)
     {

@@ -17,11 +17,11 @@ public:
 
     Player(sf::Texture& _texture, int _x, int _y, int _width, int _height);
 
-    bool collisionDetect = false;
+
     sf::Sprite& getSprite() {return sprite;}
     Direction getDir() {return dir;}
     sf::Vector2i getSize() {return size;}
-    void update(sf::Time timeMove);
+    void update();
     void setDir(Direction _dir);
     void setSpeed(float _speed);
     sf::Vector2f getPosition() const;
@@ -37,6 +37,7 @@ private:
     float speed;
     float dx;
     float dy;
+    bool collisionDetect = false;
 };
 
 #endif // TANK_H

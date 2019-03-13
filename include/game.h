@@ -15,11 +15,11 @@ class Game
 public:
     Game();
     void run();
-    void adaptPlayerPosition();
 
 private:
+    void adaptPlayerPosition();
     void processEvents();
-    void update(const sf::Time& elapsedTime);
+    void update(const sf::Time &elapsedTime);
     void render();
     void handleRealTimeInput();
     sf::RenderWindow window;

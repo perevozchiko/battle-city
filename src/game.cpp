@@ -1,9 +1,9 @@
 #include "game.h"
 
 Game::Game() :
-    window(sf::VideoMode(Conf::WINDOW_WIDTH, Conf::WINDOW_HEIGHT), Conf::GAME_NAME),
+    window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName),
     gameTexture(),
-    heroTank(gameTexture, Conf::WINDOW_WIDTH/2, Conf::WINDOW_HEIGHT/2, Conf::SIZE_TEXTURE, Conf::SIZE_TEXTURE)
+    heroTank(gameTexture, Conf::WindowWidth/2, Conf::WindowHeight/2, Conf::SizeTexture, Conf::SizeTexture)
 {
     gameTexture.loadFromFile("sprite.bmp");
 }
@@ -18,11 +18,11 @@ void Game::run()
         sf::Time elapsedTime = clock.restart();
 
         timeSinceLastUpdate += elapsedTime;
-        while (timeSinceLastUpdate > Conf::TIME_PER_FRAME)
+        while (timeSinceLastUpdate > Conf::TimePerFrame)
         {
-            timeSinceLastUpdate -= Conf::TIME_PER_FRAME;
+            timeSinceLastUpdate -= Conf::TimePerFrame;
             processEvents();
-            update(Conf::TIME_PER_FRAME);
+            update(Conf::TimePerFrame);
         }
 
         render();
@@ -36,10 +36,10 @@ void Game::adaptPlayerPosition()
     float halfSizeY = heroTank.getSize().y / 2.0f;
 
     position.x = std::max(position.x, halfSizeX);
-    position.x = std::min(position.x, Conf::WINDOW_WIDTH - halfSizeX);
+    position.x = std::min(position.x, Conf::WindowWidth - halfSizeX);
 
     position.y = std::max(position.y, halfSizeY);
-    position.y = std::min(position.y, Conf::WINDOW_HEIGHT - halfSizeY);
+    position.y = std::min(position.y, Conf::WindowHeight - halfSizeY);
 
     heroTank.setPosition(position);
 
@@ -88,12 +88,8 @@ void Game::handleRealTimeInput()
 
 void Game::update(const sf::Time &elapsedTime)
 {
-
-
-   // adaptPlayerPosition();
-    heroTank.update(elapsedTime);
-
-
+    adaptPlayerPosition();
+    heroTank.update();
 }
 
 
