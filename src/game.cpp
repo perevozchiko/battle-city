@@ -32,14 +32,12 @@ void Game::run()
 void Game::adaptPlayerPosition()
 {
     sf::Vector2f position = heroTank.getPosition();
-    float halfSizeX = heroTank.getSize().x / 2.0f;
-    float halfSizeY = heroTank.getSize().y / 2.0f;
 
-    position.x = std::max(position.x, halfSizeX);
-    position.x = std::min(position.x, Conf::WindowWidth - halfSizeX);
+    position.x = std::max(position.x, heroTank.getHalfSize().x);
+    position.x = std::min(position.x, Conf::WindowWidth - heroTank.getHalfSize().x);
 
-    position.y = std::max(position.y, halfSizeY);
-    position.y = std::min(position.y, Conf::WindowHeight - halfSizeY);
+    position.y = std::max(position.y, heroTank.getHalfSize().y);
+    position.y = std::min(position.y, Conf::WindowHeight - heroTank.getHalfSize().y);
 
     heroTank.setPosition(position);
 
@@ -102,19 +100,3 @@ void Game::render()
 
     window.display();
 }
-
-
-
-//void World::adaptPlayerPosition()
-//{
-//  // Keep player's position inside the screen bounds, at least borderDistance units from the border
-//  sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-//  const float borderDistance = 40.f;
-
-//  sf::Vector2f position = mPlayerAircraft->getPosition();
-//  position.x = std::max(position.x, viewBounds.left + borderDistance);
-//  position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-//  position.y = std::max(position.y, viewBounds.top + borderDistance);
-//  position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
-//  mPlayerAircraft->setPosition(position);
-//}

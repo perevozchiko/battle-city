@@ -20,18 +20,22 @@ public:
 
     sf::Sprite& getSprite() {return sprite;}
     Direction getDir() {return dir;}
-    sf::Vector2i getSize() {return size;}
+    sf::Vector2f getSize() {return size;}
     void update();
     void setDir(Direction _dir);
     void setSpeed(float _speed);
     sf::Vector2f getPosition() const;
     void setPosition(const sf::Vector2f &value);
 
+    sf::Vector2f getHalfSize() const;
+
+    void setHalfSize(const sf::Vector2f &value);
 
 private:
     sf::Texture& texture;
     sf::Vector2f position;
-    sf::Vector2i size;
+    sf::Vector2f size;
+    sf::Vector2f halfSize;
     sf::Sprite sprite;
     Direction dir;
     float speed;
