@@ -3,17 +3,19 @@
 
 
 
-Object::Object(sf::Texture& _texture, int _x, int _y, int _width, int _height) :
+Object::Object(Conf::Type _type, sf::Texture& _texture, int _x, int _y, sf::Vector2i _offset, int _size) :
     texture (_texture),
     position(_x, _y),
-    size(_width, _height),
+    size(_size),
     speed(0.f),
     dx(0),
-    dy(0)
+    dy(0),
+    offset(_offset),
+    type(_type)
 {
     sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(0, 0, size.x, size.y));
-    sprite.setOrigin(size.x/2, size.y/2);
+    sprite.setTextureRect(sf::IntRect(offset.x, offset.y, size, size));
+    sprite.setOrigin(size/2, size/2);
     sprite.setPosition(position.x, position.y);
 
 }
@@ -39,7 +41,8 @@ void Object::update(const sf::Time elapsedTime)
         dy = speed;
         break;
     }
-    speed = 0;
+    if (type == Conf::Type::Player)
+        speed = 0;
     sprite.move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
 }
 
@@ -84,13 +87,12 @@ void Object::setPosition(const sf::Vector2f &value)
     sprite.setPosition(value);
 }
 
-
 sf::Sprite Object::getSprite() const
 {
     return sprite;
 }
 
-sf::Vector2i Object::getSize() const
+int Object::getSize() const
 {
     return size;
 }

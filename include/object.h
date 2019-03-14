@@ -14,7 +14,7 @@ public:
         UP
     };
 
-    Object(sf::Texture& _texture, int _x, int _y, int _width, int _height);
+    Object(Conf::Type _type, sf::Texture& _texture, int _x, int _y, sf::Vector2i _offset, int _size);
 
     Direction getDir() const;
     void update(const sf::Time elapsedTime);
@@ -24,18 +24,20 @@ public:
 
     sf::Vector2f getPosition() const;
     sf::Sprite getSprite() const;
-    sf::Vector2i getSize() const;
+    int getSize() const;
 
 private:
     sf::Texture& texture;
     sf::Vector2f position;
-    sf::Vector2i size;
+    int size;
     sf::Sprite sprite;
     Direction dir;
     float speed;
     float dx;
     float dy;
     bool collisionDetect = false;
+    sf::Vector2i offset;
+    Conf::Type type;
 };
 
 #endif // TANK_H

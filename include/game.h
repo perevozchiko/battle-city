@@ -18,16 +18,21 @@ public:
 
 private:
     void adaptPlayerPosition();
+    void adaptPosition(Object &obj);
     void processEvents();
     void update(const sf::Time &elapsedTime);
     void render();
     void handleRealTimeInput();
-    void enemyMoving();
+    void enemyDirectionMoving();
+    void updateFPS(const sf::Time &elapsedTime);
+    void updateEnemy(const sf::Time &elapseTime);
+
+
     sf::RenderWindow window;
     sf::Texture gameTexture;
     Object player;
-    Object enemy;
-    void updateFPS(const sf::Time &elapsedTime);
+    std::vector<Object> enemies;
+
 
     sf::Font font;
     struct FPSInfo

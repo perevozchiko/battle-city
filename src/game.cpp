@@ -1,19 +1,18 @@
 #include "game.h"
 #include <vector>
-std::vector <Object> manysprite;
 Game::Game() :
-    window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName),
+    window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
     gameTexture(),
-    player(gameTexture, Conf::WindowWidth/2, Conf::WindowHeight/2, Conf::SizeTexture, Conf::SizeTexture),
-    enemy(gameTexture, Conf::WindowWidth/3, Conf::WindowHeight/3, Conf::SizeTexture, Conf::SizeTexture)
+    player(Conf::Type::Player, gameTexture, Conf::WindowWidth/2, Conf::WindowHeight/2, {0,0}, Conf::SizeTexture)
 {
-    gameTexture.loadFromFile("resources/images/sprite.bmp");
-
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 60; i++)
     {
-        Object many(gameTexture, Conf::WindowWidth/5 + 2*i, Conf::WindowHeight/5+ 2*i, Conf::SizeTexture, Conf::SizeTexture);
-        manysprite.push_back(many);
+        auto posx = getRandomNumber(Conf::SizeTexture, Conf::WindowWidth - Conf::SizeTexture);
+        auto posy = getRandomNumber(Conf::SizeTexture, Conf::WindowHeight - Conf::SizeTexture);
+        Object enemy(Conf::Type::Enemy, gameTexture, posx, posy, {192, 808}, Conf::SizeTexture);
+        enemies.push_back(enemy);
     }
+    gameTexture.loadFromFile("resources/images/sprite.bmp");
     font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(5.0f, 5.0f);
@@ -25,12 +24,11 @@ void Game::run()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-
+    sf::Time enemyTime = sf::Time::Zero;
     while (window.isOpen())
     {
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
-
         while (timeSinceLastUpdate > Conf::TimePerFrame)
         {
             timeSinceLastUpdate -= Conf::TimePerFrame;
@@ -38,23 +36,46 @@ void Game::run()
             processEvents();
             update(Conf::TimePerFrame);
         }
+
+        enemyTime += elapsedTime;
+
+
+        if (enemyTime.asSeconds() > 3)
+        {
+            while (enemyTime > Conf::TimePerFrame)
+            {
+                enemyTime -= Conf::TimePerFrame;
+                enemyDirectionMoving();
+            }
+
+        }
+
         updateFPS(elapsedTime);
         render();
     }
+
 }
 
 void Game::adaptPlayerPosition()
 {
-    sf::Vector2f position = player.getPosition();
-
-    position.x = std::max(position.x, static_cast<float>(player.getSize().x/2));
-    position.x = std::min(position.x, static_cast<float>(Conf::WindowWidth - player.getSize().x/2));
-
-    position.y = std::max(position.y, static_cast<float>(player.getSize().y/2));
-    position.y = std::min(position.y, static_cast<float>(Conf::WindowHeight - player.getSize().y/2));
-
-    player.setPosition(position);
+    adaptPosition(player);
 }
+
+void Game::adaptPosition(Object &obj)
+{
+    sf::Vector2f position = obj.getPosition();
+
+    position.x = std::max(position.x, static_cast<float>(obj.getSize()/2));
+    position.x = std::min(position.x, static_cast<float>(Conf::WindowWidth - obj.getSize()/2));
+
+    position.y = std::max(position.y, static_cast<float>(obj.getSize()/2));
+    position.y = std::min(position.y, static_cast<float>(Conf::WindowHeight - obj.getSize()/2));
+
+    obj.setPosition(position);
+}
+
+
+
 
 void Game::processEvents()
 {
@@ -72,8 +93,6 @@ void Game::processEvents()
         }
     }
     handleRealTimeInput();
-
-    enemyMoving();
 
 }
 
@@ -100,39 +119,41 @@ void Game::handleRealTimeInput()
     }
 }
 
-void Game::enemyMoving()
+void Game::enemyDirectionMoving()
 {
-
-    int random = getRandomNumber(1,4);
-    random = 1;
-    switch(random)
+    for (auto& enemy : enemies)
     {
-    case 1:
-        enemy.setDir(Object::Direction::LEFT);
-        break;
-    case 2:
-        enemy.setDir(Object::Direction::RIGHT);
-        break;
-    case 3:
-        enemy.setDir(Object::Direction::UP);
-        break;
-    case 4:
-        enemy.setDir(Object::Direction::DOWN);
-        break;
+        int random = getRandomNumber(1,4);
+        switch(random)
+        {
+        case 1:
+            enemy.setDir(Object::Direction::LEFT);
+            break;
+        case 2:
+            enemy.setDir(Object::Direction::RIGHT);
+            break;
+        case 3:
+            enemy.setDir(Object::Direction::UP);
+            break;
+        case 4:
+            enemy.setDir(Object::Direction::DOWN);
+            break;
+        }
     }
 }
+
+
 
 void Game::update(const sf::Time &elapsedTime)
 {
 
     player.update(elapsedTime);
 
-    enemy.update(elapsedTime);
-
     adaptPlayerPosition();
-    for (int i = 0; i < manysprite.size(); i++)
+    for (auto& enemy : enemies)
     {
-        manysprite[i].update(elapsedTime);
+        enemy.update(elapsedTime);
+        adaptPosition(enemy);
     }
 }
 
@@ -142,12 +163,12 @@ void Game::render()
     window.clear();
 
     window.draw(player.getSprite());
-    window.draw(enemy.getSprite());
 
-    for (int i = 0; i < manysprite.size(); i++)
+    for (const auto& enemy : enemies)
     {
-        window.draw(manysprite[i].getSprite());
+        window.draw(enemy.getSprite());
     }
+
     window.draw(fpsInfo.text);
     window.display();
 }
@@ -173,3 +194,4 @@ void Game::updateFPS(const sf::Time &elapsedTime)
         fpsInfo.frame = 0;
     }
 }
+
