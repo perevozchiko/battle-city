@@ -1,13 +1,19 @@
 #include "game.h"
-
+#include <vector>
+std::vector <Object> manysprite;
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName),
     gameTexture(),
     player(gameTexture, Conf::WindowWidth/2, Conf::WindowHeight/2, Conf::SizeTexture, Conf::SizeTexture),
     enemy(gameTexture, Conf::WindowWidth/3, Conf::WindowHeight/3, Conf::SizeTexture, Conf::SizeTexture)
 {
-    gameTexture.loadFromFile("sprite.bmp");
+    gameTexture.loadFromFile("resources/images/sprite.bmp");
 
+    for (int i = 0; i < 100; i++)
+    {
+        Object many(gameTexture, Conf::WindowWidth/5 + 2*i, Conf::WindowHeight/5+ 2*i, Conf::SizeTexture, Conf::SizeTexture);
+        manysprite.push_back(many);
+    }
     font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(5.0f, 5.0f);
@@ -121,9 +127,13 @@ void Game::update(const sf::Time &elapsedTime)
 
     player.update(elapsedTime);
 
-    //enemy.update(elapsedTime);
+    enemy.update(elapsedTime);
 
     adaptPlayerPosition();
+    for (int i = 0; i < manysprite.size(); i++)
+    {
+        manysprite[i].update(elapsedTime);
+    }
 }
 
 
@@ -134,7 +144,10 @@ void Game::render()
     window.draw(player.getSprite());
     window.draw(enemy.getSprite());
 
-
+    for (int i = 0; i < manysprite.size(); i++)
+    {
+        window.draw(manysprite[i].getSprite());
+    }
     window.draw(fpsInfo.text);
     window.display();
 }
