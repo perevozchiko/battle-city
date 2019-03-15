@@ -14,19 +14,19 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     src/game.cpp \
-    src/object.cpp \
     src/player.cpp \
     src/enemy.cpp \
     src/tilemap.cpp \
+    src/entity.cpp \
     src/tank.cpp
 
 HEADERS  += \
     include/game.h \
     include/conf.h \
-    include/object.h \
     include/player.h \
     include/enemy.h \
     include/tilemap.h \
+    include/entity.h \
     include/tank.h
 
 ROOT = $${PWD}/..

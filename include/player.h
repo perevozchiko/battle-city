@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "object.h"
+#include "tank.h"
 
-class Player : public Object
+class Player : public Tank
 {
 public:
     Player();

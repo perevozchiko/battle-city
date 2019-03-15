@@ -1,11 +1,33 @@
-#ifndef TANK_H
-#define TANK_H
+#ifndef TANKS_H
+#define TANKS_H
+#include "entity.h"
 
-
-class Tank
+class Tank : public Entity
 {
 public:
     Tank();
+
+    enum class Direction
+    {
+        LEFT = 0,
+        RIGHT,
+        DOWN,
+        UP
+    };
+
+    Direction getDir() const;
+    void setDir(Direction _dir);
+    void setSpeed(float _speed);
+
+
+private:
+    Direction dir;
+    float speed;
+    float dx;
+    float dy;
+    bool collisionDetect = false;
+    Conf::Type type;
+    sf::Texture gameTexture;
 };
 
-#endif // TANK_H
+#endif // TANKS_H

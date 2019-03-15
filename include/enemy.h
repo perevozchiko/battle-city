@@ -1,11 +1,10 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "object.h"
+#include "tank.h"
 
-class Enemy : Object
+class Enemy : public Tank
 {
 public:
     Enemy();
 };
-
 #endif // ENEMY_H

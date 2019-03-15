@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <algorithm>
-#include <SFML/Graphics.hpp>
+
 #include <SFML/Window/Event.hpp>
-#include "object.h"
-#include "conf.h"
 
-
+#include "player.h"
+#include "enemy.h"
+#include "tilemap.h"
 
 class Game
 {
@@ -18,7 +18,7 @@ public:
 
 private:
     void adaptPlayerPosition();
-    void adaptPosition(Object &obj);
+    void adaptPosition(Entity &obj);
     void processEvents();
     void update(const sf::Time &elapsedTime);
     void render();
@@ -30,8 +30,8 @@ private:
 
     sf::RenderWindow window;
     sf::Texture gameTexture;
-    Object player;
-    std::vector<Object> enemies;
+    Player player;
+    std::vector<Entity> enemies;
 
 
     sf::Font font;
@@ -42,7 +42,6 @@ private:
             sf::Text text;
         };
     FPSInfo fpsInfo;
-
 };
 
 int getRandomNumber(int min, int max);
