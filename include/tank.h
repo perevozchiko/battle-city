@@ -1,37 +1,36 @@
-#ifndef TANK_H
-#define TANK_H
-#include <SFML/Graphics.hpp>
-using namespace sf;
+#ifndef TANKS_H
+#define TANKS_H
+#include "entity.h"
 
-class Tank
+class Tank : public Entity
 {
 public:
-    enum class Direction
-    {
-        NO,
-        LEFT,
-        RIGHT,
-        DOWN,
-        UP
-    };
+    Tank();
 
-    Tank(Texture& _texture, int _x, int _y, int _width, int _height);
+    sf::Vector2f adaptPosition();
 
-    Sprite& getSprite() {return sprite;}
-    Direction getDir() {return dir;}
-    void update(Time timeMove);
-    void setDir(Direction dir);
-    void setSpeed(float speed);
+    Conf::Direction getDir() const;
+    void setDir(Conf::Direction _dir);
+
+    void setSpeed(float _speed);
+    float getSpeed() const;
+
+    float getDx() const;
+    void setDx(float value);
+
+    float getDy() const;
+    void setDy(float value);
+
+
 
 private:
-    Texture& texture;
-    Vector2i position;
-    Vector2i size;
-    Sprite sprite;
-    Direction dir;
+    Conf::Direction dir;
     float speed;
     float dx;
     float dy;
+    bool collisionDetect = false;
+    Conf::Type type;
+    sf::Texture gameTexture;
 };
 
-#endif // TANK_H
+#endif // TANKS_H

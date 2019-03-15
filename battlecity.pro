@@ -13,15 +13,28 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
+    src/game.cpp \
+    src/player.cpp \
+    src/enemy.cpp \
+    src/tilemap.cpp \
+    src/entity.cpp \
     src/tank.cpp \
-    src/game.cpp
+    src/utils.cpp
 
 HEADERS  += \
+    include/game.h \
+    include/conf.h \
+    include/player.h \
+    include/enemy.h \
+    include/tilemap.h \
+    include/entity.h \
     include/tank.h \
-    include/game.h
+    include/randomgen.h \
+    include/utils.h
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"
+LIBS        += -L"$${ROOT}/SFML/lib/release/"
 
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
 CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
@@ -29,16 +42,3 @@ CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-ne
 INCLUDEPATH += "$${ROOT}/SFML/include"
 INCLUDEPATH += "$${ROOT}/battlecity/include"
 DEPENDPATH += "$${ROOT}/SFML/include"
-
-
-
-
-
-#LIBS += -L$$(HOME)/Projects/sfml25/lib
-
-#CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
-#CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
-
-#INCLUDEPATH += $$(HOME)/Projects/sfml25/include
-#INCLUDEPATH += $$(HOME)/Projects/battlecity/include
-#DEPENDPATH += $$(HOME)/Projects/sfml25/include

@@ -1,92 +1,112 @@
 #include "game.h"
+#include <vector>
 
-
-const Time TimePerFrame = sf::seconds(1.0f/60.f);
 
 Game::Game() :
-    window(VideoMode(640, 480), "Battle City"),
-    gameTexture(),
-    heroTank(gameTexture, 320, 240, 32, 32)
+    window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
+    player(),
+    enemy()
 {
-    gameTexture.loadFromFile("sprite.bmp");
+    font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
+    fpsInfo.text.setFont(font);
+    fpsInfo.text.setPosition(5.0f, 5.0f);
+    fpsInfo.text.setCharacterSize(12);
 }
+
+
 
 void Game::run()
 {
-    Clock clock;
-    Time timeSinceLastUpdate = sf::Time::Zero;
-
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    sf::Time enemyTime = sf::Time::Zero;
     while (window.isOpen())
     {
-        Time elapsedTime = clock.restart();
-
+        sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
-        while (timeSinceLastUpdate > TimePerFrame)
+        while (timeSinceLastUpdate > Conf::TimePerFrame)
         {
-            timeSinceLastUpdate -= TimePerFrame;
+            timeSinceLastUpdate -= Conf::TimePerFrame;
+
             processEvents();
-            update(TimePerFrame);
+            update(Conf::TimePerFrame);
         }
 
+        enemyTime += elapsedTime;
+
+
+        if (enemyTime.asSeconds() > 3)
+        {
+            while (enemyTime > Conf::TimePerFrame)
+            {
+                    enemy.changeDirectionMoving();
+                    enemyTime -= Conf::TimePerFrame;
+            }
+
+        }
+
+        updateFPS(elapsedTime);
         render();
     }
+
 }
 
 void Game::processEvents()
 {
-    Event event;
+    sf::Event event;
     while (window.pollEvent(event))
     {
         switch(event.type)
         {
-        case Event::Closed:
+        case sf::Event::Closed:
             window.close();
             break;
-//        case Event::KeyPressed:
-//            handleInput(event.key.code, true);
-//            break;
-//        case Event::KeyReleased:
-//            handleInput(event.key.code, false);
-//            break;
+
         default:
             break;
         }
     }
-    handleRealTimeInput();
+    player.handleRealTimeInput();
+
 }
 
-void Game::handleRealTimeInput()
+void Game::update(const sf::Time &elapsedTime)
 {
-    if (Keyboard::isKeyPressed(Keyboard::Left))
-    {
-        heroTank.setDir(Tank::Direction::LEFT);
-    }
 
-    if (Keyboard::isKeyPressed(Keyboard::Right))
-    {
-        heroTank.setDir(Tank::Direction::RIGHT);
-    }
+    player.update(elapsedTime);
+    player.adaptPlayerPosition();
 
-    if (Keyboard::isKeyPressed(Keyboard::Up))
-    {
-        heroTank.setDir(Tank::Direction::UP);
-    }
+        enemy.update(elapsedTime);
+        enemy.adaptEnemyPosition();
 
-    if (Keyboard::isKeyPressed(Keyboard::Down))
-    {
-        heroTank.setDir(Tank::Direction::DOWN);
-    }
-}
-
-void Game::update(const Time &elapsedTime)
-{
-    heroTank.update(elapsedTime);
 }
 
 void Game::render()
 {
     window.clear();
-    window.draw(heroTank.getSprite());
+
+    window.draw(player.getSprite());
+
+        window.draw(enemy.getSprite());
+
+
+
+    window.draw(fpsInfo.text);
     window.display();
+}
+
+
+
+void Game::updateFPS(const sf::Time &elapsedTime)
+{
+    fpsInfo.updateTime += elapsedTime;
+    ++fpsInfo.frame;
+
+    if (fpsInfo.updateTime >= sf::seconds(1.0f))
+    {
+        fpsInfo.text.setString("FPS = " + std::to_string(fpsInfo.frame) + "\n");
+        fpsInfo.updateTime -= sf::seconds(1.0f);
+        fpsInfo.frame = 0;
+    }
 }
 

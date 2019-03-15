@@ -1,77 +1,77 @@
-#include "tank.h"
-#include <iostream>
+#include "include/tank.h"
 
-Tank::Tank(Texture& _texture, int _x, int _y, int _width, int _height) :
-    texture {_texture},
-    position{_x, _y},
-    size{_width, _height},
-    speed{0.0f},
-    dx{0},
-    dy{0}
+Tank::Tank() :
+    Entity (gameTexture, {0, 0}, Conf::SizeTexture, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTexture.y/2)})
 {
-    sprite.setTexture(texture);
-    sprite.setTextureRect(IntRect(0, 0, size.x, size.y));
-    sprite.setOrigin(size.x/2, size.y/2);
-    sprite.setPosition(position.x, position.y);
+    gameTexture.loadFromFile("resources/images/sprite.bmp");
 }
 
-void Tank::update(Time timeMove)
+void Tank::setDir(Conf::Direction _dir)
 {
+    speed = Conf::TankSpeed;
+    dir = _dir;
     switch (dir)
     {
-    case Direction::LEFT:
-        dx = -speed;
-        dy = 0;
+    case Conf::Direction::LEFT:
+        getSprite().setRotation(-90.0f);
         break;
-    case Direction::RIGHT:
-        dx = speed;
-        dy = 0;
+    case Conf::Direction::RIGHT:
+        getSprite().setRotation(90.0f);
         break;
-    case Direction::UP:
-        dx = 0;
-        dy = -speed;
+    case Conf::Direction::UP:
+        getSprite().setRotation(0.0f);
         break;
-    case Direction::DOWN:
-        dx = 0;
-        dy = speed;
-        break;
-    default:
-        break;
-    }
-
-
-    speed = 0;
-    sprite.move(dx * timeMove.asSeconds(), dy * timeMove.asSeconds());
-
-}
-
-void Tank::setDir(Direction dir)
-{
-    speed = 40.0f;
-    this->dir = dir;
-    switch (dir)
-    {
-    case Tank::Direction::LEFT:
-        sprite.setRotation(-90.0f);
-        break;
-    case Tank::Direction::RIGHT:
-        sprite.setRotation(90.0f);
-        break;
-    case Tank::Direction::UP:
-        sprite.setRotation(0.0f);
-        break;
-    case Tank::Direction::DOWN:
-        sprite.setRotation(180.0f);
-        break;
-    default:
+    case Conf::Direction::DOWN:
+        getSprite().setRotation(180.0f);
         break;
     }
 }
 
-void Tank::setSpeed(float speed)
+Conf::Direction Tank::getDir() const
 {
-    this->speed = speed;
+    return dir;
 }
 
+void Tank::setSpeed(float _speed)
+{
+    speed = _speed;
+}
 
+float Tank::getSpeed() const
+{
+    return speed;
+}
+
+float Tank::getDx() const
+{
+    return dx;
+}
+
+void Tank::setDx(float value)
+{
+    dx = value;
+}
+
+float Tank::getDy() const
+{
+    return dy;
+}
+
+void Tank::setDy(float value)
+{
+    dy = value;
+}
+
+sf::Vector2f Tank::adaptPosition()
+{
+    sf::Vector2f position = getPosition();
+
+    position.x = std::max(position.x, static_cast<float>(getSize().x/2));
+    position.x = std::min(position.x, static_cast<float>(Conf::WindowWidth - getSize().x/2));
+
+    position.y = std::max(position.y, static_cast<float>(getSize().y/2));
+    position.y = std::min(position.y, static_cast<float>(Conf::WindowHeight - getSize().y/2));
+
+    return position;
+}
 

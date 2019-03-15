@@ -1,9 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <algorithm>
+
 #include <SFML/Window/Event.hpp>
-#include "tank.h"
+
+#include "player.h"
+#include "enemy.h"
+#include "tilemap.h"
 
 
 class Game
@@ -14,12 +19,27 @@ public:
 
 private:
     void processEvents();
-    void update(const Time& elapsedTime);
+    void update(const sf::Time &elapsedTime);
     void render();
-    void handleRealTimeInput();
-    RenderWindow window;
-    Texture gameTexture;
-    Tank heroTank;
+    void updateFPS(const sf::Time &elapsedTime);
+
+    sf::RenderWindow window;
+    sf::Texture gameTexture;
+    Player player;
+    Enemy enemy;
+
+
+
+
+    sf::Font font;
+    struct FPSInfo
+        {
+            sf::Time updateTime{sf::Time::Zero};
+            int frame{0};
+            sf::Text text;
+        };
+    FPSInfo fpsInfo;
 };
+
 
 #endif // GAME_H
