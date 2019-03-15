@@ -14,15 +14,24 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     src/game.cpp \
-    src/object.cpp
+    src/object.cpp \
+    src/player.cpp \
+    src/enemy.cpp \
+    src/tilemap.cpp \
+    src/tank.cpp
 
 HEADERS  += \
     include/game.h \
     include/conf.h \
-    include/object.h
+    include/object.h \
+    include/player.h \
+    include/enemy.h \
+    include/tilemap.h \
+    include/tank.h
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"
+LIBS        += -L"$${ROOT}/SFML/lib/release/"
 
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
 CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d

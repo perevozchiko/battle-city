@@ -8,7 +8,7 @@ class Object
 public:
     enum class Direction
     {
-        LEFT,
+        LEFT = 0,
         RIGHT,
         DOWN,
         UP

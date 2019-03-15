@@ -1,5 +1,7 @@
 #include "game.h"
 #include <vector>
+
+
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
     gameTexture(),
@@ -177,7 +179,6 @@ void Game::render()
 int getRandomNumber(int min, int max)
 {
     static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
-    // равномерно распределяем рандомное число в нашем диапазоне
     return static_cast<int>(rand() * fraction * (max - min + 1) + min);
 }
 
