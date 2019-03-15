@@ -23,7 +23,7 @@ public:
 
     int operator()(int min, int max)
     {
-        generate(min, max);
+        return generate(min, max);
     }
 
 private:
@@ -31,7 +31,5 @@ private:
     std::mt19937 engine{device()};
     std::uniform_int_distribution<> distribution;
 };
-
-
 
 #endif // RANDOMGEN_H

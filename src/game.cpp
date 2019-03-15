@@ -4,18 +4,13 @@
 
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
-    player()
+    player(),
+    enemy()
 {
-        font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
-        fpsInfo.text.setFont(font);
-        fpsInfo.text.setPosition(5.0f, 5.0f);
-        fpsInfo.text.setCharacterSize(12);
-
-        for (int i = 0; i < 60; i++)
-        {
-            Enemy _enemy;
-            enemies.push_back(_enemy);
-        }
+    font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
+    fpsInfo.text.setFont(font);
+    fpsInfo.text.setPosition(5.0f, 5.0f);
+    fpsInfo.text.setCharacterSize(12);
 }
 
 
@@ -44,8 +39,8 @@ void Game::run()
         {
             while (enemyTime > Conf::TimePerFrame)
             {
-                enemyTime -= Conf::TimePerFrame;
-                enemy.changeDirectionMoving();
+                    enemy.changeDirectionMoving();
+                    enemyTime -= Conf::TimePerFrame;
             }
 
         }
@@ -55,8 +50,6 @@ void Game::run()
     }
 
 }
-
-
 
 void Game::processEvents()
 {
@@ -82,11 +75,10 @@ void Game::update(const sf::Time &elapsedTime)
 
     player.update(elapsedTime);
     player.adaptPlayerPosition();
-for (Enemy _enemy : enemies)
-{
-   _enemy.update(elapsedTime);
-   _enemy.adaptEnemyPosition();
-}
+
+        enemy.update(elapsedTime);
+        enemy.adaptEnemyPosition();
+
 }
 
 void Game::render()
@@ -94,7 +86,9 @@ void Game::render()
     window.clear();
 
     window.draw(player.getSprite());
-    window.draw(enemy.getSprite());
+
+        window.draw(enemy.getSprite());
+
 
 
     window.draw(fpsInfo.text);
