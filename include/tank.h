@@ -7,21 +7,24 @@ class Tank : public Entity
 public:
     Tank();
 
-    enum class Direction
-    {
-        LEFT = 0,
-        RIGHT,
-        DOWN,
-        UP
-    };
+    sf::Vector2f adaptPosition();
 
-    Direction getDir() const;
-    void setDir(Direction _dir);
+    Conf::Direction getDir() const;
+    void setDir(Conf::Direction _dir);
+
     void setSpeed(float _speed);
+    float getSpeed() const;
+
+    float getDx() const;
+    void setDx(float value);
+
+    float getDy() const;
+    void setDy(float value);
+
 
 
 private:
-    Direction dir;
+    Conf::Direction dir;
     float speed;
     float dx;
     float dy;

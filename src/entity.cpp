@@ -1,7 +1,4 @@
 #include "entity.h"
-#include <iostream>
-
-
 
 Entity::Entity(sf::Texture& _texture, sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position) :
     texture(_texture),
@@ -30,14 +27,9 @@ void Entity::setPosition(const sf::Vector2f &value)
     sprite.setPosition(value);
 }
 
-sf::Sprite Entity::getSprite() const
+sf::Sprite& Entity::getSprite()
 {
     return sprite;
-}
-
-void Entity::update(const sf::Time elapsedTime)
-{
-
 }
 
 sf::Vector2i Entity::getSize() const

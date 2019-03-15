@@ -8,7 +8,7 @@ namespace Conf {
 const int WindowWidth = 800;
 const int WindowHeight = 600;
 const sf::Time TimePerFrame = sf::seconds(1.f/60.f);
-const float TankSpeed = 30.f;
+const float TankSpeed = 70.f;
 const std::string GameName = "Battle City";
 const sf::Vector2i SizeTexture = {32, 32};
 
@@ -32,5 +32,12 @@ enum class PlayerType{
     SuperHeavy
 };
 
+enum class Direction
+{
+    LEFT = 0,
+    RIGHT,
+    DOWN,
+    UP
+};
 }
 #endif // CONF_H

@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     src/enemy.cpp \
     src/tilemap.cpp \
     src/entity.cpp \
-    src/tank.cpp
+    src/tank.cpp \
+    src/utils.cpp
 
 HEADERS  += \
     include/game.h \
@@ -27,7 +28,9 @@ HEADERS  += \
     include/enemy.h \
     include/tilemap.h \
     include/entity.h \
-    include/tank.h
+    include/tank.h \
+    include/randomgen.h \
+    include/utils.h
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"

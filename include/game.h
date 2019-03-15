@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "tilemap.h"
 
+
 class Game
 {
 public:
@@ -17,21 +18,17 @@ public:
     void run();
 
 private:
-    void adaptPlayerPosition();
-    void adaptPosition(Entity &obj);
     void processEvents();
     void update(const sf::Time &elapsedTime);
     void render();
-    void handleRealTimeInput();
-    void enemyDirectionMoving();
     void updateFPS(const sf::Time &elapsedTime);
-    void updateEnemy(const sf::Time &elapseTime);
-
 
     sf::RenderWindow window;
     sf::Texture gameTexture;
     Player player;
-    std::vector<Entity> enemies;
+    Enemy _enemy;
+    std::vector<Enemy> enemies;
+
 
 
     sf::Font font;
@@ -44,6 +41,5 @@ private:
     FPSInfo fpsInfo;
 };
 
-int getRandomNumber(int min, int max);
 
 #endif // GAME_H

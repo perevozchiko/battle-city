@@ -14,8 +14,8 @@ public:
     void setPosition(const sf::Vector2f &value);
     sf::Vector2f getPosition() const;
     sf::Vector2i getSize() const;
-    sf::Sprite getSprite() const;
-    virtual void update(const sf::Time elapsedTime);
+    sf::Sprite& getSprite();
+    virtual void update(const sf::Time& elapsedTime) = 0;
 
 private:
     sf::Texture& texture;
