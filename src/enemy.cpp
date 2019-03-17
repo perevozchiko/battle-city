@@ -8,6 +8,7 @@ Enemy::Enemy():
 
 void Enemy::changeDirectionMoving()
 {
+    RandomGen gen;
     int random = gen(1,4);
     switch(random)
     {

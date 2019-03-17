@@ -1,12 +1,22 @@
 #include "game.h"
 #include <vector>
-
+#include <iostream>
 
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
-    player(),
-    enemy()
+    player()
 {
+    for (int i = 0; i < 3; i++)
+    {
+        Enemy enemy;
+        sf::Vector2f pos = {Conf::WindowWidth * i/2 + (i%2) * 16.f, 16.f};
+        enemy.setPosition(pos);
+        enemies.push_back(enemy);
+    }
+
+
+
+    // Настройка отображения FPS в углу
     font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(5.0f, 5.0f);
@@ -39,8 +49,11 @@ void Game::run()
         {
             while (enemyTime > Conf::TimePerFrame)
             {
+                for (auto& enemy : enemies)
+                {
                     enemy.changeDirectionMoving();
-                    enemyTime -= Conf::TimePerFrame;
+                }
+                enemyTime -= Conf::TimePerFrame;
             }
 
         }
@@ -75,9 +88,11 @@ void Game::update(const sf::Time &elapsedTime)
 
     player.update(elapsedTime);
     player.adaptPlayerPosition();
-
+    for (auto& enemy : enemies)
+    {
         enemy.update(elapsedTime);
         enemy.adaptEnemyPosition();
+    }
 
 }
 
@@ -87,8 +102,10 @@ void Game::render()
 
     window.draw(player.getSprite());
 
+    for (auto& enemy : enemies)
+    {
         window.draw(enemy.getSprite());
-
+    }
 
 
     window.draw(fpsInfo.text);

@@ -26,7 +26,7 @@ private:
     sf::RenderWindow window;
     sf::Texture gameTexture;
     Player player;
-    Enemy enemy;
+    std::vector<Enemy> enemies;
 
 
 

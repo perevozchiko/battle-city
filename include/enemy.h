@@ -13,6 +13,5 @@ public:
     void adaptEnemyPosition();
 
 private:
-    RandomGen gen;
 };
 #endif // ENEMY_H
