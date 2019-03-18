@@ -32,9 +32,19 @@ sf::Sprite& Entity::getSprite()
     return sprite;
 }
 
+sf::Vector2i Entity::getOffset() const
+{
+    return offset;
+}
+
 void Entity::setOffset(const sf::Vector2i &value)
 {
     offset = value;
+}
+
+void Entity::setSprite(const sf::Sprite &value)
+{
+    sprite = value;
 }
 
 sf::Vector2i Entity::getSize() const

@@ -24,9 +24,13 @@ private:
     void updateFPS(const sf::Time &elapsedTime);
 
     sf::RenderWindow window;
-    sf::Texture gameTexture;
+    TileMap tile;
     Player player;
+    Enemy enemy;
+
+    sf::Texture gameTexture;
     std::vector<Enemy> enemies;
+    std::vector<TileMap> tiles;
 
 
 

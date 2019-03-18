@@ -4,20 +4,29 @@
 
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
-    player()
+    tile(Conf::Tile::Ice),
+    player(),
+    enemy()
 {
     for (int i = 0; i < 3; i++)
     {
-        Enemy enemy;
         sf::Vector2f pos = {Conf::WindowWidth * i/2 + (i%2) * 16.f, 16.f};
         enemy.setPosition(pos);
         enemies.push_back(enemy);
     }
 
+    float poses[4][2] = {{200.f, 200.f}, {200.f, 216.f}, {216.f, 200.f}, {216.f, 216.f}};
+    for (int i = 0; i < 4; i++)
+    {
+        sf::Vector2f pos = {poses[i][0], poses[i][1]};
+        tile.setPosition(pos);
+        tiles.push_back(tile);
+    }
+
 
 
     // Настройка отображения FPS в углу
-    font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
+    font.loadFromFile(Conf::PathFont);
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(5.f, 5.f);
     fpsInfo.text.setCharacterSize(12);
@@ -55,9 +64,12 @@ void Game::run()
                 }
                 enemyTime -= Conf::TimePerFrame;
             }
-
         }
 
+        for(auto& tile : tiles)
+        {
+            tile.update(elapsedTime);
+        }
         updateFPS(elapsedTime);
         render();
     }
@@ -102,6 +114,10 @@ void Game::render()
 
     window.draw(player.getSprite());
 
+    for (auto& tile : tiles)
+    {
+        window.draw(tile.getSprite());
+    }
     for (auto& enemy : enemies)
     {
         window.draw(enemy.getSprite());
