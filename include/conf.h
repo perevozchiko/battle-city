@@ -12,19 +12,22 @@ const float TankSpeed = 70.f;
 const std::string GameName = "Battle City";
 const sf::Vector2i SizeTexture = {32, 32};
 
-enum class Type {
+enum class Type
+{
     Player,
     Enemy
 };
 
-enum class EnemyType{
+enum class EnemyType
+{
     Simple = 0,
     QuickMoving,
     QuickFiring,
     LongLived
 };
 
-enum class PlayerType{
+enum class PlayerType
+{
     Small = 0,
     Light,
     Medium,
@@ -39,5 +42,6 @@ enum class Direction
     DOWN,
     UP
 };
+
 }
 #endif // CONF_H

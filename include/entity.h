@@ -7,8 +7,7 @@
 class Entity
 {
 public:
-    Entity();
-    Entity(sf::Texture& _texture, sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position);
+    Entity(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position);
     virtual ~Entity();
 
     void setPosition(const sf::Vector2f &value);
@@ -17,8 +16,11 @@ public:
     sf::Sprite& getSprite();
     virtual void update(const sf::Time& elapsedTime) = 0;
 
+
+    void setOffset(const sf::Vector2i &value);
+
 private:
-    sf::Texture& texture;
+    sf::Texture texture;
     sf::Vector2i offset;
     sf::Vector2i size;
     sf::Vector2f position;

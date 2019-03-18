@@ -1,9 +1,9 @@
 #include "include/tank.h"
 
 Tank::Tank() :
-    Entity (gameTexture, {0, 0}, Conf::SizeTexture, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTexture.y/2)})
+Entity ({0, 0}, Conf::SizeTexture, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTexture.y/2)})
 {
-    gameTexture.loadFromFile("resources/images/sprite.bmp");
+
 }
 
 void Tank::setDir(Conf::Direction _dir)

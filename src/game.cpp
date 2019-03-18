@@ -19,7 +19,7 @@ Game::Game() :
     // Настройка отображения FPS в углу
     font.loadFromFile("resources/fonts/vapor_trails_remixed.otf");
     fpsInfo.text.setFont(font);
-    fpsInfo.text.setPosition(5.0f, 5.0f);
+    fpsInfo.text.setPosition(5.f, 5.f);
     fpsInfo.text.setCharacterSize(12);
 }
 
@@ -119,10 +119,10 @@ void Game::updateFPS(const sf::Time &elapsedTime)
     fpsInfo.updateTime += elapsedTime;
     ++fpsInfo.frame;
 
-    if (fpsInfo.updateTime >= sf::seconds(1.0f))
+    if (fpsInfo.updateTime >= sf::seconds(1.f))
     {
         fpsInfo.text.setString("FPS = " + std::to_string(fpsInfo.frame) + "\n");
-        fpsInfo.updateTime -= sf::seconds(1.0f);
+        fpsInfo.updateTime -= sf::seconds(1.f);
         fpsInfo.frame = 0;
     }
 }

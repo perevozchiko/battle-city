@@ -1,11 +1,11 @@
 #include "entity.h"
 
-Entity::Entity(sf::Texture& _texture, sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position) :
-    texture(_texture),
+Entity::Entity(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position) :
     offset(_offset),
     size(_size),
     position(_position)
 {
+    texture.loadFromFile("resources/images/sprite.bmp");
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset.x, offset.y, size.x, size.y));
     sprite.setOrigin(size.x/2, size.y/2);
@@ -30,6 +30,11 @@ void Entity::setPosition(const sf::Vector2f &value)
 sf::Sprite& Entity::getSprite()
 {
     return sprite;
+}
+
+void Entity::setOffset(const sf::Vector2i &value)
+{
+    offset = value;
 }
 
 sf::Vector2i Entity::getSize() const

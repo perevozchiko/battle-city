@@ -33,11 +33,11 @@ private:
 
     sf::Font font;
     struct FPSInfo
-        {
-            sf::Time updateTime{sf::Time::Zero};
-            int frame{0};
-            sf::Text text;
-        };
+    {
+        sf::Time updateTime{sf::Time::Zero};
+        int frame{0};
+        sf::Text text;
+    };
     FPSInfo fpsInfo;
 };
 
