@@ -6,6 +6,12 @@ Entity ({0, 0}, Conf::SizeTank, {Conf::WindowWidth/2, static_cast<float> (Conf::
 
 }
 
+Tank::Tank(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position) :
+Entity (_offset, _size, _position)
+{
+
+}
+
 void Tank::setDir(Conf::Direction _dir)
 {
     speed = Conf::TankSpeed;

@@ -6,6 +6,7 @@ class Tank : public Entity
 {
 public:
     Tank();
+    Tank(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position);
 
     sf::Vector2f adaptPosition();
 

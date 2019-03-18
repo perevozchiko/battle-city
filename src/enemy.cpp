@@ -1,7 +1,7 @@
 #include "enemy.h"
 
 Enemy::Enemy():
-    Tank ()
+    Tank ({0, 426}, {32, 32}, {250, 250})
 {
 
 }
