@@ -10,12 +10,56 @@
 #include "enemy.h"
 #include "tilemap.h"
 
-
 class Game
 {
 public:
     Game();
     void run();
+    const static int HEIGHTMAP =  40;
+    const static int WIDTHMAP = 50;
+    sf::String testMap[HEIGHTMAP] =
+    {
+        "**************************************************",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "********************************************      ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  ",
+        "                                                  "
+    };
 
 private:
     void processEvents();
@@ -23,17 +67,16 @@ private:
     void render();
     void updateFPS(const sf::Time &elapsedTime);
 
+
     sf::RenderWindow window;
     TileMap tile;
     Player player;
     Enemy enemy;
 
     sf::Texture gameTexture;
+
     std::vector<Enemy> enemies;
     std::vector<TileMap> tiles;
-
-
-
 
     sf::Font font;
     struct FPSInfo

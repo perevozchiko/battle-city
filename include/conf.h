@@ -5,13 +5,15 @@
 
 namespace Conf {
 
-const std::string PathFont = "resources/fonts/vapor_trails_remixed.otf";
-const int WindowWidth = 800;
-const int WindowHeight =  600;
+const std::string PathFonts = "resources/fonts/vapor_trails_remixed.otf";
+const std::string PathImages = "resources/images/sprite.bmp";
+
+const static int WindowWidth = 800;
+const static int WindowHeight =  640;
 const sf::Time TimePerFrame = sf::seconds(1.f/60.f);
-const float TankSpeed = 70.f;
+const float TankSpeed = 40.f;
 const std::string GameName = "Battle City";
-const sf::Vector2i SizeTank = {32, 32};
+const sf::Vector2i SizeTileTank = {32, 32};
 const sf::Vector2i SizeTileMap = {16, 16};
 
 enum class Type
@@ -19,6 +21,7 @@ enum class Type
     Player = 0,
     Enemy
 };
+
 
 enum class EnemyType
 {

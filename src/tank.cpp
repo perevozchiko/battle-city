@@ -1,7 +1,7 @@
 #include "include/tank.h"
 
 Tank::Tank() :
-Entity ({0, 0}, Conf::SizeTank, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTank.y/2)})
+Entity ({0, 0}, Conf::SizeTileTank, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTileTank.y/2)})
 {
 
 }

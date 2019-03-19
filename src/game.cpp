@@ -4,7 +4,7 @@
 
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
-    tile(Conf::Tile::Ice),
+    tile(),
     player(),
     enemy()
 {
@@ -12,27 +12,16 @@ Game::Game() :
     {
         sf::Vector2f pos = {Conf::WindowWidth * i/2 + (i%2) * 16.f, 16.f};
         enemy.setPosition(pos);
+        enemy.setTextureRectange(sf::IntRect(224, 809, 32, 32));
         enemies.push_back(enemy);
     }
 
-    float poses[4][2] = {{200.f, 200.f}, {200.f, 216.f}, {216.f, 200.f}, {216.f, 216.f}};
-    for (int i = 0; i < 4; i++)
-    {
-        sf::Vector2f pos = {poses[i][0], poses[i][1]};
-        tile.setPosition(pos);
-        tiles.push_back(tile);
-    }
-
-
-
     // Настройка отображения FPS в углу
-    font.loadFromFile(Conf::PathFont);
+    font.loadFromFile(Conf::PathFonts);
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(5.f, 5.f);
     fpsInfo.text.setCharacterSize(12);
 }
-
-
 
 void Game::run()
 {
@@ -54,22 +43,19 @@ void Game::run()
         enemyTime += elapsedTime;
 
 
-        if (enemyTime.asSeconds() > 3)
+        if (enemyTime.asSeconds() > 1)
         {
             while (enemyTime > Conf::TimePerFrame)
             {
-                for (auto& enemy : enemies)
-                {
-                    enemy.changeDirectionMoving();
-                }
+
                 enemyTime -= Conf::TimePerFrame;
             }
+            RandomGen gen;
+            int i = gen(0, enemies.size());
+
+            enemies[i].changeDirectionMoving();
         }
 
-        for(auto& tile : tiles)
-        {
-            tile.update(elapsedTime);
-        }
         updateFPS(elapsedTime);
         render();
     }
@@ -112,18 +98,33 @@ void Game::render()
 {
     window.clear();
 
+
+
     window.draw(player.getSprite());
 
-    for (auto& tile : tiles)
-    {
-        window.draw(tile.getSprite());
-    }
+
     for (auto& enemy : enemies)
     {
         window.draw(enemy.getSprite());
     }
 
-
+    for (std::size_t rows = 0; rows < HEIGHTMAP; rows++)
+    {
+        for (std::size_t cols = 0; cols < WIDTHMAP; cols++)
+        {
+            if (testMap[rows][cols] == '*')
+            {
+                tile.setTextureRectange(sf::IntRect(0, 272, 16, 16));
+            }
+            if (testMap[rows][cols] == ' ')
+            {
+                tile.setTextureRectange(sf::IntRect(308, 147, 16, 16));
+            }
+            tile.getSprite().setOrigin(0, 0);
+            tile.getSprite().setPosition(cols * 16.f, rows * 16.f);
+            window.draw(tile.getSprite());
+        }
+    }
     window.draw(fpsInfo.text);
     window.display();
 }
