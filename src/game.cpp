@@ -28,6 +28,8 @@ void Game::run()
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time enemyTime = sf::Time::Zero;
+    RandomGen change;
+    int ch = change(1, 4);
     while (window.isOpen())
     {
         sf::Time elapsedTime = clock.restart();
@@ -43,15 +45,13 @@ void Game::run()
         enemyTime += elapsedTime;
 
 
-        if (enemyTime.asSeconds() > 1)
+        if (enemyTime.asSeconds() > ch)
         {
             while (enemyTime > Conf::TimePerFrame)
             {
-
                 enemyTime -= Conf::TimePerFrame;
             }
-            RandomGen gen;
-            int i = gen(0, enemies.size());
+            int i = change(0, enemies.size());
 
             enemies[i].changeDirectionMoving();
         }
