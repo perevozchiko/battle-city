@@ -15,8 +15,10 @@ class Game
 public:
     Game();
     void run();
+    // Динамический массив сделать  int *testMap = new int[HEIGHTMAP];
     const static int HEIGHTMAP =  40;
     const static int WIDTHMAP = 50;
+    //int *testMap = new int[HEIGHTMAP];
     sf::String testMap[HEIGHTMAP] =
     {
         "                                                  ",

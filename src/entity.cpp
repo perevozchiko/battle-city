@@ -14,7 +14,7 @@ Entity::Entity(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position)
     texture.loadFromFile(Conf::PathImages);
     sprite.setTexture(texture);
     setTextureRectange(sf::IntRect(offset.x, offset.y, size.x, size.y));
-    sprite.setOrigin(size.x/2, size.y/2);
+    //sprite.setOrigin(size.x/2, size.y/2);
     sprite.setPosition(position);
 }
 

@@ -10,7 +10,7 @@ const std::string PathImages = "resources/images/sprite.bmp";
 
 const static int WindowWidth = 800;
 const static int WindowHeight =  640;
-const sf::Time TimePerFrame = sf::seconds(1.f/60.f);
+const sf::Time TimePerFrame = sf::seconds(1.f/60);
 const float TankSpeed = 40.f;
 const std::string GameName = "Battle City";
 const sf::Vector2i SizeTileTank = {32, 32};

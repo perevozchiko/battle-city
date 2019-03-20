@@ -10,7 +10,6 @@ class Entity
 public:
     Entity();
     Entity(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position);
-
     virtual ~Entity();
 
     void setOffset(const sf::Vector2i &value);
