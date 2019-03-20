@@ -13,7 +13,9 @@ Game::Game() :
         sf::Vector2f pos = {Conf::WindowWidth * i/2 + (i%2) * 16.f, 16.f};
         enemy.setPosition(pos);
         enemy.setTextureRectange(sf::IntRect(224, 809, 32, 32));
+        enemy.changeDirectionMoving();
         enemies.push_back(enemy);
+
     }
 
     // Настройка отображения FPS в углу
@@ -29,7 +31,8 @@ void Game::run()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time enemyTime = sf::Time::Zero;
     RandomGen change;
-    int ch = change(1, 4);
+    int ch = change(1, 3);
+
     while (window.isOpen())
     {
         sf::Time elapsedTime = clock.restart();
@@ -51,9 +54,26 @@ void Game::run()
             {
                 enemyTime -= Conf::TimePerFrame;
             }
-            int i = change(0, enemies.size());
+            std::size_t i = static_cast<std::size_t>(change(0, enemies.size()));
 
             enemies[i].changeDirectionMoving();
+        }
+
+        for (std::size_t rows = 0; rows < HEIGHTMAP; rows++)
+        {
+            for (std::size_t cols = 0; cols < WIDTHMAP; cols++)
+            {
+                if (testMap[rows][cols] == '*')
+                {
+                    tile.setTextureRectange(sf::IntRect(0, 272, 16, 16));
+                }
+                if (testMap[rows][cols] == ' ')
+                {
+                    tile.setTextureRectange(sf::IntRect(308, 147, 16, 16));
+                }
+                tile.getSprite().setOrigin(0, 0);
+                tile.getSprite().setPosition(cols * 16.f, rows * 16.f);
+            }
         }
 
         updateFPS(elapsedTime);
@@ -92,6 +112,21 @@ void Game::update(const sf::Time &elapsedTime)
         enemy.adaptEnemyPosition();
     }
 
+    // Коллизии
+//    if (player.getDir() == Conf::Direction::UP or player.getDir() == Conf::Direction::DOWN)
+//    {
+//        for (int rows = 0; rows < WIDTHMAP; rows++)
+//        {
+//            int col = static_cast<int> (player.getPosition().x);
+//            tiles[rows][col].ge;
+//            if (player.getSprite().getGlobalBounds().intersects(tiles[2].getSprite().getGlobalBounds())
+//            {
+
+//            }
+//        }
+
+//    }
+
 }
 
 void Game::render()
@@ -108,22 +143,10 @@ void Game::render()
         window.draw(enemy.getSprite());
     }
 
-    for (std::size_t rows = 0; rows < HEIGHTMAP; rows++)
+
+    for (auto& _tile : tiles)
     {
-        for (std::size_t cols = 0; cols < WIDTHMAP; cols++)
-        {
-            if (testMap[rows][cols] == '*')
-            {
-                tile.setTextureRectange(sf::IntRect(0, 272, 16, 16));
-            }
-            if (testMap[rows][cols] == ' ')
-            {
-                tile.setTextureRectange(sf::IntRect(308, 147, 16, 16));
-            }
-            tile.getSprite().setOrigin(0, 0);
-            tile.getSprite().setPosition(cols * 16.f, rows * 16.f);
-            window.draw(tile.getSprite());
-        }
+        window.draw(_tile.getSprite());
     }
     window.draw(fpsInfo.text);
     window.display();
