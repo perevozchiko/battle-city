@@ -19,7 +19,14 @@ SOURCES += main.cpp \
     src/tilemap.cpp \
     src/entity.cpp \
     src/tank.cpp \
-    src/utils.cpp
+    src/utils.cpp \
+    src/enemy.cpp \
+    src/entity.cpp \
+    src/game.cpp \
+    src/player.cpp \
+    src/tank.cpp \
+    src/tilemap.cpp \
+    src/utils.cpp \
 
 HEADERS  += \
     include/game.h \
@@ -30,7 +37,11 @@ HEADERS  += \
     include/entity.h \
     include/tank.h \
     include/randomgen.h \
-    include/utils.h
+    include/utils.h \
+    include/conf.h \
+    include/enemy.h \
+    include/entity.h \
+
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"
@@ -42,3 +53,11 @@ CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-ne
 INCLUDEPATH += "$${ROOT}/SFML/include"
 INCLUDEPATH += "$${ROOT}/battlecity/include"
 DEPENDPATH += "$${ROOT}/SFML/include"
+
+DISTFILES += \
+    resources/Templates/Шаблон для заполнения карты.ods \
+    resources/fonts/vapor_trails_remixed.otf \
+    resources/fonts/FiraMono-Regular.ttf \
+    resources/fonts/tahoma.ttf \
+    resources/images/sprite.bmp \
+
