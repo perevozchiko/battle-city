@@ -71,9 +71,8 @@ private:
 
 
     sf::RenderWindow window;
-    TileMap tile;
     Player player;
-    Enemy enemy;
+
 
     sf::Texture gameTexture;
 

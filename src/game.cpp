@@ -4,18 +4,14 @@
 
 Game::Game() :
     window(sf::VideoMode(Conf::WindowWidth, Conf::WindowHeight), Conf::GameName, sf::Style::Default , sf::ContextSettings(24,8,2)),
-    tile(),
-    player(),
-    enemy()
+    player()
 {
-    for (int i = 0; i < 3; i++)
+    for (unsigned long i = 0; i < 3; i++)
     {
         sf::Vector2f pos = {Conf::WindowWidth * i/2 + (i%2) * 16.f, 16.f};
-        enemy.setPosition(pos);
-        enemy.setTextureRectange(sf::IntRect(224, 809, 32, 32));
-        enemy.changeDirectionMoving();
-        enemies.push_back(enemy);
-
+        enemies[i].setPosition(pos);
+        enemies[i].setTextureRectange(sf::IntRect(224, 809, 32, 32));
+        enemies[i].changeDirectionMoving();
     }
 
     // Настройка отображения FPS в углу
@@ -73,6 +69,7 @@ void Game::run()
                 }
                 tile.getSprite().setOrigin(0, 0);
                 tile.getSprite().setPosition(cols * 16.f, rows * 16.f);
+
             }
         }
 
