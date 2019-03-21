@@ -6,8 +6,12 @@ class TileMap : public Entity
 {
 public:
     TileMap();
+    TileMap(Conf::Tile _type);
+    void update(const sf::Time& elapsedTime) override;
+    sf::Vector2i setOffset();
+
 private:
-    sf::Texture gameTexture;
+    Conf::Tile type;
 };
 
 #endif // TILEMAP_H

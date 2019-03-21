@@ -8,11 +8,13 @@ class Enemy : public Tank
 {
 public:
     Enemy();
+
     void changeDirectionMoving();
     void update(const sf::Time& elapsedTime) override;
     void adaptEnemyPosition();
 
 private:
-    RandomGen gen;
+    sf::Vector2i offset;
+    //RandomGen gen;
 };
 #endif // ENEMY_H

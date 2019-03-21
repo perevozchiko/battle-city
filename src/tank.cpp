@@ -1,9 +1,15 @@
 #include "include/tank.h"
 
 Tank::Tank() :
-    Entity (gameTexture, {0, 0}, Conf::SizeTexture, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTexture.y/2)})
+Entity ({0, 0}, Conf::SizeTileTank, {Conf::WindowWidth/2, static_cast<float> (Conf::WindowHeight - Conf::SizeTileTank.y/2)})
 {
-    gameTexture.loadFromFile("resources/images/sprite.bmp");
+    getSprite().setOrigin(getSize().x/2, getSize().y/2);
+}
+
+Tank::Tank(sf::Vector2i _offset, sf::Vector2i _size, sf::Vector2f _position) :
+Entity (_offset, _size, _position)
+{
+    getSprite().setOrigin(getSize().x/2, getSize().y/2);
 }
 
 void Tank::setDir(Conf::Direction _dir)

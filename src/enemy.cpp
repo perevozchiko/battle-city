@@ -1,13 +1,14 @@
 #include "enemy.h"
 
 Enemy::Enemy():
-    Tank ()
+    Tank ({0, 426}, {32, 32}, {0, 0})
 {
 
 }
 
 void Enemy::changeDirectionMoving()
 {
+    RandomGen gen;
     int random = gen(1,4);
     switch(random)
     {
