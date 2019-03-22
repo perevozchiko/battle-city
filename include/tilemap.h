@@ -1,17 +1,24 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
+
 #include "entity.h"
 
+namespace BattleCity {
+
+/** @class
+ *
+ */
 class TileMap : public Entity
 {
 public:
     TileMap();
-    TileMap(Conf::Tile _type);
+    TileMap(sf::Vector2i _offset);
+
     void update(const sf::Time& elapsedTime) override;
-    sf::Vector2i setOffset();
+//    sf::Vector2i setOffset();
 
 private:
-    Conf::Tile type;
+//    SET::Tile type;
 };
-
+} //namespace BattleCity
 #endif // TILEMAP_H

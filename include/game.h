@@ -1,83 +1,43 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <iostream>
-#include <algorithm>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/ContextSettings.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
 
-#include <SFML/Window/Event.hpp>
-
-#include "player.h"
-#include "enemy.h"
+#include "set.h"
 #include "tilemap.h"
 
+namespace BattleCity {
+
+/** @class
+ *
+ */
 class Game
 {
 public:
-    Game();
+    Game(const sf::String& name, const sf::ContextSettings& settings);
+
     void run();
-    // Динамический массив сделать  int *testMap = new int[HEIGHTMAP];
-    const static int HEIGHTMAP =  40;
-    const static int WIDTHMAP = 50;
-    //int *testMap = new int[HEIGHTMAP];
-    sf::String testMap[HEIGHTMAP] =
-    {
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                   *******************************",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "******************************                    ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "********************************************      ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  ",
-        "                                                  "
-    };
 
 private:
     void processEvents();
     void update(const sf::Time &elapsedTime);
-    void render();
     void updateFPS(const sf::Time &elapsedTime);
-
+    void render();
+    void init();
 
     sf::RenderWindow window;
-    Player player;
+    //    Player player;
 
 
-    sf::Texture gameTexture;
+    //    sf::Texture gameTexture;
 
-    std::vector<Enemy> enemies;
+    //    std::vector<Enemy> enemies;
+
     std::vector<TileMap> tiles;
+
 
     sf::Font font;
     struct FPSInfo
@@ -87,7 +47,58 @@ private:
         sf::Text text;
     };
     FPSInfo fpsInfo;
-};
 
+
+    //    // Динамический массив сделать  int *testMap = new int[HEIGHTMAP];
+    //    const static int HEIGHTMAP =  40;
+    //    const static int WIDTHMAP = 50;
+    //    //int *testMap = new int[HEIGHTMAP];
+    //    sf::String testMap[HEIGHTMAP] =
+    //    {
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                   *******************************",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "******************************                    ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "********************************************      ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  ",
+    //        "                                                  "
+    //    };
+
+
+};
+} //namespace BattleCity
 
 #endif // GAME_H

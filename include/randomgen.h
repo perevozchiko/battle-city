@@ -2,7 +2,11 @@
 #define RANDOMGEN_H
 
 #include <random>
+namespace BattleCity {
 
+/** @class
+ *
+ */
 class RandomGen
 {
 public:
@@ -31,5 +35,5 @@ private:
     std::mt19937 engine{device()};
     std::uniform_int_distribution<> distribution;
 };
-
+} //namespace BattleCity
 #endif // RANDOMGEN_H
