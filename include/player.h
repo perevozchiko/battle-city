@@ -1,17 +1,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "tank.h"
+namespace BattleCity {
 
+/** @class
+ *
+ */
 class Player : public Tank
 {
-public:
-    Player();
-    void adaptPlayerPosition();
-    void update(const sf::Time& elapsedTime) override;
-    void handleRealTimeInput();
+//public:
+//    Player();
+//    void adaptPlayerPosition();
+//    void update(const sf::Time& elapsedTime) override;
+//    void handleRealTimeInput();
 
-private:
+//private:
 
 };
-
+} //namespace BattleCity
 #endif // PLAYER_H

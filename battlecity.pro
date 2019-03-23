@@ -21,16 +21,9 @@ SOURCES += main.cpp \
     src/tank.cpp \
     src/utils.cpp \
     src/enemy.cpp \
-    src/entity.cpp \
-    src/game.cpp \
-    src/player.cpp \
-    src/tank.cpp \
-    src/tilemap.cpp \
-    src/utils.cpp \
 
 HEADERS  += \
     include/game.h \
-    include/conf.h \
     include/player.h \
     include/enemy.h \
     include/tilemap.h \
@@ -38,9 +31,7 @@ HEADERS  += \
     include/tank.h \
     include/randomgen.h \
     include/utils.h \
-    include/conf.h \
-    include/enemy.h \
-    include/entity.h \
+    include/set.h \
 
 
 ROOT = $${PWD}/..

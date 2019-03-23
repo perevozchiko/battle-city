@@ -1,10 +1,11 @@
-#include "utils.h"
-
 #include <cmath>
 #include <algorithm>
 
+#include "utils.h"
 
-namespace Utils {
+namespace BattleCity {
+
+namespace utils {
 
 bool equalFloat(float x, float y)
 {
@@ -12,4 +13,5 @@ bool equalFloat(float x, float y)
     return std::fabs(x - y) <= std::numeric_limits<float>::epsilon()*maxXYOne;
 }
 
-}
+} //namespace utils
+} //namespace BattleCity
