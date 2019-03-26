@@ -74,7 +74,7 @@ std::ostream& operator<< (std::ostream &out, const Player &p)
 
 void print(Player &player)
 {
-    auto p = player.getSprite().getGlobalBounds();
+    auto p = player.getGlobalRect();
     std::cout << "Player - Нижняя левая : [ "<< std::round(p.top + p.height) << " " << std::round(p.left) << " ]" << std::endl;
     std::cout << "Player - Верхняя левая : [ "<< std::round(p.top) << " " << std::round(p.left) << " ]" << std::endl;
 

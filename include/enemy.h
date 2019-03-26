@@ -8,7 +8,7 @@ namespace BattleCity {
 /** @class
  *
  */
-class Enemy : public Tank
+class Enemy : public Entity
 {
 //public:
 //    Enemy();

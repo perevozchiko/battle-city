@@ -9,27 +9,16 @@ namespace BattleCity {
 /** @class
  *
  */
-class Tile
+class Tile : public Entity
 {
 public:
     Tile() = delete;
-
     Tile(sf::Vector2i _offset, const sf::Texture &texture);
 
-    void update(const sf::Time& elapsedTime);
-    //    sf::Vector2i setOffset();
+    void update(const sf::Time& elapsedTime) override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    sf::Vector2f getPosition() const;
-    void setPosition(const sf::Vector2f &value);
-
-    sf::Sprite getSprite() const;
-    void setSprite(const sf::Sprite &value);
-
-
-
-    std::vector<sf::String> getMap() const;
-
-
+    sf::FloatRect getGlobalRect() const;
     SET::Tile getType() const;
     void setType(const int &value);
 
@@ -37,7 +26,6 @@ private:
     sf::Sprite sprite;
     sf::Vector2i offset;
     sf::Vector2i size;
-    sf::Vector2f position;
     SET::Tile type;
 };
 

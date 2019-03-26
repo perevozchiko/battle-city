@@ -37,6 +37,10 @@ const sf::Vector2i SIZE_TILE_MAP = {16, 16};
 const int MAP_WIDTH = WINDOW_WIDTH / SIZE_TILE_MAP.x;
 const int MAP_HEIGHT = WINDOW_HEIGHT / SIZE_TILE_MAP.y;
 
+//Позиция player в начале
+const sf::Vector2f PLAYER_POSITION = {WINDOW_WIDTH/2 - 70.f, float(WINDOW_HEIGHT-SIZE_TILE_TANK.y-5)} ;
+
+
 enum class Type
 {
     Player = 0,

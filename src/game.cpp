@@ -4,7 +4,8 @@ namespace BattleCity {
 
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
-    player({2,4},texture)
+    //TODO сделать offset и position по умолчанию
+    player(texture, {2,4}, {0.f, 0.f})
 {
     texture.loadFromFile(SET::PATH_IMAGES);
 
@@ -37,27 +38,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
             }
         }
     }
-
-
-    //    for (std::size_t rows = 0; rows < 10; rows++)
-    //    {
-    //        for (std::size_t cols = 0; cols < 10; cols++)
-    //        {
-    //            if (testMap[rows][cols] == '*')
-    //            {
-    //                tile.setTextureRectange(sf::IntRect(0, 272, 16, 16));
-    //            }
-    //            if (testMap[rows][cols] == ' ')
-    //            {
-    //                tile.setTextureRectange(sf::IntRect(308, 147, 16, 16));
-    //            }
-    //            tile.getSprite().setOrigin(0, 0);
-    //            tile.getSprite().setPosition(cols * 16.f, rows * 16.f);
-    //            tiles.push_back(tile);
-    //        }
-    //    }
-
-
 
     //    for (unsigned long i = 0; i < 3; i++)
     //    {
@@ -147,12 +127,12 @@ void Game::update(const sf::Time &elapsedTime)
     player.update(elapsedTime);
     player.adaptPosition();
 
-    auto p = player.getSprite().getGlobalBounds();
+    auto p = player.getGlobalRect();
     for(auto &tile : tiles)
     {
         if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
         {
-            auto r = tile.getSprite().getGlobalBounds();
+            auto r = tile.getGlobalRect();
 
             if(p.intersects(r))
             {
@@ -170,6 +150,7 @@ void Game::update(const sf::Time &elapsedTime)
                 case SET::Direction::DOWN:
                     player.setPosition({p.left + p.width/2, r.top - p.height/2});
                     break;
+
                 }
             }
         }
@@ -187,11 +168,11 @@ void Game::render()
     {
         if (tile.getType() == SET::Tile::Ice)
         {
-            window.draw(tile.getSprite());
+            window.draw(tile);
         }
     }
 
-    window.draw(player.getSprite());
+    window.draw(player);
 
 
     //    for (auto& enemy : enemies)
@@ -209,7 +190,7 @@ void Game::render()
     {
         if (tile.getType() != SET::Tile::Ice)
         {
-            window.draw(tile.getSprite());
+            window.draw(tile);
         }
     }
     window.draw(fpsInfo.text);
