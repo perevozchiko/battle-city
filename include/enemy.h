@@ -11,22 +11,22 @@ namespace BattleCity {
 class Enemy : public Entity
 {
 public:
-    Enemy() = delete;
+    Enemy();
     Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2f position);
 
     void changeDirectionMoving();
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void adaptEnemyPosition();
+    void setDirection(const SET::Direction &_direction);
 
-    SET::Direction getDirection() const;
-    void setDirection(const SET::Direction &value);
+    sf::Sprite getSprite() const;
 
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
     SET::Direction direction;
-    RandomGen random;
+    //RandomGen random;
 };
 } //namespace BattleCity
 #endif // ENEMY_H

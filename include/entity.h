@@ -17,16 +17,16 @@ namespace BattleCity {
 class Entity : public sf::Transformable, public sf::Drawable
 {
 public:
-    Entity() = delete;
+    Entity();
     Entity(sf::Vector2f _position);
     virtual ~Entity();
     virtual void update(const sf::Time &elapsedTime) = 0;
 
     float getSpeed() const;
     void setSpeed(float value);
+    sf::Vector2f adaptPosition();
 
 private:
-    sf::Vector2i offset;
     sf::Vector2f position;
     float speed;
 };

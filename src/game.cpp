@@ -5,7 +5,8 @@ namespace BattleCity {
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {2,4}, {0.f, 0.f})
+    player(texture, {2,4}, {270, 580}),
+    enemy(texture, {2,4}, {16, 16})
 {
     texture.loadFromFile(SET::PATH_IMAGES);
 
@@ -31,7 +32,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
             if (type != 0)
             {
                 offset = utils::setOffset(type);
-                Tile tile(offset, texture);
+                Tile tile(texture, offset);
                 tile.setType(type);
                 tile.setPosition({static_cast<float>(j) * SET::SIZE_TILE_MAP.x, static_cast<float>(i) * SET::SIZE_TILE_MAP.y});
                 tiles.push_back(tile);
@@ -39,11 +40,13 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
         }
     }
 
-    //    for (unsigned long i = 0; i < 3; i++)
+
+
+    //    for (std::size_t i = 0; i < 3; i++)
     //    {
     //        sf::Vector2f pos = {SET::WINDOW_WIDTH * i/2 + (i%2) * 16.f, 16.f};
-    //        enemies[i].setPosition(pos);
-    //        enemies[i].setTextureRectange(sf::IntRect(224, 809, 32, 32));
+    //        enemies[i].getSprite().setTexture(texture);
+    //        enemies[i].getSprite().setTextureRect(sf::IntRect(204,809,32,32));
     //        enemies[i].changeDirectionMoving();
     //    }
 
@@ -56,10 +59,7 @@ void Game::run()
 
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    //    sf::Time enemyTime = sf::Time::Zero;
-    //    RandomGen change;
-    //    int ch = change(1, 3);
-
+    sf::Time enemyTime = sf::Time::Zero;
 
     while (window.isOpen())
     {
@@ -72,35 +72,24 @@ void Game::run()
             processEvents();
             update(SET::TIME_PER_FRAME);
         }
+        enemyTime += elapsedTime;
 
+        if (enemyTime.asSeconds() > 2)
+        {
+            while (enemyTime > SET::TIME_PER_FRAME)
+            {
+                enemyTime -= SET::TIME_PER_FRAME;
+            }
+            //std::size_t i = static_cast<std::size_t>(random(0, enemies.size()));
 
-
-
-        //        enemyTime += elapsedTime;
-
-
-        //        if (enemyTime.asSeconds() > ch)
-        //        {
-        //            while (enemyTime > SET::TimePerFrame)
-        //            {
-        //                enemyTime -= SET::TimePerFrame;
-        //            }
-        //            std::size_t i = static_cast<std::size_t>(change(0, enemies.size()));
-
-        //            enemies[i].changeDirectionMoving();
-        //        }
-
-
-        //            }
-        //        }
-
+            enemy.changeDirectionMoving();
+        }
 
         updateFPS(elapsedTime);
         render();
     }
-
-
 }
+
 
 void Game::processEvents()
 {
@@ -125,8 +114,9 @@ void Game::update(const sf::Time &elapsedTime)
 {
 
     player.update(elapsedTime);
-    player.adaptPosition();
-
+    player.adaptPlayerPosition();
+    enemy.update(elapsedTime);
+    enemy.adaptEnemyPosition();
     auto p = player.getGlobalRect();
     for(auto &tile : tiles)
     {
@@ -175,6 +165,7 @@ void Game::render()
     window.draw(player);
 
 
+    window.draw(enemy);
     //    for (auto& enemy : enemies)
     //    {
     //        window.draw(enemy.getSprite());

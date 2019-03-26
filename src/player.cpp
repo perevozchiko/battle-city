@@ -10,7 +10,7 @@ Player::Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2f pos
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
-    sprite.setPosition(position);
+
 }
 
 void Player::setDirection(const SET::Direction &_direction)
@@ -111,16 +111,8 @@ sf::FloatRect Player::getGlobalRect() const
     return r;
 }
 
-void Player::adaptPosition()
+void Player::adaptPlayerPosition()
 {
-    sf::Vector2f position = getPosition();
-
-    position.x = std::max(position.x, static_cast<float>(getSize().x/2));
-    position.x = std::min(position.x, static_cast<float>(SET::WINDOW_WIDTH - getSize().x/2));
-
-    position.y = std::max(position.y, static_cast<float>(getSize().y/2));
-    position.y = std::min(position.y, static_cast<float>(SET::WINDOW_HEIGHT - getSize().y/2));
-
-    setPosition(position);
+    setPosition(adaptPosition());
 }
 } //namespace BattleCity
