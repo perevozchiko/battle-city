@@ -16,22 +16,24 @@ SOURCES += main.cpp \
     src/game.cpp \
     src/player.cpp \
     src/enemy.cpp \
-    src/tilemap.cpp \
     src/entity.cpp \
     src/tank.cpp \
     src/utils.cpp \
-    src/enemy.cpp \
+    src/tile.cpp
+
 
 HEADERS  += \
     include/game.h \
     include/player.h \
     include/enemy.h \
-    include/tilemap.h \
     include/entity.h \
     include/tank.h \
     include/randomgen.h \
     include/utils.h \
     include/set.h \
+    include/enemy.h \
+    include/entity.h \
+    include/tile.h
 
 
 ROOT = $${PWD}/..
@@ -51,4 +53,19 @@ DISTFILES += \
     resources/fonts/FiraMono-Regular.ttf \
     resources/fonts/tahoma.ttf \
     resources/images/sprite.bmp \
+    resources/Templates/Шаблон для заполнения карты.ods \
+    resources/fonts/vapor_trails_remixed.otf \
+    resources/fonts/FiraMono-Regular.ttf \
+    resources/fonts/tahoma.ttf \
+    resources/images/sprite.bmp \
+    resources/maps/1 \
+    resources/Templates/mapstemplate.ods \
+    resources/maps/1.csv \
+    resources/maps/3.csv \
+    resources/maps/1 \
+    resources/maps/1 кирпичик \
+    resources/maps/2 \
+    resources/maps/4.txt \
+    resources/maps/5 \
+    resources/maps/6
 
