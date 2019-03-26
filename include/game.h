@@ -7,7 +7,9 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "set.h"
-#include "tilemap.h"
+#include "tile.h"
+#include "utils.h"
+#include "player.h"
 
 namespace BattleCity {
 
@@ -26,18 +28,15 @@ private:
     void update(const sf::Time &elapsedTime);
     void updateFPS(const sf::Time &elapsedTime);
     void render();
-    void init();
 
     sf::RenderWindow window;
-    //    Player player;
+    sf::Texture texture;
+    Player player;
 
-
-    //    sf::Texture gameTexture;
-
+    //TODO
     //    std::vector<Enemy> enemies;
 
-    std::vector<TileMap> tiles;
-
+    std::vector<Tile> tiles;
 
     sf::Font font;
     struct FPSInfo
@@ -47,57 +46,6 @@ private:
         sf::Text text;
     };
     FPSInfo fpsInfo;
-
-
-    //    // Динамический массив сделать  int *testMap = new int[HEIGHTMAP];
-    //    const static int HEIGHTMAP =  40;
-    //    const static int WIDTHMAP = 50;
-    //    //int *testMap = new int[HEIGHTMAP];
-    //    sf::String testMap[HEIGHTMAP] =
-    //    {
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                   *******************************",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "******************************                    ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "********************************************      ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  ",
-    //        "                                                  "
-    //    };
-
-
 };
 } //namespace BattleCity
 

@@ -3,18 +3,40 @@
 namespace BattleCity {
 
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
-    window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings)
-  //player()
+    window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
+    player({2,4},texture)
 {
+    texture.loadFromFile(SET::PATH_IMAGES);
+
+    // FPS
     font.loadFromFile(SET::PATH_FONTS);
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(SET::FPS_POS, SET::FPS_POS);
     fpsInfo.text.setCharacterSize(SET::FPS_FONT_SIZE);
 
-    Game::init();
+    // чтение данных уровня из файла (int level)
+    std::vector<std::string> map = utils::readFileMap(1);
 
-
-
+    // Создание тайлов карты
+    sf::Vector2i offset;
+    std::string str;
+    int type;
+    for (size_t i = 0; i < size_t(SET::MAP_HEIGHT); ++i)
+    {
+        str  = map[i];
+        for (size_t j = 0; j < size_t(SET::MAP_WIDTH); ++j)
+        {
+            type = utils::charToInt(str.c_str()[j]);
+            if (type != 0)
+            {
+                offset = utils::setOffset(type);
+                Tile tile(offset, texture);
+                tile.setType(type);
+                tile.setPosition({static_cast<float>(j) * SET::SIZE_TILE_MAP.x, static_cast<float>(i) * SET::SIZE_TILE_MAP.y});
+                tiles.push_back(tile);
+            }
+        }
+    }
 
 
     //    for (std::size_t rows = 0; rows < 10; rows++)
@@ -47,19 +69,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
 
 }
 
-void Game::init()
-{
-    TileMap tile({0, 304});
-    tile.setPosition({100,100});
-    tiles.push_back(tile);
-
-
-    TileMap tile2({0, 304});
-    tile2.setPosition({200,200});
-    tiles.push_back(tile2);
-
-    run();
-}
 
 void Game::run()
 {
@@ -128,37 +137,45 @@ void Game::processEvents()
             break;
         }
     }
-    // player.handleRealTimeInput();
+    player.handleRealTimeInput();
 
 }
 
 void Game::update(const sf::Time &elapsedTime)
 {
 
-    //    player.update(elapsedTime);
-    //    player.adaptPlayerPosition();
-    //    for (auto& enemy : enemies)
-    //    {
-    //        enemy.update(elapsedTime);
-    //        enemy.adaptEnemyPosition();
-    //    }
+    player.update(elapsedTime);
+    player.adaptPosition();
 
-    // Коллизии
-    //    if (player.getDir() == Conf::Direction::UP or player.getDir() == Conf::Direction::DOWN)
-    //    {
-    //        for (int rows = 0; rows < WIDTHMAP; rows++)
-    //        {
-    //            int col = static_cast<int> (player.getPosition().x);
-    //            tiles[rows][col].ge;
-    //            if (player.getSprite().getGlobalBounds().intersects(tiles[2].getSprite().getGlobalBounds())
-    //            {
+    auto p = player.getSprite().getGlobalBounds();
+    for(auto &tile : tiles)
+    {
+        if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
+        {
+            auto r = tile.getSprite().getGlobalBounds();
 
-    //            }
-    //        }
-
-    //    }
-
+            if(p.intersects(r))
+            {
+                switch(player.getDirection())
+                {
+                case SET::Direction::RIGHT:
+                    player.setPosition({r.left-p.width/2, p.top + p.height/2});
+                    break;
+                case SET::Direction::LEFT:
+                    player.setPosition({r.left + r.width + p.width/2, p.top + p.height/2});
+                    break;
+                case SET::Direction::UP:
+                    player.setPosition({p.left + p.width/2, r.top + r.height + p.height/2});
+                    break;
+                case SET::Direction::DOWN:
+                    player.setPosition({p.left + p.width/2, r.top - p.height/2});
+                    break;
+                }
+            }
+        }
+    }
 }
+
 
 void Game::render()
 {
@@ -166,7 +183,15 @@ void Game::render()
 
 
 
-    //    window.draw(player.getSprite());
+    for (auto &tile : tiles)
+    {
+        if (tile.getType() == SET::Tile::Ice)
+        {
+            window.draw(tile.getSprite());
+        }
+    }
+
+    window.draw(player.getSprite());
 
 
     //    for (auto& enemy : enemies)
@@ -179,13 +204,17 @@ void Game::render()
     //    {
     //        window.draw(_tile.getSprite());
     //    }
-    window.draw(tiles[0].getSprite());
-    window.draw(tiles[1].getSprite());
+
+    for (auto &tile : tiles)
+    {
+        if (tile.getType() != SET::Tile::Ice)
+        {
+            window.draw(tile.getSprite());
+        }
+    }
     window.draw(fpsInfo.text);
     window.display();
 }
-
-
 
 void Game::updateFPS(const sf::Time &elapsedTime)
 {
