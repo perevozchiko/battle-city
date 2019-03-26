@@ -13,7 +13,7 @@ class Tile : public Entity
 {
 public:
     Tile() = delete;
-    Tile(sf::Vector2i _offset, const sf::Texture &texture);
+    Tile(const sf::Texture &texture, sf::Vector2i _offset);
 
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

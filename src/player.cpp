@@ -48,7 +48,7 @@ void Player::update(const sf::Time &elapsedTime)
 {
     float dx = 0;
     float dy = 0;
-    switch (getDirection())
+    switch (direction)
     {
     case SET::Direction::LEFT:
         dx = -getSpeed();

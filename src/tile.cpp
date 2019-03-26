@@ -2,7 +2,7 @@
 
 namespace BattleCity {
 
-Tile::Tile(sf::Vector2i _offset, const sf::Texture &texture) :
+Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
     Entity ({0,0}),
     offset(_offset),
     size(SET::SIZE_TILE_MAP),
