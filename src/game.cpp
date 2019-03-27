@@ -6,7 +6,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
     player(texture, {2,4}, {270, 580}),
-    enemy(texture, {2,4}, {16, 16})
+    enemy(texture, {290,810}, {16, 16})
 {
     texture.loadFromFile(SET::PATH_IMAGES);
 
@@ -74,7 +74,7 @@ void Game::run()
         }
         enemyTime += elapsedTime;
 
-        if (enemyTime.asSeconds() > 2)
+        if (enemyTime.asSeconds() > 4)
         {
             while (enemyTime > SET::TIME_PER_FRAME)
             {
@@ -118,6 +118,28 @@ void Game::update(const sf::Time &elapsedTime)
     enemy.update(elapsedTime);
     enemy.adaptEnemyPosition();
     auto p = player.getGlobalRect();
+    auto e = enemy.getGlobalRect();
+
+    if (e.intersects(p))
+    {
+        switch(player.getDirection())
+        {
+        case SET::Direction::RIGHT:
+            player.setPosition({e.left-p.width/2, p.top + p.height/2});
+            break;
+        case SET::Direction::LEFT:
+            player.setPosition({e.left + e.width + p.width/2, p.top + p.height/2});
+            break;
+        case SET::Direction::UP:
+            player.setPosition({p.left + p.width/2, e.top + e.height + p.height/2});
+            break;
+        case SET::Direction::DOWN:
+            player.setPosition({p.left + p.width/2, e.top - p.height/2});
+            break;
+        }
+        enemy.changeDirectionMoving();
+    }
+
     for(auto &tile : tiles)
     {
         if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
@@ -145,7 +167,22 @@ void Game::update(const sf::Time &elapsedTime)
             }
         }
     }
+
+
+    for(auto &tile : tiles)
+    {
+        if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
+        {
+            auto r = tile.getGlobalRect();
+
+            if(e.intersects(r))
+            {
+                enemy.changeDirectionMoving();
+            }
+        }
+    }
 }
+
 
 
 void Game::render()
@@ -163,8 +200,6 @@ void Game::render()
     }
 
     window.draw(player);
-
-
     window.draw(enemy);
     //    for (auto& enemy : enemies)
     //    {

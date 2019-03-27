@@ -19,8 +19,11 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void adaptEnemyPosition();
     void setDirection(const SET::Direction &_direction);
+    sf::FloatRect getGlobalRect() const;
 
     sf::Sprite getSprite() const;
+
+    SET::Direction getDirection() const;
 
 private:
     sf::Vector2i size;

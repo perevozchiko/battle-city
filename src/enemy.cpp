@@ -14,19 +14,48 @@ Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2f posit
 void Enemy::changeDirectionMoving()
 {
     RandomGen random;
+
     switch(random(1,4))
     {
     case 1:
-        setDirection(SET::Direction::LEFT);
+        if (direction != SET::Direction::LEFT)
+        {
+            setDirection(SET::Direction::LEFT);
+        }
+        else
+        {
+            changeDirectionMoving();
+        }
         break;
     case 2:
-        setDirection(SET::Direction::RIGHT);
+        if (direction != SET::Direction::RIGHT)
+        {
+            setDirection(SET::Direction::RIGHT);
+        }
+        else
+        {
+            changeDirectionMoving();
+        }
         break;
     case 3:
-        setDirection(SET::Direction::UP);
+        if (direction != SET::Direction::UP)
+        {
+            setDirection(SET::Direction::UP);
+        }
+        else
+        {
+            changeDirectionMoving();
+        }
         break;
     case 4:
-        setDirection(SET::Direction::DOWN);
+        if (direction != SET::Direction::DOWN)
+        {
+            setDirection(SET::Direction::DOWN);
+        }
+        else
+        {
+            changeDirectionMoving();
+        }
         break;
     }
 }
@@ -50,6 +79,15 @@ void Enemy::setDirection(const SET::Direction &_direction)
         setRotation(180.0f);
         break;
     }
+}
+
+sf::FloatRect Enemy::getGlobalRect() const
+{
+    auto pos = getPosition();
+    auto r = sprite.getGlobalBounds();
+    r.left = pos.x - r.width/2;
+    r.top = pos.y - r.height/2;
+    return r;
 }
 
 void Enemy::update(const sf::Time &elapsedTime)
@@ -101,6 +139,11 @@ void Enemy::adaptEnemyPosition()
 sf::Sprite Enemy::getSprite() const
 {
     return sprite;
+}
+
+SET::Direction Enemy::getDirection() const
+{
+    return direction;
 }
 
 } //namespace BattleCity
