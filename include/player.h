@@ -11,14 +11,14 @@ class Player : public Entity
 {
 public:
     Player() = delete;
-    Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2f position);
+    Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
 
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void handleRealTimeInput();
     void adaptPlayerPosition();
-    sf::FloatRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const;
 
 
     SET::Direction getDirection() const;

@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <cmath>
+
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -18,17 +20,20 @@ class Entity : public sf::Transformable, public sf::Drawable
 {
 public:
     Entity();
-    Entity(sf::Vector2f _position);
+    Entity(sf::Vector2i _position);
     virtual ~Entity();
     virtual void update(const sf::Time &elapsedTime) = 0;
 
-    float getSpeed() const;
-    void setSpeed(float value);
-    sf::Vector2f adaptPosition();
+    int getSpeed() const;
+    void setSpeed(int value);
+    sf::Vector2i adaptPosition();
+    sf::Vector2i getPosition() const;
+    void setPosition(const sf::Vector2i &value);
+    void setPosition(int x, int y);
 
 private:
-    sf::Vector2f position;
-    float speed;
+    sf::Vector2i position;
+    int speed;
 };
 } //namespace BattleCity
 #endif // ENTITY_H

@@ -1,7 +1,7 @@
 #include "enemy.h"
 namespace BattleCity {
 
-Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2f position):
+Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
     Entity(position),
     size(SET::SIZE_TILE_TANK),
     direction(SET::Direction::DOWN)
@@ -22,40 +22,28 @@ void Enemy::changeDirectionMoving()
         {
             setDirection(SET::Direction::LEFT);
         }
-        else
-        {
-            changeDirectionMoving();
-        }
+
         break;
     case 2:
         if (direction != SET::Direction::RIGHT)
         {
             setDirection(SET::Direction::RIGHT);
         }
-        else
-        {
-            changeDirectionMoving();
-        }
+
         break;
     case 3:
         if (direction != SET::Direction::UP)
         {
             setDirection(SET::Direction::UP);
         }
-        else
-        {
-            changeDirectionMoving();
-        }
+
         break;
     case 4:
         if (direction != SET::Direction::DOWN)
         {
             setDirection(SET::Direction::DOWN);
         }
-        else
-        {
-            changeDirectionMoving();
-        }
+
         break;
     }
 }
@@ -81,10 +69,16 @@ void Enemy::setDirection(const SET::Direction &_direction)
     }
 }
 
-sf::FloatRect Enemy::getGlobalRect() const
+sf::IntRect Enemy::getGlobalRect() const
 {
-    auto pos = getPosition();
-    auto r = sprite.getGlobalBounds();
+    sf::Vector2i pos = getPosition();
+    sf::IntRect r =
+    {
+        int(std::round(sprite.getGlobalBounds().left)),
+        int(std::round(sprite.getGlobalBounds().top)),
+        int(std::round(sprite.getGlobalBounds().width)),
+        int(std::round(sprite.getGlobalBounds().height))
+    };
     r.left = pos.x - r.width/2;
     r.top = pos.y - r.height/2;
     return r;
@@ -94,6 +88,7 @@ void Enemy::update(const sf::Time &elapsedTime)
 {
     float dx = 0;
     float dy = 0;
+
     switch (direction)
     {
     case SET::Direction::LEFT:
@@ -124,7 +119,7 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Enemy::adaptEnemyPosition()
 {
-    sf::Vector2f pos = adaptPosition();
+    sf::Vector2i pos = adaptPosition();
 
     if ((utils::equalFloat(pos.x, SET::WINDOW_WIDTH - size.x/2) && direction == SET::Direction::RIGHT)
             || (utils::equalFloat(pos.x, size.x/2) && direction == SET::Direction::LEFT)

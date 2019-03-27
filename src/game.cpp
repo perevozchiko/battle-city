@@ -5,8 +5,8 @@ namespace BattleCity {
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {2,4}, {270, 580}),
-    enemy(texture, {290,810}, {16, 16})
+    player(texture, {2,4}, {SET::WINDOW_WIDTH - 14, 14}),
+    enemy(texture, {290,810}, {14, 14})
 {
     texture.loadFromFile(SET::PATH_IMAGES);
 
@@ -34,7 +34,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
                 offset = utils::setOffset(type);
                 Tile tile(texture, offset);
                 tile.setType(type);
-                tile.setPosition({static_cast<float>(j) * SET::SIZE_TILE_MAP.x, static_cast<float>(i) * SET::SIZE_TILE_MAP.y});
+                tile.setPosition(static_cast<int>(j) * SET::SIZE_TILE_MAP.x, static_cast<int>(i) * SET::SIZE_TILE_MAP.y);
                 tiles.push_back(tile);
             }
         }
@@ -55,8 +55,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
 
 void Game::run()
 {
-
-
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time enemyTime = sf::Time::Zero;
@@ -74,7 +72,7 @@ void Game::run()
         }
         enemyTime += elapsedTime;
 
-        if (enemyTime.asSeconds() > 4)
+        if (enemyTime.asSeconds() > 2)
         {
             while (enemyTime > SET::TIME_PER_FRAME)
             {
@@ -117,50 +115,72 @@ void Game::update(const sf::Time &elapsedTime)
     player.adaptPlayerPosition();
     enemy.update(elapsedTime);
     enemy.adaptEnemyPosition();
+
     auto p = player.getGlobalRect();
     auto e = enemy.getGlobalRect();
 
-    if (e.intersects(p))
+    sf::IntRect result;
+    if (e.intersects(p, result))
     {
+
         switch(player.getDirection())
         {
         case SET::Direction::RIGHT:
-            player.setPosition({e.left-p.width/2, p.top + p.height/2});
+            player.setPosition(p.left + p.width/2 - result.width, p.top + p.height/2);
             break;
         case SET::Direction::LEFT:
-            player.setPosition({e.left + e.width + p.width/2, p.top + p.height/2});
+            player.setPosition(p.left + p.width/2 + result.width, p.top + p.height/2);
+            // enemy.setPosition(p.left + e.width/2 - result.width, e.top + e.height/2);
             break;
         case SET::Direction::UP:
-            player.setPosition({p.left + p.width/2, e.top + e.height + p.height/2});
+            player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
             break;
         case SET::Direction::DOWN:
-            player.setPosition({p.left + p.width/2, e.top - p.height/2});
+            player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
             break;
         }
         enemy.changeDirectionMoving();
+        //        switch(enemy.getDirection())
+        //        {
+        //        case SET::Direction::RIGHT:
+        //            enemy.setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
+        //            break;
+        //        case SET::Direction::LEFT:
+        //            enemy.setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
+        //            break;
+        //        case SET::Direction::UP:
+        //            enemy.setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
+        //            break;
+        //        case SET::Direction::DOWN:
+        //            enemy.setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
+        //            break;
+        //        }
     }
 
+    // Коллизии Player
     for(auto &tile : tiles)
     {
         if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
         {
-            auto r = tile.getGlobalRect();
+            auto r = utils::toIntRect(tile.getGlobalRect());
+            sf::IntRect result;
 
-            if(p.intersects(r))
+            if(p.intersects(r, result))
             {
                 switch(player.getDirection())
                 {
                 case SET::Direction::RIGHT:
-                    player.setPosition({r.left-p.width/2, p.top + p.height/2});
+                    player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
                     break;
                 case SET::Direction::LEFT:
-                    player.setPosition({r.left + r.width + p.width/2, p.top + p.height/2});
+                    player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
                     break;
                 case SET::Direction::UP:
-                    player.setPosition({p.left + p.width/2, r.top + r.height + p.height/2});
+                    player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
                     break;
                 case SET::Direction::DOWN:
-                    player.setPosition({p.left + p.width/2, r.top - p.height/2});
+                    player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
+
                     break;
 
                 }
@@ -168,22 +188,36 @@ void Game::update(const sf::Time &elapsedTime)
         }
     }
 
-
+    // Коллизии Enemy
     for(auto &tile : tiles)
     {
         if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
         {
-            auto r = tile.getGlobalRect();
+            sf::IntRect result;
+            auto r = utils::toIntRect(tile.getGlobalRect());
 
-            if(e.intersects(r))
+            if(e.intersects(r, result))
             {
-                enemy.changeDirectionMoving();
+                switch(enemy.getDirection())
+                {
+                case SET::Direction::RIGHT:
+                    enemy.setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
+                    break;
+                case SET::Direction::LEFT:
+                    enemy.setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
+                    break;
+                case SET::Direction::UP:
+                    enemy.setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
+                    break;
+                case SET::Direction::DOWN:
+                    enemy.setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
+                    break;
+                }
             }
         }
     }
+
 }
-
-
 
 void Game::render()
 {

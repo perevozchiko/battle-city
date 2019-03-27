@@ -80,5 +80,15 @@ void print(Player &player)
 
 }
 
+sf::IntRect toIntRect(const sf::FloatRect &value)
+{
+    sf::IntRect r;
+    r.top = static_cast<int>(std::round(value.top));
+    r.left = static_cast<int>(std::round(value.left));
+    r.width = static_cast<int>(std::round(value.width));
+    r.height = static_cast<int>(std::round(value.height));
+    return r;
+}
+
 } //namespace utils
 } //namespace BattleCity

@@ -29,7 +29,7 @@ const sf::String PATH_IMAGES = "resources/images/sprite.bmp";
 const sf::String PATH_MAPS = "resources/maps/";
 
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
-const float TANK_SPEED = 70.f;
+const int TANK_SPEED = 70;
 const sf::Vector2i SIZE_TILE_TANK = {28, 28};
 const sf::Vector2i SIZE_TILE_MAP = {16, 16};
 
@@ -38,7 +38,7 @@ const int MAP_WIDTH = WINDOW_WIDTH / SIZE_TILE_MAP.x;
 const int MAP_HEIGHT = WINDOW_HEIGHT / SIZE_TILE_MAP.y;
 
 //Позиция player в начале
-const sf::Vector2f PLAYER_POSITION = {WINDOW_WIDTH/2 - 70.f, float(WINDOW_HEIGHT-SIZE_TILE_TANK.y-5)} ;
+const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 70, WINDOW_HEIGHT-SIZE_TILE_TANK.y-5} ;
 
 
 enum class Type

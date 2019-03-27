@@ -12,14 +12,14 @@ class Enemy : public Entity
 {
 public:
     Enemy();
-    Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2f position);
+    Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
 
     void changeDirectionMoving();
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void adaptEnemyPosition();
     void setDirection(const SET::Direction &_direction);
-    sf::FloatRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const;
 
     sf::Sprite getSprite() const;
 
