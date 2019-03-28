@@ -5,7 +5,7 @@ namespace BattleCity {
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {2,4}, {SET::WINDOW_WIDTH - 14, 14}),
+    player(texture, {2,4}, {SET::PLAYER_POSITION}),
     enemy(texture, {290,810}, {14, 14})
 {
     texture.loadFromFile(SET::PATH_IMAGES);
@@ -122,24 +122,26 @@ void Game::update(const sf::Time &elapsedTime)
     sf::IntRect result;
     if (e.intersects(p, result))
     {
-        player.setCollisionDetected(true);
-        enemy.setCollisionDetected(true);
         switch(player.getDirection())
         {
         case SET::Direction::RIGHT:
         {
-            player.setPosition(e.left - p.width/2, p.top + p.height/2);
             if(enemy.getDirection() == SET::Direction::LEFT)
             {
-                enemy.move(0,0);
+                player.setPosition(e.left - p.width/2, p.top + p.height/2);
+                enemy.setPosition(p.left + e.width/2, e.top + e.height/2);
             }
             break;
         }
         case SET::Direction::LEFT:
         {
-            player.setPosition(e.left + e.width + p.width/2, p.top + p.height/2);
-        }
+            if(enemy.getDirection() == SET::Direction::RIGHT)
+            {
+                enemy.setPosition(p.left - e.width/2, e.top + e.height/2);
+                player.setPosition(p.left + p.width/2, p.top + p.height/2);
+            }
             break;
+        }
         case SET::Direction::UP:
             player.setCollisionDetected(true);
             if (enemy.getDirection() == SET::Direction::DOWN)
@@ -156,21 +158,22 @@ void Game::update(const sf::Time &elapsedTime)
             break;
         }
 
-//        switch(enemy.getDirection())
-//        {
-//        case SET::Direction::RIGHT:
-//            enemy.setCollisionDetected(true);
-//            break;
-//        case SET::Direction::LEFT:
-//            enemy.setCollisionDetected(true);
-//            break;
-//        case SET::Direction::UP:
-//            enemy.setCollisionDetected(true);
-//            break;
-//        case SET::Direction::DOWN:
-//            enemy.setCollisionDetected(true);
-//            break;
-//        }
+
+        switch(enemy.getDirection())
+        {
+        case SET::Direction::RIGHT:
+            enemy.setPosition(p.left - e.width/2, e.top + e.height/2);
+            break;
+        case SET::Direction::LEFT:
+            enemy.setPosition(p.left + e.width/2, e.top + e.height/2);
+            break;
+        case SET::Direction::UP:
+            enemy.setCollisionDetected(true);
+            break;
+        case SET::Direction::DOWN:
+            enemy.setCollisionDetected(true);
+            break;
+        }
     }
 
     // Коллизии Player

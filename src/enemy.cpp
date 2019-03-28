@@ -15,7 +15,7 @@ void Enemy::changeDirectionMoving()
 {
     RandomGen random;
 
-    switch(random(1,2))
+    switch(random(1,4))
     {
     case 1:
         setDirection(SET::Direction::LEFT);

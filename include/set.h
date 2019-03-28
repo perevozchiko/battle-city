@@ -33,13 +33,13 @@ const int ENEMY_SPEED = 70;
 const int PLAYER_SPEED = 120;
 const sf::Vector2i SIZE_TILE_TANK = {28, 28};
 const sf::Vector2i SIZE_TILE_MAP = {16, 16};
+//Позиция player в начале добавить размер базы
+const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT-SIZE_TILE_TANK.y/2} ;
 
 // Количество элементов на карте по высоте и ширине
 const int MAP_WIDTH = WINDOW_WIDTH / SIZE_TILE_MAP.x;
 const int MAP_HEIGHT = WINDOW_HEIGHT / SIZE_TILE_MAP.y;
 
-//Позиция player в начале
-const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 70, WINDOW_HEIGHT-SIZE_TILE_TANK.y-5} ;
 
 
 enum class Type
