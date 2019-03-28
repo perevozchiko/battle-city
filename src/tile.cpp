@@ -2,7 +2,8 @@
 
 namespace BattleCity {
 
-Tile::Tile(sf::Vector2i _offset, const sf::Texture &texture) :
+Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
+    Entity ({0,0}),
     offset(_offset),
     size(SET::SIZE_TILE_MAP),
     type(SET::Tile::Empty)
@@ -16,25 +17,6 @@ void Tile::update(const sf::Time &elapsedTime)
 
 }
 
-sf::Vector2f Tile::getPosition() const
-{
-    return sprite.getPosition();
-}
-
-void Tile::setPosition(const sf::Vector2f &value)
-{
-    sprite.setPosition(value);
-}
-
-sf::Sprite Tile::getSprite() const
-{
-    return sprite;
-}
-
-void Tile::setSprite(const sf::Sprite &value)
-{
-    sprite = value;
-}
 
 SET::Tile Tile::getType() const
 {
@@ -71,4 +53,19 @@ void Tile::setType(const int &value)
     }
 }
 
+sf::FloatRect Tile::getGlobalRect() const
+{
+    auto pos = getPosition();
+    auto r = sprite.getGlobalBounds();
+    r.left = pos.x;
+    r.top = pos.y;
+    return r;
+}
+
+
+void Tile::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+    target.draw(sprite, states);
+}
 } //namespace BattleCity

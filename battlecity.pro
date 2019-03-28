@@ -31,9 +31,7 @@ HEADERS  += \
     include/randomgen.h \
     include/utils.h \
     include/set.h \
-    include/enemy.h \
-    include/entity.h \
-    include/tile.h
+    include/tile.h \
 
 
 ROOT = $${PWD}/..
@@ -67,5 +65,5 @@ DISTFILES += \
     resources/maps/2 \
     resources/maps/4.txt \
     resources/maps/5 \
-    resources/maps/6
+    resources/maps/6 \
 

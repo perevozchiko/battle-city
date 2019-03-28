@@ -1,9 +1,13 @@
-#ifndef TANK_H
-#define TANK_H
+#ifndef ENTITY_H
+#define ENTITY_H
+
+#include <cmath>
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 #include "set.h"
 
@@ -12,38 +16,28 @@ namespace BattleCity {
 /** @class
  *
  */
-class Entity
+class Entity : public sf::Transformable, public sf::Drawable
 {
 public:
     Entity();
-    Entity(sf::Vector2i _offset, sf::Vector2i _size);
+    Entity(sf::Vector2i _position);
     virtual ~Entity();
-
-    void setPosition(const sf::Vector2f &value);
-    sf::Vector2f getPosition() const;
-
-
-    //    void setOffset(const sf::Vector2i &value);
-    //    sf::Vector2i getOffset() const;
-
-
-    //    void setPosition(const sf::Vector2i &value);
-
-
-    //    sf::Vector2i getSize() const;
-
     virtual void update(const sf::Time &elapsedTime) = 0;
 
-    //    sf::Texture getTexture() const;
-    //   void setTextureRectange(sf::IntRect value);
+    int getSpeed() const;
+    void setSpeed(int value);
+    sf::Vector2i adaptPosition();
+    sf::Vector2i getPosition() const;
+    void setPosition(const sf::Vector2i &value);
+    void setPosition(int x, int y);
 
-    sf::Sprite& getSprite();
+    bool getCollisionDetected() const;
+    void setCollisionDetected(bool value);
 
 private:
-    sf::Texture texture;
-    sf::Sprite sprite;
-    sf::Vector2i offset;
-    sf::Vector2i size;
+    sf::Vector2i position;
+    int speed;
+    bool collisionDetected {false};
 };
 } //namespace BattleCity
-#endif // TANK_H
+#endif // ENTITY_H

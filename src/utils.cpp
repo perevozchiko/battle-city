@@ -74,10 +74,20 @@ std::ostream& operator<< (std::ostream &out, const Player &p)
 
 void print(Player &player)
 {
-    auto p = player.getSprite().getGlobalBounds();
+    auto p = player.getGlobalRect();
     std::cout << "Player - Нижняя левая : [ "<< std::round(p.top + p.height) << " " << std::round(p.left) << " ]" << std::endl;
     std::cout << "Player - Верхняя левая : [ "<< std::round(p.top) << " " << std::round(p.left) << " ]" << std::endl;
 
+}
+
+sf::IntRect toIntRect(const sf::FloatRect &value)
+{
+    sf::IntRect r;
+    r.top = static_cast<int>(std::round(value.top));
+    r.left = static_cast<int>(std::round(value.left));
+    r.width = static_cast<int>(std::round(value.width));
+    r.height = static_cast<int>(std::round(value.height));
+    return r;
 }
 
 } //namespace utils

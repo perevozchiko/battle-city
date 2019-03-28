@@ -1,9 +1,12 @@
 #include "entity.h"
 
 namespace BattleCity {
-Entity::Entity()
-{
 
+Entity::Entity(sf::Vector2i _position) :
+    position(_position),
+    speed(0)
+{
+    setPosition(_position.x, _position.y);
 }
 
 Entity::~Entity()
@@ -11,65 +14,54 @@ Entity::~Entity()
 
 }
 
-Entity::Entity(sf::Vector2i _offset, sf::Vector2i _size) :
-    offset(_offset),
-    size(_size)
+int Entity::getSpeed() const
 {
-    texture.loadFromFile(SET::PATH_IMAGES);
-    sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(offset.x, offset.y, size.x, size.y));
-   //sprite.setOrigin(size.x/2, size.y/2);
+    return speed;
 }
 
-//sf::Vector2f Entity::getPosition() const
-//{
-//    return sprite.getPosition();
-//}
-
-//void Entity::setPosition(const sf::Vector2f &value)
-//{
-//    sprite.setPosition(value);
-//}
-
-void Entity::setPosition(const sf::Vector2f &value)
+void Entity::setSpeed(int value)
 {
-    sprite.setPosition(value);
+    speed = value;
 }
 
-sf::Sprite& Entity::getSprite()
+sf::Vector2i Entity::adaptPosition()
 {
-    return sprite;
+    sf::Vector2i position = getPosition();
+
+    position.x = std::max(position.x, SET::SIZE_TILE_TANK.x/2);
+    position.x = std::min(position.x, (SET::WINDOW_WIDTH - SET::SIZE_TILE_TANK.x/2));
+    position.y = std::max(position.y, (SET::SIZE_TILE_TANK.y/2));
+    position.y = std::min(position.y, (SET::WINDOW_HEIGHT - SET::SIZE_TILE_TANK.y/2));
+
+    return position;
+}
+
+sf::Vector2i Entity::getPosition() const
+{
+    sf::Vector2i pos = {static_cast<int>(std::round(sf::Transformable::getPosition().x)),
+                        static_cast<int>(std::round(sf::Transformable::getPosition().y))};
+    return pos;
+}
+
+void Entity::setPosition(const sf::Vector2i &value)
+{
+    sf::Transformable::setPosition(static_cast<float>(value.x), static_cast<float>(value.y));
+}
+
+void Entity::setPosition(int x, int y)
+{
+    sf::Transformable::setPosition(static_cast<float>(x), static_cast<float>(y));
+}
+
+bool Entity::getCollisionDetected() const
+{
+    return collisionDetected;
+}
+
+void Entity::setCollisionDetected(bool value)
+{
+    collisionDetected = value;
 }
 
 
-
-//sf::Vector2i Entity::getOffset() const
-//{
-//    return offset;
-//}
-
-//void Entity::setOffset(const sf::Vector2i &value)
-//{
-//    offset = value;
-//}
-
-//void Entity::setSprite(const sf::Sprite &value)
-//{
-//    sprite = value;
-//}
-
-//sf::Vector2i Entity::getSize() const
-//{
-//    return size;
-//}
-
-//sf::Texture Entity::getTexture() const
-//{
-//    return texture;
-//}
-
-//void Entity::setTextureRectange(sf::IntRect value)
-//{
-//    sprite.setTextureRect(value);
-//}
 } //namespace BattleCity

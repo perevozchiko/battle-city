@@ -27,6 +27,7 @@ std::string getStringMap(sf::Vector2i map, int numString);
 int charToInt(char ch);
 std::ostream& operator<< (std::ostream &out, const Player &p);
 void print(Player &p);
+sf::IntRect toIntRect(const sf::FloatRect &value);
 
 } //namespace Utils
 } //namespace BattleCity

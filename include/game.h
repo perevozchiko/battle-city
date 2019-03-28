@@ -10,6 +10,7 @@
 #include "tile.h"
 #include "utils.h"
 #include "player.h"
+#include "enemy.h"
 
 namespace BattleCity {
 
@@ -33,8 +34,8 @@ private:
     sf::Texture texture;
     Player player;
 
-    //TODO
-    //    std::vector<Enemy> enemies;
+    Enemy enemy;
+    //std::vector<Enemy> enemies;
 
     std::vector<Tile> tiles;
 
@@ -46,6 +47,8 @@ private:
         sf::Text text;
     };
     FPSInfo fpsInfo;
+
+    RandomGen random;
 };
 } //namespace BattleCity
 

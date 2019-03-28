@@ -29,13 +29,18 @@ const sf::String PATH_IMAGES = "resources/images/sprite.bmp";
 const sf::String PATH_MAPS = "resources/maps/";
 
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
-const float TANK_SPEED = 40.f;
+const int ENEMY_SPEED = 70;
+const int PLAYER_SPEED = 120;
 const sf::Vector2i SIZE_TILE_TANK = {28, 28};
 const sf::Vector2i SIZE_TILE_MAP = {16, 16};
+//Позиция player в начале добавить размер базы
+const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT-SIZE_TILE_TANK.y/2} ;
 
 // Количество элементов на карте по высоте и ширине
 const int MAP_WIDTH = WINDOW_WIDTH / SIZE_TILE_MAP.x;
 const int MAP_HEIGHT = WINDOW_HEIGHT / SIZE_TILE_MAP.y;
+
+
 
 enum class Type
 {
