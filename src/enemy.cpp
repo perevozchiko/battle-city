@@ -15,35 +15,22 @@ void Enemy::changeDirectionMoving()
 {
     RandomGen random;
 
-    switch(random(2,2))
+    switch(random(1,2))
     {
     case 1:
-        if (direction != SET::Direction::LEFT)
-        {
-            setDirection(SET::Direction::LEFT);
-        }
-
+        setDirection(SET::Direction::LEFT);
         break;
+
     case 2:
-        if (direction != SET::Direction::RIGHT)
-        {
-            setDirection(SET::Direction::RIGHT);
-        }
-
+        setDirection(SET::Direction::RIGHT);
         break;
+
     case 3:
-        if (direction != SET::Direction::UP)
-        {
-            setDirection(SET::Direction::UP);
-        }
-
+        setDirection(SET::Direction::UP);
         break;
-    case 4:
-        if (direction != SET::Direction::DOWN)
-        {
-            setDirection(SET::Direction::DOWN);
-        }
 
+    case 4:
+        setDirection(SET::Direction::DOWN);
         break;
     }
 }
@@ -108,7 +95,15 @@ void Enemy::update(const sf::Time &elapsedTime)
         dy = getSpeed();
         break;
     }
-    move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    if (getCollisionDetected() == false)
+    {
+        move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    }
+    else
+    {
+        move(0,0);
+        setCollisionDetected(false);
+    }
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const

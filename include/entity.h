@@ -31,9 +31,13 @@ public:
     void setPosition(const sf::Vector2i &value);
     void setPosition(int x, int y);
 
+    bool getCollisionDetected() const;
+    void setCollisionDetected(bool value);
+
 private:
     sf::Vector2i position;
     int speed;
+    bool collisionDetected {false};
 };
 } //namespace BattleCity
 #endif // ENTITY_H

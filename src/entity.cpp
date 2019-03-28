@@ -1,6 +1,7 @@
 #include "entity.h"
 
 namespace BattleCity {
+
 Entity::Entity(sf::Vector2i _position) :
     position(_position),
     speed(0)
@@ -50,6 +51,16 @@ void Entity::setPosition(const sf::Vector2i &value)
 void Entity::setPosition(int x, int y)
 {
     sf::Transformable::setPosition(static_cast<float>(x), static_cast<float>(y));
+}
+
+bool Entity::getCollisionDetected() const
+{
+    return collisionDetected;
+}
+
+void Entity::setCollisionDetected(bool value)
+{
+    collisionDetected = value;
 }
 
 

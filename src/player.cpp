@@ -69,7 +69,15 @@ void Player::update(const sf::Time &elapsedTime)
     }
     setSpeed(0);
 
-    move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    if(getCollisionDetected() == false)
+    {
+        move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    }
+    else
+    {
+        move(0,0);
+        setCollisionDetected(false);
+    }
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
