@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     src/entity.cpp \
     src/tank.cpp \
     src/utils.cpp \
-    src/tile.cpp
+    src/tile.cpp \
+    src/bullet.cpp
 
 
 HEADERS  += \
@@ -32,6 +33,7 @@ HEADERS  += \
     include/utils.h \
     include/set.h \
     include/tile.h \
+    include/bullet.h \
 
 
 ROOT = $${PWD}/..

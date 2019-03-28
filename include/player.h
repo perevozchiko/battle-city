@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "tank.h"
+
+#include "entity.h"
 
 namespace BattleCity {
 
@@ -25,7 +26,7 @@ public:
     void setDirection(const SET::Direction &value);
 
     sf::Vector2i getSize() const;
-
+    bool shoot{false};
 
 private:
     sf::Vector2i size;

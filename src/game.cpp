@@ -52,6 +52,11 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
 
 }
 
+Game::~Game()
+{
+
+}
+
 
 void Game::run()
 {
@@ -105,6 +110,11 @@ void Game::processEvents()
         }
     }
     player.handleRealTimeInput();
+    if (player.shoot)
+    {
+        bullet.setDirection(player.getDirection());
+        bullet.setPosition(player.getPosition());
+    }
 
 }
 
@@ -115,6 +125,8 @@ void Game::update(const sf::Time &elapsedTime)
     player.adaptPlayerPosition();
     enemy.update(elapsedTime);
     enemy.adaptEnemyPosition();
+    bullet.update(elapsedTime);
+
 
     auto p = player.getGlobalRect();
     auto e = enemy.getGlobalRect();

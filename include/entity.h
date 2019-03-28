@@ -10,6 +10,9 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "set.h"
+#include "utils.h"
+
+
 
 namespace BattleCity {
 
@@ -31,6 +34,7 @@ public:
     void setPosition(const sf::Vector2i &value);
     void setPosition(int x, int y);
 
+    //для коллизий player и enemy
     bool getCollisionDetected() const;
     void setCollisionDetected(bool value);
 

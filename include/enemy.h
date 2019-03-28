@@ -1,8 +1,9 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "tank.h"
+
+#include "entity.h"
 #include "randomgen.h"
-#include "utils.h"
+
 namespace BattleCity {
 
 /** @class

@@ -21,6 +21,7 @@ class Game
 {
 public:
     Game(const sf::String& name, const sf::ContextSettings& settings);
+    ~Game();
 
     void run();
 
@@ -33,10 +34,9 @@ private:
     sf::RenderWindow window;
     sf::Texture texture;
     Player player;
-
     Enemy enemy;
     //std::vector<Enemy> enemies;
-
+    Bullet bullet;
     std::vector<Tile> tiles;
 
     sf::Font font;

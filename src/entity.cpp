@@ -64,4 +64,5 @@ void Entity::setCollisionDetected(bool value)
 }
 
 
+
 } //namespace BattleCity
