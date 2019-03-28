@@ -29,7 +29,8 @@ const sf::String PATH_IMAGES = "resources/images/sprite.bmp";
 const sf::String PATH_MAPS = "resources/maps/";
 
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
-const int TANK_SPEED = 70;
+const int ENEMY_SPEED = 70;
+const int PLAYER_SPEED = 120;
 const sf::Vector2i SIZE_TILE_TANK = {28, 28};
 const sf::Vector2i SIZE_TILE_MAP = {16, 16};
 

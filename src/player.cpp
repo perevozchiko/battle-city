@@ -14,7 +14,7 @@ Player::Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
 
 void Player::setDirection(const SET::Direction &_direction)
 {
-    setSpeed(70);
+    setSpeed(SET::PLAYER_SPEED);
 
     direction = _direction;
     switch (direction)

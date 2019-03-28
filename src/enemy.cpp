@@ -15,7 +15,7 @@ void Enemy::changeDirectionMoving()
 {
     RandomGen random;
 
-    switch(random(1,4))
+    switch(random(2,2))
     {
     case 1:
         if (direction != SET::Direction::LEFT)
@@ -50,7 +50,7 @@ void Enemy::changeDirectionMoving()
 
 void Enemy::setDirection(const SET::Direction &_direction)
 {
-    setSpeed(SET::TANK_SPEED);
+    setSpeed(SET::ENEMY_SPEED);
     direction = _direction;
     switch (direction)
     {

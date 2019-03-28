@@ -129,8 +129,15 @@ void Game::update(const sf::Time &elapsedTime)
             player.setPosition(p.left + p.width/2 - result.width, p.top + p.height/2);
             break;
         case SET::Direction::LEFT:
-            player.setPosition(p.left + p.width/2 + result.width, p.top + p.height/2);
-            // enemy.setPosition(p.left + e.width/2 - result.width, e.top + e.height/2);
+        {
+            player.setPosition(e.left + e.width + p.width/2, p.top + p.height/2);
+            if (enemy.getDirection() == SET::Direction::RIGHT)
+            {
+                enemy.setPosition(p.left - e.width/2, e.top + e.height/2);
+            }
+
+        }
+
             break;
         case SET::Direction::UP:
             player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
