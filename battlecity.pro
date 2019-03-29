@@ -17,7 +17,6 @@ SOURCES += main.cpp \
     src/player.cpp \
     src/enemy.cpp \
     src/entity.cpp \
-    src/tank.cpp \
     src/utils.cpp \
     src/tile.cpp \
     src/bullet.cpp
@@ -28,7 +27,6 @@ HEADERS  += \
     include/player.h \
     include/enemy.h \
     include/entity.h \
-    include/tank.h \
     include/randomgen.h \
     include/utils.h \
     include/set.h \
