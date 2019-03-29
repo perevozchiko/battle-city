@@ -18,7 +18,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     fpsInfo.text.setCharacterSize(SET::FPS_FONT_SIZE);
 
     // чтение данных уровня из файла (int level)
-    std::vector<std::string> map = utils::readFileMap(1);
+    std::vector<std::string> map = utils::readFromFileMap(1);
 
     // Создание тайлов карты
     sf::Vector2i offset;
@@ -33,10 +33,11 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
             if (type != 0)
             {
                 offset = utils::setOffset(type);
-                Tile tile(texture, offset);
-                tile.setType(type);
-                tile.setPosition(static_cast<int>(j) * SET::SIZE_TILE_MAP.x, static_cast<int>(i) * SET::SIZE_TILE_MAP.y);
-                tiles.push_back(tile);
+              //auto b = std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, player.getPosition()));
+                auto t = std::unique_ptr<Tile>(new Tile(texture, offset));
+                t->setType(type);
+                t->setPosition(static_cast<int>(j) * SET::SIZE_TILE_MAP.x, static_cast<int>(i) * SET::SIZE_TILE_MAP.y);
+                tiles.push_back(std::move(t));
             }
         }
     }
@@ -91,25 +92,23 @@ void Game::run()
                 bullets.push_back(std::move(b));
                 player.shoot = false;
             }
-
         }
-        //        enemyBulletTime += elapsedTime;
-        //        if (enemyBulletTime.asSeconds() > 1.f)
-        //        {
-        //            while(enemyBulletTime > SET::TIME_PER_FRAME)
-        //            {
-        //                enemyBulletTime -= SET::TIME_PER_FRAME;
-        //            }
-        //            Bullet bullet(texture, {1, 352}, enemy.getPosition());
-        //            bullet.setDirection(enemy.getDirection());
-        //            bullets.push_back(bullet);
-        //        }
+        enemyBulletTime += elapsedTime;
+        if (enemyBulletTime.asSeconds() > 1.f)
+        {
+            while(enemyBulletTime > SET::TIME_PER_FRAME)
+            {
+                enemyBulletTime -= SET::TIME_PER_FRAME;
+            }
+            auto b = std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, enemy.getPosition()));
+            b->setDirection(enemy.getDirection());
+            bullets.push_back(std::move(b));
+        }
 
         updateFPS(elapsedTime);
         render();
     }
 }
-
 
 void Game::processEvents()
 {
@@ -144,6 +143,7 @@ void Game::update(const sf::Time &elapsedTime)
     auto e = enemy.getGlobalRect();
 
     //Коллизии bullet
+    // со стенками окна и с тайлами карты
     for (const auto& bullet : bullets)
     {
         auto b = bullet->getGlobalRect();
@@ -151,12 +151,25 @@ void Game::update(const sf::Time &elapsedTime)
         {
             bullet->setRemoved(true);
         }
-    }
 
-    auto it = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c) {
-            return c->getRemoved();
-    });
-    bullets.erase(it, bullets.end());
+        for (const auto& tile : tiles)
+        {
+            auto t = utils::toIntRect(tile->getGlobalRect());
+
+            if(t.intersects(b))
+            {
+                if(tile->getType() == SET::Tile::Brick)
+                {
+                    tile->setRemoved(true);
+                    bullet->setRemoved(true);
+                }
+                if(tile->getType() == SET::Tile::Concrete)
+                {
+                    bullet->setRemoved(true);
+                }
+            }
+        }
+    }
 
     // TODO Enemy with Player
     sf::IntRect result;
@@ -219,9 +232,9 @@ void Game::update(const sf::Time &elapsedTime)
     // Коллизии Player
     for(auto &tile : tiles)
     {
-        if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
+        if (tile->getType() != SET::Tile::Ice && tile->getType() != SET::Tile::Shrub)
         {
-            auto r = utils::toIntRect(tile.getGlobalRect());
+            auto r = utils::toIntRect(tile->getGlobalRect());
             sf::IntRect result;
 
             if(p.intersects(r, result))
@@ -239,21 +252,19 @@ void Game::update(const sf::Time &elapsedTime)
                     break;
                 case SET::Direction::DOWN:
                     player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
-
                     break;
-
                 }
             }
         }
     }
 
     // Коллизии Enemy
-    for(auto &tile : tiles)
+    for(const auto& tile : tiles)
     {
-        if (tile.getType() != SET::Tile::Ice && tile.getType() != SET::Tile::Shrub)
+        if (tile->getType() != SET::Tile::Ice && tile->getType() != SET::Tile::Shrub)
         {
             sf::IntRect result;
-            auto r = utils::toIntRect(tile.getGlobalRect());
+            auto r = utils::toIntRect(tile->getGlobalRect());
 
             if(e.intersects(r, result))
             {
@@ -276,6 +287,20 @@ void Game::update(const sf::Time &elapsedTime)
         }
     }
 
+
+    // удаление Bullets
+    auto it = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
+    {
+        return c->getRemoved();
+    });
+    bullets.erase(it, bullets.end());
+
+    // удаление тайлов карты
+    auto itTile = std::remove_if(tiles.begin(), tiles.end(), [](const std::unique_ptr<Tile>& c)
+    {
+        return c->getRemoved();
+    });
+    tiles.erase(itTile, tiles.end());
 }
 
 void Game::render()
@@ -289,9 +314,9 @@ void Game::render()
 
     for (auto &tile : tiles)
     {
-        if (tile.getType() == SET::Tile::Ice)
+        if (tile->getType() == SET::Tile::Ice)
         {
-            window.draw(tile);
+            window.draw(*tile);
         }
     }
 
@@ -300,9 +325,9 @@ void Game::render()
 
     for (auto &tile : tiles)
     {
-        if (tile.getType() != SET::Tile::Ice)
+        if (tile->getType() != SET::Tile::Ice)
         {
-            window.draw(tile);
+            window.draw(*tile);
         }
     }
     window.draw(fpsInfo.text);

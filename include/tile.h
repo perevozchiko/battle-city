@@ -12,7 +12,7 @@ namespace BattleCity {
 class Tile : public Entity
 {
 public:
-    Tile() = delete;
+    Tile() = default;
     Tile(const sf::Texture &texture, sf::Vector2i _offset);
 
     void update(const sf::Time& elapsedTime) override;
@@ -22,11 +22,15 @@ public:
     SET::Tile getType() const;
     void setType(const int &value);
 
+    bool getRemoved() const;
+    void setRemoved(bool value);
+
 private:
     sf::Sprite sprite;
     sf::Vector2i offset;
     sf::Vector2i size;
     SET::Tile type;
+    bool removed{false};
 };
 
 } //namespace BattleCity

@@ -53,6 +53,16 @@ void Tile::setType(const int &value)
     }
 }
 
+bool Tile::getRemoved() const
+{
+    return removed;
+}
+
+void Tile::setRemoved(bool value)
+{
+    removed = value;
+}
+
 sf::FloatRect Tile::getGlobalRect() const
 {
     auto pos = getPosition();

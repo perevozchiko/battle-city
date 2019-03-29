@@ -10,7 +10,7 @@ bool equalFloat(float x, float y)
     return std::fabs(x - y) <= std::numeric_limits<float>::epsilon()*maxXYOne;
 }
 
-std::vector<std::string> readFileMap(const int level)
+std::vector<std::string> readFromFileMap(const int level)
 {
     std::vector<std::string> map;
     std::string levelStr = std::to_string(level);

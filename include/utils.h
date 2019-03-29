@@ -22,7 +22,7 @@ namespace utils {
  */
 bool equalFloat(float x, float y);
 
-std::vector<std::string> readFileMap(const int level);
+std::vector<std::string> readFromFileMap(const int level);
 sf::Vector2i setOffset(int type);
 std::string getStringMap(sf::Vector2i map, int numString);
 int charToInt(char ch);

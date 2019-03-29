@@ -39,7 +39,7 @@ private:
     Player player;
     Enemy enemy;
     //std::vector<Enemy> enemies;
-    std::vector<Tile> tiles;
+    std::vector<std::unique_ptr<Tile>> tiles;
     std::vector<std::unique_ptr<Bullet>> bullets;
 
     sf::Font font;
