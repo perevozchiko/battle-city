@@ -13,6 +13,7 @@ class Player : public Entity
 public:
     Player() = delete;
     Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
+    ~Player() override;
 
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -28,10 +29,14 @@ public:
     sf::Vector2i getSize() const;
     bool shoot{false};
 
+    bool getRemoved() const;
+    void setRemoved(bool value);
+
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
     SET::Direction direction;
+    bool removed{false};
 };
 } //namespace BattleCity
 #endif // PLAYER_H

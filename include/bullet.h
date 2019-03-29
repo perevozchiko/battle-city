@@ -22,11 +22,16 @@ public:
     bool getRemoved() const;
     void setRemoved(bool value);
 
+    SET::bulletType getType() const;
+    void setType(const SET::bulletType &value);
+
 private:
     sf::Sprite sprite;
     SET::Direction direction;
     sf::Vector2i size;
     bool removed{false};
+    SET::bulletType type;
+
 
 };
 } //namespace BattleCity

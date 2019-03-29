@@ -84,6 +84,16 @@ void Bullet::setRemoved(bool value)
     removed = value;
 }
 
+SET::bulletType Bullet::getType() const
+{
+    return type;
+}
+
+void Bullet::setType(const SET::bulletType &value)
+{
+    type = value;
+}
+
 sf::IntRect Bullet::getGlobalRect() const
 {
     sf::Vector2i pos = getPosition();

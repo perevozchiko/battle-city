@@ -37,10 +37,10 @@ private:
     sf::RenderWindow window;
     sf::Texture texture;
     Player player;
-    Enemy enemy;
-    //std::vector<Enemy> enemies;
+
     std::vector<std::unique_ptr<Tile>> tiles;
     std::vector<std::unique_ptr<Bullet>> bullets;
+    std::vector<std::unique_ptr<Enemy>> enemies;
 
     sf::Font font;
     struct FPSInfo

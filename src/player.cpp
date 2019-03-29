@@ -5,12 +5,17 @@ namespace BattleCity {
 
 Player::Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
     Entity(position),
-    size(SET::SIZE_TILE_TANK),
+    size(SET::SIZE_TILE_PLAYER),
     direction(SET::Direction::UP)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
+}
+
+Player::~Player()
+{
+
 }
 
 void Player::setDirection(const SET::Direction &_direction)
@@ -38,6 +43,16 @@ void Player::setDirection(const SET::Direction &_direction)
 sf::Vector2i Player::getSize() const
 {
     return size;
+}
+
+bool Player::getRemoved() const
+{
+    return removed;
+}
+
+void Player::setRemoved(bool value)
+{
+    removed = value;
 }
 
 SET::Direction Player::getDirection() const

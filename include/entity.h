@@ -28,7 +28,7 @@ public:
     virtual void update(const sf::Time &elapsedTime) = 0;
 
     int getSpeed() const;
-    void setSpeed(int value);
+    void setSpeed(const int &value);
     sf::Vector2i adaptPosition();
     sf::Vector2i getPosition() const;
     void setPosition(const sf::Vector2i &value);

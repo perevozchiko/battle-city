@@ -14,6 +14,7 @@ class Enemy : public Entity
 public:
     Enemy();
     Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
+    ~Enemy() override;
 
     void changeDirectionMoving();
     void update(const sf::Time& elapsedTime) override;
@@ -26,10 +27,16 @@ public:
 
     SET::Direction getDirection() const;
 
+    void setTexture(const sf::Texture &texture, sf::Vector2i offset);
+
+    int getRemoved() const;
+    void setRemoved(int value);
+
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
     SET::Direction direction;
+    int removed{false};
     //RandomGen random;
 };
 } //namespace BattleCity

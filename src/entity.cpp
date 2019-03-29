@@ -2,6 +2,11 @@
 
 namespace BattleCity {
 
+Entity::Entity()
+{
+
+}
+
 Entity::Entity(sf::Vector2i _position) :
     position(_position),
     speed(0)
@@ -19,7 +24,7 @@ int Entity::getSpeed() const
     return speed;
 }
 
-void Entity::setSpeed(int value)
+void Entity::setSpeed(const int &value)
 {
     speed = value;
 }
@@ -28,10 +33,10 @@ sf::Vector2i Entity::adaptPosition()
 {
     sf::Vector2i position = getPosition();
 
-    position.x = std::max(position.x, SET::SIZE_TILE_TANK.x/2);
-    position.x = std::min(position.x, (SET::WINDOW_WIDTH - SET::SIZE_TILE_TANK.x/2));
-    position.y = std::max(position.y, (SET::SIZE_TILE_TANK.y/2));
-    position.y = std::min(position.y, (SET::WINDOW_HEIGHT - SET::SIZE_TILE_TANK.y/2));
+    position.x = std::max(position.x, SET::SIZE_TILE_PLAYER.x/2);
+    position.x = std::min(position.x, (SET::WINDOW_WIDTH - SET::SIZE_TILE_PLAYER.x/2));
+    position.y = std::max(position.y, (SET::SIZE_TILE_PLAYER.y/2));
+    position.y = std::min(position.y, (SET::WINDOW_HEIGHT - SET::SIZE_TILE_PLAYER.y/2));
 
     return position;
 }

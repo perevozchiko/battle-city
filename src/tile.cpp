@@ -63,10 +63,11 @@ void Tile::setRemoved(bool value)
     removed = value;
 }
 
-sf::FloatRect Tile::getGlobalRect() const
+sf::IntRect Tile::getGlobalRect() const
 {
-    auto pos = getPosition();
-    auto r = sprite.getGlobalBounds();
+    sf::Vector2i pos = getPosition();
+    sf::IntRect r = utils::toIntRect(sprite.getGlobalBounds());
+
     r.left = pos.x;
     r.top = pos.y;
     return r;

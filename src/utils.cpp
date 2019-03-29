@@ -90,5 +90,21 @@ sf::IntRect toIntRect(const sf::FloatRect &value)
     return r;
 }
 
+sf::Vector2i getEnemyType(const int &value)
+{
+    SET::EnemyType i = static_cast<SET::EnemyType>(value);
+    switch(i)
+    {
+    case SET::EnemyType::Simple:
+        return {3, 426};// size 26x30
+    case SET::EnemyType::LongLived:
+        return {3, 810};// size 26x30
+    case SET::EnemyType::QuickFiring:
+        return {3, 682};// size 26x30
+    case SET::EnemyType::QuickMoving:
+        return {3, 554};// size 26x30
+    }
+}
+
 } //namespace utils
 } //namespace BattleCity
