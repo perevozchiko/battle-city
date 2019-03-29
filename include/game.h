@@ -11,6 +11,9 @@
 #include "utils.h"
 #include "player.h"
 #include "enemy.h"
+#include "bullet.h"
+
+#include <memory>
 
 namespace BattleCity {
 
@@ -21,6 +24,7 @@ class Game
 {
 public:
     Game(const sf::String& name, const sf::ContextSettings& settings);
+    ~Game();
 
     void run();
 
@@ -34,10 +38,9 @@ private:
     sf::Texture texture;
     Player player;
 
-    Enemy enemy;
-    //std::vector<Enemy> enemies;
-
-    std::vector<Tile> tiles;
+    std::vector<std::unique_ptr<Tile>> tiles;
+    std::vector<std::unique_ptr<Bullet>> bullets;
+    std::vector<std::unique_ptr<Enemy>> enemies;
 
     sf::Font font;
     struct FPSInfo

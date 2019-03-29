@@ -10,6 +10,9 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "set.h"
+#include "utils.h"
+
+
 
 namespace BattleCity {
 
@@ -25,12 +28,13 @@ public:
     virtual void update(const sf::Time &elapsedTime) = 0;
 
     int getSpeed() const;
-    void setSpeed(int value);
+    void setSpeed(const int &value);
     sf::Vector2i adaptPosition();
     sf::Vector2i getPosition() const;
     void setPosition(const sf::Vector2i &value);
     void setPosition(int x, int y);
 
+    //для коллизий player и enemy
     bool getCollisionDetected() const;
     void setCollisionDetected(bool value);
 

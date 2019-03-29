@@ -1,14 +1,24 @@
 #include "enemy.h"
 namespace BattleCity {
 
+Enemy::Enemy()
+{
+
+}
+
 Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
     Entity(position),
-    size(SET::SIZE_TILE_TANK),
+    size(SET::SIZE_TILE_ENEMY),
     direction(SET::Direction::DOWN)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
+}
+
+Enemy::~Enemy()
+{
+
 }
 
 void Enemy::changeDirectionMoving()
@@ -136,4 +146,20 @@ SET::Direction Enemy::getDirection() const
     return direction;
 }
 
+void Enemy::setTexture(const sf::Texture &texture, sf::Vector2i offset)
+{
+    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect(offset, SET::SIZE_TILE_ENEMY));
+    sprite.setOrigin(SET::SIZE_TILE_ENEMY.x/2, SET::SIZE_TILE_ENEMY.y/2);
+}
+
+int Enemy::getRemoved() const
+{
+    return removed;
+}
+
+void Enemy::setRemoved(int value)
+{
+    removed = value;
+}
 } //namespace BattleCity

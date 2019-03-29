@@ -31,17 +31,18 @@ const sf::String PATH_MAPS = "resources/maps/";
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
 const int ENEMY_SPEED = 70;
 const int PLAYER_SPEED = 120;
-const sf::Vector2i SIZE_TILE_TANK = {28, 28};
+const int BULLET_SPEED = 240;
+const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
+const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
+const int MAX_NUM_ENEMY = 4;
+const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
 const sf::Vector2i SIZE_TILE_MAP = {16, 16};
 //Позиция player в начале добавить размер базы
-const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT-SIZE_TILE_TANK.y/2} ;
+const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT-SIZE_TILE_PLAYER.y/2} ;
 
 // Количество элементов на карте по высоте и ширине
 const int MAP_WIDTH = WINDOW_WIDTH / SIZE_TILE_MAP.x;
 const int MAP_HEIGHT = WINDOW_HEIGHT / SIZE_TILE_MAP.y;
-
-
-
 enum class Type
 {
     Player = 0,
@@ -81,6 +82,11 @@ enum class Tile {
     Shrub,
     Ice,
     Water
+};
+
+enum class bulletType {
+    Player,
+    Enemy
 };
 } //namespace SET
 } //namespace BattleCity

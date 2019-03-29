@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++14 -Wall -Wextra -pedantic
+
 TARGET = battlecity
 TEMPLATE = app
 
@@ -17,9 +19,9 @@ SOURCES += main.cpp \
     src/player.cpp \
     src/enemy.cpp \
     src/entity.cpp \
-    src/tank.cpp \
     src/utils.cpp \
-    src/tile.cpp
+    src/tile.cpp \
+    src/bullet.cpp
 
 
 HEADERS  += \
@@ -27,11 +29,11 @@ HEADERS  += \
     include/player.h \
     include/enemy.h \
     include/entity.h \
-    include/tank.h \
     include/randomgen.h \
     include/utils.h \
     include/set.h \
     include/tile.h \
+    include/bullet.h \
 
 
 ROOT = $${PWD}/..

@@ -10,7 +10,7 @@ bool equalFloat(float x, float y)
     return std::fabs(x - y) <= std::numeric_limits<float>::epsilon()*maxXYOne;
 }
 
-std::vector<std::string> readFileMap(const int level)
+std::vector<std::string> readFromFileMap(const int level)
 {
     std::vector<std::string> map;
     std::string levelStr = std::to_string(level);
@@ -66,19 +66,19 @@ int charToInt(char ch)
     return ch - '0';
 }
 
-std::ostream& operator<< (std::ostream &out, const Player &p)
-{
-    out << p.getPosition().x;
-    return out;
-}
+//std::ostream& operator<< (std::ostream &out, const Player &p)
+//{
+//    out << p.getPosition().x;
+//    return out;
+//}
 
-void print(Player &player)
-{
-    auto p = player.getGlobalRect();
-    std::cout << "Player - Нижняя левая : [ "<< std::round(p.top + p.height) << " " << std::round(p.left) << " ]" << std::endl;
-    std::cout << "Player - Верхняя левая : [ "<< std::round(p.top) << " " << std::round(p.left) << " ]" << std::endl;
+//void print(Player &player)
+//{
+//    auto p = player.getGlobalRect();
+//    std::cout << "Player - Нижняя левая : [ "<< std::round(p.top + p.height) << " " << std::round(p.left) << " ]" << std::endl;
+//    std::cout << "Player - Верхняя левая : [ "<< std::round(p.top) << " " << std::round(p.left) << " ]" << std::endl;
 
-}
+//}
 
 sf::IntRect toIntRect(const sf::FloatRect &value)
 {
@@ -88,6 +88,22 @@ sf::IntRect toIntRect(const sf::FloatRect &value)
     r.width = static_cast<int>(std::round(value.width));
     r.height = static_cast<int>(std::round(value.height));
     return r;
+}
+
+sf::Vector2i getEnemyType(const int &value)
+{
+    SET::EnemyType i = static_cast<SET::EnemyType>(value);
+    switch(i)
+    {
+    case SET::EnemyType::Simple:
+        return {3, 426};// size 26x30
+    case SET::EnemyType::LongLived:
+        return {3, 810};// size 26x30
+    case SET::EnemyType::QuickFiring:
+        return {3, 682};// size 26x30
+    case SET::EnemyType::QuickMoving:
+        return {3, 554};// size 26x30
+    }
 }
 
 } //namespace utils
