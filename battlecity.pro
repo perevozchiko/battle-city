@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++14 -Wall -Wextra -pedantic
+
 TARGET = battlecity
 TEMPLATE = app
 

@@ -13,6 +13,8 @@
 #include "enemy.h"
 #include "bullet.h"
 
+#include <memory>
+
 namespace BattleCity {
 
 /** @class
@@ -38,7 +40,7 @@ private:
     Enemy enemy;
     //std::vector<Enemy> enemies;
     std::vector<Tile> tiles;
-    std::vector<Bullet*> bullets;
+    std::vector<std::unique_ptr<Bullet>> bullets;
 
     sf::Font font;
     struct FPSInfo

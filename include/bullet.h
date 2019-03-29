@@ -8,9 +8,9 @@ namespace BattleCity  {
 class Bullet : public Entity
 {
 public:
-    Bullet() = delete;
+    Bullet() = default;
     Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
-    ~Bullet();
+    ~Bullet() override;
 
     SET::Direction getDirection() const;
     void setDirection(const SET::Direction &value);
