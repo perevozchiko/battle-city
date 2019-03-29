@@ -13,7 +13,7 @@ Bullet::Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
 
 Bullet::~Bullet()
 {
-    std::cout << int(direction) << std::endl;
+
 }
 
 SET::Direction Bullet::getDirection() const
