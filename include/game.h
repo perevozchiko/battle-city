@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "player.h"
 #include "enemy.h"
+#include "bullet.h"
 
 namespace BattleCity {
 
@@ -36,8 +37,8 @@ private:
     Player player;
     Enemy enemy;
     //std::vector<Enemy> enemies;
-    Bullet bullet;
     std::vector<Tile> tiles;
+    std::vector<Bullet> bullets;
 
     sf::Font font;
     struct FPSInfo

@@ -8,8 +8,8 @@ namespace BattleCity  {
 class Bullet : public Entity
 {
 public:
-    Bullet();
-    Bullet(sf::Vector2i _position, SET::Direction _direction);
+    Bullet() = delete;
+    Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
 
     SET::Direction getDirection() const;
     void setDirection(const SET::Direction &value);
@@ -20,17 +20,13 @@ public:
     bool getVisible() const;
     void setVisible(bool value);
 
-    int getSpeed() const;
-    void setSpeed(int value);
 
-    sf::Vector2i getPosition() const;
-    void setPosition(const sf::Vector2i &value);
 
 private:
+    sf::Sprite sprite;
     SET::Direction direction;
+    sf::Vector2i size;
     bool visible;
-    sf::Vector2i position;
-    int speed;
 };
 } //namespace BattleCity
 

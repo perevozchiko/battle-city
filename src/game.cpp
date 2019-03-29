@@ -5,8 +5,9 @@ namespace BattleCity {
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {2,4}, {SET::PLAYER_POSITION}),
-    enemy(texture, {290,810}, {14, 14})
+    player(texture, {2, 4}, {SET::PLAYER_POSITION}),
+    enemy(texture, {290, 810}, {14, 14})
+
 {
     texture.loadFromFile(SET::PATH_IMAGES);
 
@@ -110,22 +111,28 @@ void Game::processEvents()
         }
     }
     player.handleRealTimeInput();
-    if (player.shoot)
-    {
-        bullet.setDirection(player.getDirection());
-        bullet.setPosition(player.getPosition());
-    }
-
 }
 
 void Game::update(const sf::Time &elapsedTime)
 {
 
+    if (player.shoot)
+    {
+        Bullet bullet(texture, {1, 352}, player.getPosition());
+        bullet.setDirection(player.getDirection());
+        //bullet.setPosition(player.getPosition());
+        bullets.push_back(bullet);
+    }
     player.update(elapsedTime);
     player.adaptPlayerPosition();
     enemy.update(elapsedTime);
     enemy.adaptEnemyPosition();
-    bullet.update(elapsedTime);
+
+    for(auto bullet : bullets)
+    {
+        bullet.update(elapsedTime);
+    }
+
 
 
     auto p = player.getGlobalRect();
@@ -255,7 +262,13 @@ void Game::render()
     window.clear();
 
 
-window.draw(bullet.sprite);
+    for(auto bullet : bullets)
+    {
+        window.draw(bullet);
+    }
+
+
+
     for (auto &tile : tiles)
     {
         if (tile.getType() == SET::Tile::Ice)
