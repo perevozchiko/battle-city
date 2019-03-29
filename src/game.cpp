@@ -41,7 +41,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
         }
     }
 
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < SET::MAX_NUM_ENEMY; ++i)
     {
         auto en = std::unique_ptr<Enemy>(new Enemy());
         sf::Vector2i offset = utils::getEnemyType(i);
@@ -86,7 +86,7 @@ void Game::run()
                 std::size_t i = static_cast<std::size_t>(random(0, static_cast<int>(enemies.size()-1)));
                 enemies[i]->changeDirectionMoving();
             }
-            if (enemies.size() < 3)
+            if (enemies.size() < SET::MAX_NUM_ENEMY)
             {
                 std::size_t i = static_cast<std::size_t>(random(0, 3));
                 auto en = std::unique_ptr<Enemy>(new Enemy());

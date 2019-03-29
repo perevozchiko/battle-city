@@ -34,6 +34,7 @@ const int PLAYER_SPEED = 120;
 const int BULLET_SPEED = 240;
 const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
 const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
+const int MAX_NUM_ENEMY = 4;
 const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
 const sf::Vector2i SIZE_TILE_MAP = {16, 16};
 //Позиция player в начале добавить размер базы
