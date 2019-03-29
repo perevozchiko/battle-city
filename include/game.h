@@ -38,7 +38,7 @@ private:
     Enemy enemy;
     //std::vector<Enemy> enemies;
     std::vector<Tile> tiles;
-    std::vector<Bullet> bullets;
+    std::vector<Bullet*> bullets;
 
     sf::Font font;
     struct FPSInfo

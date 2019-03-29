@@ -11,6 +11,11 @@ Bullet::Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
     sprite.setOrigin(size.x/2, size.y/2);
 }
 
+Bullet::~Bullet()
+{
+    std::cout << int(direction) << std::endl;
+}
+
 SET::Direction Bullet::getDirection() const
 {
     return direction;
@@ -67,6 +72,16 @@ void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
     target.draw(sprite, states);
+}
+
+bool Bullet::getRemoved() const
+{
+    return removed;
+}
+
+void Bullet::setRemoved(bool value)
+{
+    removed = value;
 }
 
 sf::IntRect Bullet::getGlobalRect() const

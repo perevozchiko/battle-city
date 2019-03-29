@@ -80,30 +80,30 @@ void Game::run()
         bulletTime += elapsedTime;
         if (player.shoot)
         {
-            if (bulletTime.asSeconds() > 0.3f)
+            if (bulletTime.asSeconds() > 0.2f)
             {
                 while(bulletTime > SET::TIME_PER_FRAME)
                 {
                     bulletTime -= SET::TIME_PER_FRAME;
                 }
-                Bullet bullet(texture, {1, 352}, player.getPosition());
-                bullet.setDirection(player.getDirection());
+                auto bullet = new Bullet(texture, {1, 352}, player.getPosition());
+                bullet->setDirection(player.getDirection());
                 bullets.push_back(bullet);
                 player.shoot = false;
             }
 
         }
-        enemyBulletTime += elapsedTime;
-        if (enemyBulletTime.asSeconds() > 1.f)
-        {
-            while(enemyBulletTime > SET::TIME_PER_FRAME)
-            {
-                enemyBulletTime -= SET::TIME_PER_FRAME;
-            }
-            Bullet bullet(texture, {1, 352}, enemy.getPosition());
-            bullet.setDirection(enemy.getDirection());
-            bullets.push_back(bullet);
-        }
+        //        enemyBulletTime += elapsedTime;
+        //        if (enemyBulletTime.asSeconds() > 1.f)
+        //        {
+        //            while(enemyBulletTime > SET::TIME_PER_FRAME)
+        //            {
+        //                enemyBulletTime -= SET::TIME_PER_FRAME;
+        //            }
+        //            Bullet bullet(texture, {1, 352}, enemy.getPosition());
+        //            bullet.setDirection(enemy.getDirection());
+        //            bullets.push_back(bullet);
+        //        }
 
         updateFPS(elapsedTime);
         render();
@@ -135,9 +135,9 @@ void Game::update(const sf::Time &elapsedTime)
     enemy.update(elapsedTime);
     enemy.adaptEnemyPosition();
 
-    for(auto &bullet : bullets)
+    for(auto bullet : bullets)
     {
-        bullet.update(elapsedTime);
+        bullet->update(elapsedTime);
 
     }
 
@@ -145,14 +145,23 @@ void Game::update(const sf::Time &elapsedTime)
     auto e = enemy.getGlobalRect();
 
     //Коллизии bullet
-    for (auto &bullet : bullets)
+    for (auto bullet : bullets)
     {
-     auto b = bullet.getGlobalRect();
+        auto b = bullet->getGlobalRect();
         if(b.top < 0 || b.left < 0 || (b.top + b.height > SET::WINDOW_HEIGHT) || (b.left + b.width > SET::WINDOW_WIDTH) )
         {
-            delete &bullet;
+            bullet->setRemoved(true);
         }
     }
+
+
+    auto it = std::stable_partition(bullets.begin(), bullets.end(), [](Bullet* c) {
+
+            return c->getRemoved();
+    });
+
+    std::for_each(bullets.begin(), it, [](Bullet* pi){ delete pi; });
+    bullets.erase(bullets.begin(), it);
 
     // TODO Enemy with Player
     sf::IntRect result;
@@ -278,9 +287,9 @@ void Game::render()
 {
     window.clear();
 
-    for(auto &bullet : bullets)
+    for(auto bullet : bullets)
     {
-        window.draw(bullet);
+        window.draw(*bullet);
     }
 
     for (auto &tile : tiles)
