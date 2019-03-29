@@ -135,5 +135,4 @@ SET::Direction Enemy::getDirection() const
 {
     return direction;
 }
-
 } //namespace BattleCity

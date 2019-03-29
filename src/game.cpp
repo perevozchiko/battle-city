@@ -40,17 +40,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
             }
         }
     }
-
-
-
-    //    for (std::size_t i = 0; i < 3; i++)
-    //    {
-    //        sf::Vector2f pos = {SET::WINDOW_WIDTH * i/2 + (i%2) * 16.f, 16.f};
-    //        enemies[i].getSprite().setTexture(texture);
-    //        enemies[i].getSprite().setTextureRect(sf::IntRect(204,809,32,32));
-    //        enemies[i].changeDirectionMoving();
-    //    }
-
 }
 
 Game::~Game()
@@ -58,35 +47,62 @@ Game::~Game()
 
 }
 
-
 void Game::run()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time enemyTime = sf::Time::Zero;
+    sf::Time bulletTime = sf::Time::Zero;
+    sf::Time enemyBulletTime = sf::Time::Zero;
 
     while (window.isOpen())
     {
+        //window.setKeyRepeatEnabled (true);
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
-        while (timeSinceLastUpdate > SET::TIME_PER_FRAME)
-        {
-            timeSinceLastUpdate -= SET::TIME_PER_FRAME;
-
-            processEvents();
-            update(SET::TIME_PER_FRAME);
-        }
         enemyTime += elapsedTime;
-
         if (enemyTime.asSeconds() > 2)
         {
             while (enemyTime > SET::TIME_PER_FRAME)
             {
                 enemyTime -= SET::TIME_PER_FRAME;
             }
-            //std::size_t i = static_cast<std::size_t>(random(0, enemies.size()));
-
             enemy.changeDirectionMoving();
+        }
+
+        while (timeSinceLastUpdate > SET::TIME_PER_FRAME)
+        {
+            timeSinceLastUpdate -= SET::TIME_PER_FRAME;
+            processEvents();
+            update(SET::TIME_PER_FRAME);
+        }
+
+        bulletTime += elapsedTime;
+        if (player.shoot)
+        {
+            if (bulletTime.asSeconds() > 0.3f)
+            {
+                while(bulletTime > SET::TIME_PER_FRAME)
+                {
+                    bulletTime -= SET::TIME_PER_FRAME;
+                }
+                Bullet bullet(texture, {1, 352}, player.getPosition());
+                bullet.setDirection(player.getDirection());
+                bullets.push_back(bullet);
+                player.shoot = false;
+            }
+
+        }
+        enemyBulletTime += elapsedTime;
+        if (enemyBulletTime.asSeconds() > 1.f)
+        {
+            while(enemyBulletTime > SET::TIME_PER_FRAME)
+            {
+                enemyBulletTime -= SET::TIME_PER_FRAME;
+            }
+            Bullet bullet(texture, {1, 352}, enemy.getPosition());
+            bullet.setDirection(enemy.getDirection());
+            bullets.push_back(bullet);
         }
 
         updateFPS(elapsedTime);
@@ -105,7 +121,6 @@ void Game::processEvents()
         case sf::Event::Closed:
             window.close();
             break;
-
         default:
             break;
         }
@@ -115,29 +130,31 @@ void Game::processEvents()
 
 void Game::update(const sf::Time &elapsedTime)
 {
-
-    if (player.shoot)
-    {
-        Bullet bullet(texture, {1, 352}, player.getPosition());
-        bullet.setDirection(player.getDirection());
-        //bullet.setPosition(player.getPosition());
-        bullets.push_back(bullet);
-    }
     player.update(elapsedTime);
     player.adaptPlayerPosition();
     enemy.update(elapsedTime);
     enemy.adaptEnemyPosition();
 
-    for(auto bullet : bullets)
+    for(auto &bullet : bullets)
     {
         bullet.update(elapsedTime);
+
     }
-
-
 
     auto p = player.getGlobalRect();
     auto e = enemy.getGlobalRect();
-    //enemy.setCollisionDetected(false);
+
+    //Коллизии bullet
+    for (auto &bullet : bullets)
+    {
+     auto b = bullet.getGlobalRect();
+        if(b.top < 0 || b.left < 0 || (b.top + b.height > SET::WINDOW_HEIGHT) || (b.left + b.width > SET::WINDOW_WIDTH) )
+        {
+            delete &bullet;
+        }
+    }
+
+    // TODO Enemy with Player
     sf::IntRect result;
     if (e.intersects(p, result))
     {
@@ -261,13 +278,10 @@ void Game::render()
 {
     window.clear();
 
-
-    for(auto bullet : bullets)
+    for(auto &bullet : bullets)
     {
         window.draw(bullet);
     }
-
-
 
     for (auto &tile : tiles)
     {
@@ -279,16 +293,6 @@ void Game::render()
 
     window.draw(player);
     window.draw(enemy);
-    //    for (auto& enemy : enemies)
-    //    {
-    //        window.draw(enemy.getSprite());
-    //    }
-
-
-    //    for (auto& _tile : tiles)
-    //    {
-    //        window.draw(_tile.getSprite());
-    //    }
 
     for (auto &tile : tiles)
     {

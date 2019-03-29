@@ -104,6 +104,10 @@ void Player::handleRealTimeInput()
     {
         shoot = true;
     }
+    else
+    {
+        shoot = false;
+    }
 }
 
 sf::IntRect Player::getGlobalRect() const

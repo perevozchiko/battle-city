@@ -4,14 +4,12 @@ namespace BattleCity {
 Bullet::Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position) :
     Entity(position),
     direction(SET::Direction::UP),
-    size(SET::SIZE_TILE_BULLET),
-    visible(true)
+    size(SET::SIZE_TILE_BULLET)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
 }
-
 
 SET::Direction Bullet::getDirection() const
 {
@@ -65,20 +63,24 @@ void Bullet::update(const sf::Time &elapsedTime)
     move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
 }
 
-bool Bullet::getVisible() const
-{
-    return visible;
-}
-
-void Bullet::setVisible(bool value)
-{
-    visible = value;
-}
-
 void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-        states.transform *= getTransform();
-        target.draw(sprite, states);
+    states.transform *= getTransform();
+    target.draw(sprite, states);
 }
 
+sf::IntRect Bullet::getGlobalRect() const
+{
+    sf::Vector2i pos = getPosition();
+    sf::IntRect r =
+    {
+        int(std::round(sprite.getGlobalBounds().left)),
+        int(std::round(sprite.getGlobalBounds().top)),
+        int(std::round(sprite.getGlobalBounds().width)),
+        int(std::round(sprite.getGlobalBounds().height))
+    };
+    r.left = pos.x - r.width/2;
+    r.top = pos.y - r.height/2;
+    return r;
+}
 } //namespace BattleCity
