@@ -255,7 +255,7 @@ void Game::render()
     window.clear();
 
 
-
+window.draw(bullet.sprite);
     for (auto &tile : tiles)
     {
         if (tile.getType() == SET::Tile::Ice)
