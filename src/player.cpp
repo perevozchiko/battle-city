@@ -5,8 +5,8 @@ namespace BattleCity {
 
 Player::Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
     Entity(position),
-    size(SET::SIZE_TILE_PLAYER),
-    direction(SET::Direction::UP)
+    size(SETTINGS::SIZE_TILE_PLAYER),
+    direction(SETTINGS::Direction::UP)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
@@ -18,23 +18,23 @@ Player::~Player()
 
 }
 
-void Player::setDirection(const SET::Direction &_direction)
+void Player::setDirection(const SETTINGS::Direction &_direction)
 {
-    setSpeed(SET::PLAYER_SPEED);
+    setSpeed(SETTINGS::PLAYER_SPEED);
 
     direction = _direction;
     switch (direction)
     {
-    case SET::Direction::LEFT:
+    case SETTINGS::Direction::LEFT:
         setRotation(-90.0f);
         break;
-    case SET::Direction::RIGHT:
+    case SETTINGS::Direction::RIGHT:
         setRotation(90.0f);
         break;
-    case SET::Direction::UP:
+    case SETTINGS::Direction::UP:
         setRotation(0.0f);
         break;
-    case SET::Direction::DOWN:
+    case SETTINGS::Direction::DOWN:
         setRotation(180.0f);
         break;
     }
@@ -55,7 +55,7 @@ void Player::setRemoved(bool value)
     removed = value;
 }
 
-SET::Direction Player::getDirection() const
+SETTINGS::Direction Player::getDirection() const
 {
     return direction;
 }
@@ -66,19 +66,19 @@ void Player::update(const sf::Time &elapsedTime)
     int dy = 0;
     switch (direction)
     {
-    case SET::Direction::LEFT:
+    case SETTINGS::Direction::LEFT:
         dx = -getSpeed();
         dy = 0;
         break;
-    case SET::Direction::RIGHT:
+    case SETTINGS::Direction::RIGHT:
         dx = getSpeed();
         dy = 0;
         break;
-    case SET::Direction::UP:
+    case SETTINGS::Direction::UP:
         dx = 0;
         dy = -getSpeed();
         break;
-    case SET::Direction::DOWN:
+    case SETTINGS::Direction::DOWN:
         dx = 0;
         dy = getSpeed();
         break;
@@ -97,22 +97,22 @@ void Player::handleRealTimeInput()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        setDirection(SET::Direction::LEFT);
+        setDirection(SETTINGS::Direction::LEFT);
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        setDirection(SET::Direction::RIGHT);
+        setDirection(SETTINGS::Direction::RIGHT);
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        setDirection(SET::Direction::UP);
+        setDirection(SETTINGS::Direction::UP);
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        setDirection(SET::Direction::DOWN);
+        setDirection(SETTINGS::Direction::DOWN);
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

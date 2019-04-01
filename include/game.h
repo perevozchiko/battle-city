@@ -6,7 +6,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-#include "set.h"
+#include "settings.h"
 #include "tile.h"
 #include "utils.h"
 #include "player.h"

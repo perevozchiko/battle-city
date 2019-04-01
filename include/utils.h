@@ -11,7 +11,7 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-#include "set.h"
+#include "settings.h"
 
 namespace BattleCity {
 

@@ -3,8 +3,8 @@ namespace BattleCity {
 
 Bullet::Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position) :
     Entity(position),
-    direction(SET::Direction::UP),
-    size(SET::SIZE_TILE_BULLET)
+    direction(SETTINGS::Direction::UP),
+    size(SETTINGS::SIZE_TILE_BULLET)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
@@ -16,27 +16,27 @@ Bullet::~Bullet()
 
 }
 
-SET::Direction Bullet::getDirection() const
+SETTINGS::Direction Bullet::getDirection() const
 {
     return direction;
 }
 
-void Bullet::setDirection(const SET::Direction &value)
+void Bullet::setDirection(const SETTINGS::Direction &value)
 {
-    setSpeed(SET::BULLET_SPEED);
+    setSpeed(SETTINGS::BULLET_SPEED);
     direction = value;
     switch (direction)
     {
-    case SET::Direction::LEFT:
+    case SETTINGS::Direction::LEFT:
         setRotation(-90.0f);
         break;
-    case SET::Direction::RIGHT:
+    case SETTINGS::Direction::RIGHT:
         setRotation(90.0f);
         break;
-    case SET::Direction::UP:
+    case SETTINGS::Direction::UP:
         setRotation(0.0f);
         break;
-    case SET::Direction::DOWN:
+    case SETTINGS::Direction::DOWN:
         setRotation(180.0f);
         break;
     }
@@ -48,19 +48,19 @@ void Bullet::update(const sf::Time &elapsedTime)
     int dy = 0;
     switch (direction)
     {
-    case SET::Direction::LEFT:
+    case SETTINGS::Direction::LEFT:
         dx = -getSpeed();
         dy = 0;
         break;
-    case SET::Direction::RIGHT:
+    case SETTINGS::Direction::RIGHT:
         dx = getSpeed();
         dy = 0;
         break;
-    case SET::Direction::UP:
+    case SETTINGS::Direction::UP:
         dx = 0;
         dy = -getSpeed();
         break;
-    case SET::Direction::DOWN:
+    case SETTINGS::Direction::DOWN:
         dx = 0;
         dy = getSpeed();
         break;
@@ -84,12 +84,12 @@ void Bullet::setRemoved(bool value)
     removed = value;
 }
 
-SET::bulletType Bullet::getType() const
+SETTINGS::bulletType Bullet::getType() const
 {
     return type;
 }
 
-void Bullet::setType(const SET::bulletType &value)
+void Bullet::setType(const SETTINGS::bulletType &value)
 {
     type = value;
 }

@@ -8,8 +8,8 @@ Enemy::Enemy()
 
 Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
     Entity(position),
-    size(SET::SIZE_TILE_ENEMY),
-    direction(SET::Direction::DOWN)
+    size(SETTINGS::SIZE_TILE_ENEMY),
+    direction(SETTINGS::Direction::DOWN)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
@@ -28,39 +28,39 @@ void Enemy::changeDirectionMoving()
     switch(random(1,4))
     {
     case 1:
-        setDirection(SET::Direction::LEFT);
+        setDirection(SETTINGS::Direction::LEFT);
         break;
 
     case 2:
-        setDirection(SET::Direction::RIGHT);
+        setDirection(SETTINGS::Direction::RIGHT);
         break;
 
     case 3:
-        setDirection(SET::Direction::UP);
+        setDirection(SETTINGS::Direction::UP);
         break;
 
     case 4:
-        setDirection(SET::Direction::DOWN);
+        setDirection(SETTINGS::Direction::DOWN);
         break;
     }
 }
 
-void Enemy::setDirection(const SET::Direction &_direction)
+void Enemy::setDirection(const SETTINGS::Direction &_direction)
 {
-    setSpeed(SET::ENEMY_SPEED);
+    setSpeed(SETTINGS::ENEMY_SPEED);
     direction = _direction;
     switch (direction)
     {
-    case SET::Direction::LEFT:
+    case SETTINGS::Direction::LEFT:
         setRotation(-90.0f);
         break;
-    case SET::Direction::RIGHT:
+    case SETTINGS::Direction::RIGHT:
         setRotation(90.0f);
         break;
-    case SET::Direction::UP:
+    case SETTINGS::Direction::UP:
         setRotation(0.0f);
         break;
-    case SET::Direction::DOWN:
+    case SETTINGS::Direction::DOWN:
         setRotation(180.0f);
         break;
     }
@@ -88,19 +88,19 @@ void Enemy::update(const sf::Time &elapsedTime)
 
     switch (direction)
     {
-    case SET::Direction::LEFT:
+    case SETTINGS::Direction::LEFT:
         dx = -getSpeed();
         dy = 0;
         break;
-    case SET::Direction::RIGHT:
+    case SETTINGS::Direction::RIGHT:
         dx = getSpeed();
         dy = 0;
         break;
-    case SET::Direction::UP:
+    case SETTINGS::Direction::UP:
         dx = 0;
         dy = -getSpeed();
         break;
-    case SET::Direction::DOWN:
+    case SETTINGS::Direction::DOWN:
         dx = 0;
         dy = getSpeed();
         break;
@@ -126,10 +126,10 @@ void Enemy::adaptEnemyPosition()
 {
     sf::Vector2i pos = adaptPosition();
 
-    if ((utils::equalFloat(pos.x, SET::WINDOW_WIDTH - size.x/2) && direction == SET::Direction::RIGHT)
-            || (utils::equalFloat(pos.x, size.x/2) && direction == SET::Direction::LEFT)
-            || (utils::equalFloat(pos.y, SET::WINDOW_HEIGHT - size.y/2) && direction == SET::Direction::DOWN)
-            || (utils::equalFloat(pos.y, size.y/2) && direction == SET::Direction::UP))
+    if ((utils::equalFloat(pos.x, SETTINGS::WINDOW_WIDTH - size.x/2) && direction == SETTINGS::Direction::RIGHT)
+            || (utils::equalFloat(pos.x, size.x/2) && direction == SETTINGS::Direction::LEFT)
+            || (utils::equalFloat(pos.y, SETTINGS::WINDOW_HEIGHT - size.y/2) && direction == SETTINGS::Direction::DOWN)
+            || (utils::equalFloat(pos.y, size.y/2) && direction == SETTINGS::Direction::UP))
     {
         changeDirectionMoving();
     }
@@ -141,7 +141,7 @@ sf::Sprite Enemy::getSprite() const
     return sprite;
 }
 
-SET::Direction Enemy::getDirection() const
+SETTINGS::Direction Enemy::getDirection() const
 {
     return direction;
 }
@@ -149,8 +149,8 @@ SET::Direction Enemy::getDirection() const
 void Enemy::setTexture(const sf::Texture &texture, sf::Vector2i offset)
 {
     sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(offset, SET::SIZE_TILE_ENEMY));
-    sprite.setOrigin(SET::SIZE_TILE_ENEMY.x/2, SET::SIZE_TILE_ENEMY.y/2);
+    sprite.setTextureRect(sf::IntRect(offset, SETTINGS::SIZE_TILE_ENEMY));
+    sprite.setOrigin(SETTINGS::SIZE_TILE_ENEMY.x/2, SETTINGS::SIZE_TILE_ENEMY.y/2);
 }
 
 int Enemy::getRemoved() const

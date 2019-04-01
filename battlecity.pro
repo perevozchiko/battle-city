@@ -31,9 +31,9 @@ HEADERS  += \
     include/entity.h \
     include/randomgen.h \
     include/utils.h \
-    include/set.h \
     include/tile.h \
     include/bullet.h \
+    include/settings.h
 
 
 ROOT = $${PWD}/..

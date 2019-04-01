@@ -5,8 +5,8 @@ namespace BattleCity {
 Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
     Entity ({0,0}),
     offset(_offset),
-    size(SET::SIZE_TILE_MAP),
-    type(SET::Tile::Empty)
+    size(SETTINGS::SIZE_TILE_MAP),
+    type(SETTINGS::Tile::Empty)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
@@ -18,7 +18,7 @@ void Tile::update(const sf::Time &elapsedTime)
 }
 
 
-SET::Tile Tile::getType() const
+SETTINGS::Tile Tile::getType() const
 {
     return type;
 }
@@ -28,27 +28,27 @@ void Tile::setType(const int &value)
     switch (value)
     {
     case 0:
-        type = SET::Tile::Empty;
+        type = SETTINGS::Tile::Empty;
         break;
 
     case 1:
-        type = SET::Tile::Brick;
+        type = SETTINGS::Tile::Brick;
         break;
 
     case 2:
-        type = SET::Tile::Concrete;
+        type = SETTINGS::Tile::Concrete;
         break;
 
     case 3:
-        type = SET::Tile::Shrub;
+        type = SETTINGS::Tile::Shrub;
         break;
 
     case 4:
-        type = SET::Tile::Ice;
+        type = SETTINGS::Tile::Ice;
         break;
 
     case 5:
-        type = SET::Tile::Water;
+        type = SETTINGS::Tile::Water;
         break;
     }
 }

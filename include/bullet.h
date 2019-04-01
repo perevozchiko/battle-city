@@ -12,8 +12,8 @@ public:
     Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
     ~Bullet() override;
 
-    SET::Direction getDirection() const;
-    void setDirection(const SET::Direction &value);
+    SETTINGS::Direction getDirection() const;
+    void setDirection(const SETTINGS::Direction &value);
     sf::IntRect getGlobalRect() const;
 
     void update(const sf::Time& elapsedTime) override;
@@ -22,15 +22,15 @@ public:
     bool getRemoved() const;
     void setRemoved(bool value);
 
-    SET::bulletType getType() const;
-    void setType(const SET::bulletType &value);
+    SETTINGS::bulletType getType() const;
+    void setType(const SETTINGS::bulletType &value);
 
 private:
     sf::Sprite sprite;
-    SET::Direction direction;
+    SETTINGS::Direction direction;
     sf::Vector2i size;
     bool removed{false};
-    SET::bulletType type;
+    SETTINGS::bulletType type;
 
 
 };

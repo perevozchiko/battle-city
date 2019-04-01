@@ -9,7 +9,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include "set.h"
+#include "settings.h"
 #include "utils.h"
 
 

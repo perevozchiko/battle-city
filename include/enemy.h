@@ -20,12 +20,12 @@ public:
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void adaptEnemyPosition();
-    void setDirection(const SET::Direction &_direction);
+    void setDirection(const SETTINGS::Direction &_direction);
     sf::IntRect getGlobalRect() const;
 
     sf::Sprite getSprite() const;
 
-    SET::Direction getDirection() const;
+    SETTINGS::Direction getDirection() const;
 
     void setTexture(const sf::Texture &texture, sf::Vector2i offset);
 
@@ -35,7 +35,7 @@ public:
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
-    SET::Direction direction;
+    SETTINGS::Direction direction;
     int removed{false};
     //RandomGen random;
 };

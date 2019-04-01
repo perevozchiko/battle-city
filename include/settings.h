@@ -5,7 +5,7 @@
 
 namespace BattleCity {
 
-namespace SET {
+namespace SETTINGS {
 
 // Настройки OpenGL
 const int MAJOR = 3;

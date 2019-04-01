@@ -3,18 +3,18 @@
 namespace BattleCity {
 
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
-    window(sf::VideoMode(SET::WINDOW_WIDTH, SET::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
+    window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {3, 5}, {SET::PLAYER_POSITION})
+    player(texture, {3, 5}, {SETTINGS::PLAYER_POSITION})
 
 {
-    texture.loadFromFile(SET::PATH_IMAGES);
+    texture.loadFromFile(SETTINGS::PATH_IMAGES);
 
     // FPS
-    font.loadFromFile(SET::PATH_FONTS);
+    font.loadFromFile(SETTINGS::PATH_FONTS);
     fpsInfo.text.setFont(font);
-    fpsInfo.text.setPosition(SET::FPS_POS, SET::FPS_POS);
-    fpsInfo.text.setCharacterSize(SET::FPS_FONT_SIZE);
+    fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
+    fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
     // чтение данных уровня из файла (int level)
     std::vector<std::string> map = utils::readFromFileMap(1);
@@ -23,10 +23,10 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::Vector2i offset;
     std::string str;
     int type;
-    for (size_t i = 0; i < size_t(SET::MAP_HEIGHT); ++i)
+    for (size_t i = 0; i < size_t(SETTINGS::MAP_HEIGHT); ++i)
     {
         str  = map[i];
-        for (size_t j = 0; j < size_t(SET::MAP_WIDTH); ++j)
+        for (size_t j = 0; j < size_t(SETTINGS::MAP_WIDTH); ++j)
         {
             type = utils::charToInt(str.c_str()[j]);
             if (type != 0)
@@ -35,23 +35,23 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
                 //auto b = std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, player.getPosition()));
                 auto t = std::unique_ptr<Tile>(new Tile(texture, offset));
                 t->setType(type);
-                t->setPosition(static_cast<int>(j) * SET::SIZE_TILE_MAP.x, static_cast<int>(i) * SET::SIZE_TILE_MAP.y);
+                t->setPosition(static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP.x, static_cast<int>(i) * SETTINGS::SIZE_TILE_MAP.y);
                 tiles.push_back(std::move(t));
             }
         }
     }
 
-    for (int i = 0; i < SET::MAX_NUM_ENEMY; ++i)
+    for (int i = 0; i < SETTINGS::MAX_NUM_ENEMY; ++i)
     {
         auto en = std::unique_ptr<Enemy>(new Enemy());
         sf::Vector2i offset = utils::getEnemyType(i);
 
         en->setTexture(texture, offset);
-        int posX = SET::WINDOW_WIDTH * i/2 + (i%2) * SET::SIZE_TILE_ENEMY.x/2;
-        int posY = SET::SIZE_TILE_ENEMY.y/2;
+        int posX = SETTINGS::WINDOW_WIDTH * i/2 + (i%2) * SETTINGS::SIZE_TILE_ENEMY.x/2;
+        int posY = SETTINGS::SIZE_TILE_ENEMY.y/2;
         //std::cout << posX << " " << posY << std::endl;
         en->setPosition(posX, posY);
-        en->setDirection(SET::Direction::DOWN);
+        en->setDirection(SETTINGS::Direction::DOWN);
         enemies.push_back(std::move(en));
     }
 }
@@ -77,50 +77,51 @@ void Game::run()
         enemyTime += elapsedTime;
         if (enemyTime.asSeconds() > 0.5f)
         {
-            while (enemyTime > SET::TIME_PER_FRAME)
+            while (enemyTime > SETTINGS::TIME_PER_FRAME)
             {
-                enemyTime -= SET::TIME_PER_FRAME;
+                enemyTime -= SETTINGS::TIME_PER_FRAME;
+
             }
             if (enemies.size() > 0)
             {
                 std::size_t i = static_cast<std::size_t>(random(0, static_cast<int>(enemies.size()-1)));
                 enemies[i]->changeDirectionMoving();
             }
-            if (enemies.size() < SET::MAX_NUM_ENEMY)
+            if (enemies.size() < SETTINGS::MAX_NUM_ENEMY)
             {
                 std::size_t i = static_cast<std::size_t>(random(0, 3));
                 auto en = std::unique_ptr<Enemy>(new Enemy());
                 sf::Vector2i offset = utils::getEnemyType(i);
 
                 en->setTexture(texture, offset);
-                int posX = SET::WINDOW_WIDTH * i/2 + (i%2) * SET::SIZE_TILE_ENEMY.x/2;
-                int posY = SET::SIZE_TILE_ENEMY.y/2;
+                int posX = SETTINGS::WINDOW_WIDTH * i/2 + (i%2) * SETTINGS::SIZE_TILE_ENEMY.x/2;
+                int posY = SETTINGS::SIZE_TILE_ENEMY.y/2;
                 //std::cout << posX << " " << posY << std::endl;
                 en->setPosition(posX, posY);
-                en->setDirection(SET::Direction::DOWN);
+                en->setDirection(SETTINGS::Direction::DOWN);
                 enemies.push_back(std::move(en));
             }
         }
 
-        while (timeSinceLastUpdate > SET::TIME_PER_FRAME)
+        while (timeSinceLastUpdate > SETTINGS::TIME_PER_FRAME)
         {
-            timeSinceLastUpdate -= SET::TIME_PER_FRAME;
+            timeSinceLastUpdate -= SETTINGS::TIME_PER_FRAME;
             processEvents();
-            update(SET::TIME_PER_FRAME);
+            update(SETTINGS::TIME_PER_FRAME);
         }
 
         bulletTime += elapsedTime;
         if (player.shoot)
         {
-            if (bulletTime.asSeconds() > 1.f)
+            if (bulletTime.asSeconds() > 0.5f)
             {
-                while(bulletTime > SET::TIME_PER_FRAME)
+                while(bulletTime > SETTINGS::TIME_PER_FRAME)
                 {
-                    bulletTime -= SET::TIME_PER_FRAME;
+                    bulletTime -= SETTINGS::TIME_PER_FRAME;
                 }
                 auto b = std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, player.getPosition()));
                 b->setDirection(player.getDirection());
-                b->setType(SET::bulletType::Player);
+                b->setType(SETTINGS::bulletType::Player);
                 bullets.push_back(std::move(b));
 
                 player.shoot = false;
@@ -129,15 +130,15 @@ void Game::run()
         enemyBulletTime += elapsedTime;
         if (enemyBulletTime.asSeconds() > 1.f)
         {
-            while(enemyBulletTime > SET::TIME_PER_FRAME)
+            while(enemyBulletTime > SETTINGS::TIME_PER_FRAME)
             {
-                enemyBulletTime -= SET::TIME_PER_FRAME;
+                enemyBulletTime -= SETTINGS::TIME_PER_FRAME;
             }
             for (auto &enemy : enemies)
             {
                 auto b = std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, enemy->getPosition()));
                 b->setDirection(enemy->getDirection());
-                b->setType(SET::bulletType::Enemy);
+                b->setType(SETTINGS::bulletType::Enemy);
                 bullets.push_back(std::move(b));
             }
         }
@@ -186,7 +187,7 @@ void Game::update(const sf::Time &elapsedTime)
     for (const auto& bullet : bullets)
     {
         auto b = bullet->getGlobalRect();
-        if(b.top < 0 || b.left < 0 || (b.top + b.height > SET::WINDOW_HEIGHT) || (b.left + b.width > SET::WINDOW_WIDTH) )
+        if(b.top < 0 || b.left < 0 || (b.top + b.height > SETTINGS::WINDOW_HEIGHT) || (b.left + b.width > SETTINGS::WINDOW_WIDTH) )
         {
             bullet->setRemoved(true);
         }
@@ -197,12 +198,12 @@ void Game::update(const sf::Time &elapsedTime)
 
             if(t.intersects(b))
             {
-                if(tile->getType() == SET::Tile::Brick)
+                if(tile->getType() == SETTINGS::Tile::Brick)
                 {
                     tile->setRemoved(true);
                     bullet->setRemoved(true);
                 }
-                if(tile->getType() == SET::Tile::Concrete)
+                if(tile->getType() == SETTINGS::Tile::Concrete)
                 {
                     bullet->setRemoved(true);
                 }
@@ -212,18 +213,19 @@ void Game::update(const sf::Time &elapsedTime)
         for(auto &enemy : enemies)
         {
             auto e = enemy->getGlobalRect();
-            if (e.intersects(b) && bullet->getType() == SET::bulletType::Player)
+            if (e.intersects(b) && bullet->getType() == SETTINGS::bulletType::Player)
             {
                 bullet->setRemoved(true);
                 enemy->setRemoved(true);
             }
         }
 
-        if(p.intersects(b) && bullet->getType() == SET::bulletType::Enemy)
+        if(p.intersects(b) && bullet->getType() == SETTINGS::bulletType::Enemy)
         {
             bullet->setRemoved(true);
             player.setRemoved(true);
         }
+
     }
 
     // TODO Enemy with Player
@@ -283,10 +285,12 @@ void Game::update(const sf::Time &elapsedTime)
     //            break;
     //        }
     //    }
+
+
     // Коллизии Player
     for(auto &tile : tiles)
     {
-        if (tile->getType() != SET::Tile::Ice && tile->getType() != SET::Tile::Shrub)
+        if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
         {
             auto r = tile->getGlobalRect();
             sf::IntRect result;
@@ -295,16 +299,16 @@ void Game::update(const sf::Time &elapsedTime)
             {
                 switch(player.getDirection())
                 {
-                case SET::Direction::RIGHT:
+                case SETTINGS::Direction::RIGHT:
                     player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
                     break;
-                case SET::Direction::LEFT:
+                case SETTINGS::Direction::LEFT:
                     player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
                     break;
-                case SET::Direction::UP:
+                case SETTINGS::Direction::UP:
                     player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
                     break;
-                case SET::Direction::DOWN:
+                case SETTINGS::Direction::DOWN:
                     player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
                     break;
                 }
@@ -318,7 +322,7 @@ void Game::update(const sf::Time &elapsedTime)
         auto e = enemy->getGlobalRect();
         for(const auto& tile : tiles)
         {
-            if (tile->getType() != SET::Tile::Ice && tile->getType() != SET::Tile::Shrub)
+            if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
             {
                 sf::IntRect result;
                 auto r = tile->getGlobalRect();
@@ -327,16 +331,16 @@ void Game::update(const sf::Time &elapsedTime)
                 {
                     switch(enemy->getDirection())
                     {
-                    case SET::Direction::RIGHT:
+                    case SETTINGS::Direction::RIGHT:
                         enemy->setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
                         break;
-                    case SET::Direction::LEFT:
+                    case SETTINGS::Direction::LEFT:
                         enemy->setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
                         break;
-                    case SET::Direction::UP:
+                    case SETTINGS::Direction::UP:
                         enemy->setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
                         break;
-                    case SET::Direction::DOWN:
+                    case SETTINGS::Direction::DOWN:
                         enemy->setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
                         break;
                     }
@@ -386,7 +390,7 @@ void Game::render()
 
     for (auto &tile : tiles)
     {
-        if (tile->getType() == SET::Tile::Ice)
+        if (tile->getType() == SETTINGS::Tile::Ice)
         {
             window.draw(*tile);
         }
@@ -403,7 +407,7 @@ void Game::render()
 
     for (auto &tile : tiles)
     {
-        if (tile->getType() != SET::Tile::Ice)
+        if (tile->getType() != SETTINGS::Tile::Ice)
         {
             window.draw(*tile);
         }

@@ -23,8 +23,8 @@ public:
     sf::IntRect getGlobalRect() const;
 
 
-    SET::Direction getDirection() const;
-    void setDirection(const SET::Direction &value);
+    SETTINGS::Direction getDirection() const;
+    void setDirection(const SETTINGS::Direction &value);
 
     sf::Vector2i getSize() const;
     bool shoot{false};
@@ -35,7 +35,7 @@ public:
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
-    SET::Direction direction;
+    SETTINGS::Direction direction;
     bool removed{false};
 };
 } //namespace BattleCity

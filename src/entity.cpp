@@ -33,10 +33,10 @@ sf::Vector2i Entity::adaptPosition()
 {
     sf::Vector2i position = getPosition();
 
-    position.x = std::max(position.x, SET::SIZE_TILE_PLAYER.x/2);
-    position.x = std::min(position.x, (SET::WINDOW_WIDTH - SET::SIZE_TILE_PLAYER.x/2));
-    position.y = std::max(position.y, (SET::SIZE_TILE_PLAYER.y/2));
-    position.y = std::min(position.y, (SET::WINDOW_HEIGHT - SET::SIZE_TILE_PLAYER.y/2));
+    position.x = std::max(position.x, SETTINGS::SIZE_TILE_PLAYER.x/2);
+    position.x = std::min(position.x, (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_PLAYER.x/2));
+    position.y = std::max(position.y, (SETTINGS::SIZE_TILE_PLAYER.y/2));
+    position.y = std::min(position.y, (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_PLAYER.y/2));
 
     return position;
 }

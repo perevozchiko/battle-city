@@ -14,7 +14,7 @@ std::vector<std::string> readFromFileMap(const int level)
 {
     std::vector<std::string> map;
     std::string levelStr = std::to_string(level);
-    std::string path = SET::PATH_MAPS + levelStr;
+    std::string path = SETTINGS::PATH_MAPS + levelStr;
     std::ifstream fileMap(path);
 
     if (!fileMap)
@@ -37,25 +37,25 @@ std::vector<std::string> readFromFileMap(const int level)
 
 sf::Vector2i setOffset(int type)
 {
-    switch (static_cast<SET::Tile>(type))
+    switch (static_cast<SETTINGS::Tile>(type))
     {
-    case SET::Tile::Empty:
+    case SETTINGS::Tile::Empty:
         return {1000, 1000};
 
-    case SET::Tile::Brick:
+    case SETTINGS::Tile::Brick:
         return {0, 256};
 
-    case SET::Tile::Concrete:
+    case SETTINGS::Tile::Concrete:
         return {0, 272};
 
 
-    case SET::Tile::Shrub:
+    case SETTINGS::Tile::Shrub:
         return {0, 304};
 
-    case SET::Tile::Ice:
+    case SETTINGS::Tile::Ice:
         return {0, 288};
 
-    case SET::Tile::Water:
+    case SETTINGS::Tile::Water:
         return {0, 320};
     }
     return {0,0};
@@ -92,16 +92,16 @@ sf::IntRect toIntRect(const sf::FloatRect &value)
 
 sf::Vector2i getEnemyType(const int &value)
 {
-    SET::EnemyType i = static_cast<SET::EnemyType>(value);
+    SETTINGS::EnemyType i = static_cast<SETTINGS::EnemyType>(value);
     switch(i)
     {
-    case SET::EnemyType::Simple:
+    case SETTINGS::EnemyType::Simple:
         return {3, 426};// size 26x30
-    case SET::EnemyType::LongLived:
+    case SETTINGS::EnemyType::LongLived:
         return {3, 810};// size 26x30
-    case SET::EnemyType::QuickFiring:
+    case SETTINGS::EnemyType::QuickFiring:
         return {3, 682};// size 26x30
-    case SET::EnemyType::QuickMoving:
+    case SETTINGS::EnemyType::QuickMoving:
         return {3, 554};// size 26x30
     }
 }
