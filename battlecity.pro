@@ -21,7 +21,7 @@ SOURCES += main.cpp \
     src/entity.cpp \
     src/utils.cpp \
     src/tile.cpp \
-    src/bullet.cpp
+    src/bullet.cpp \
 
 
 HEADERS  += \
@@ -33,7 +33,7 @@ HEADERS  += \
     include/utils.h \
     include/tile.h \
     include/bullet.h \
-    include/settings.h
+    include/settings.h \
 
 
 ROOT = $${PWD}/..

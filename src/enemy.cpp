@@ -1,9 +1,11 @@
 #include "enemy.h"
 namespace BattleCity {
 
+int Enemy::count = SETTINGS::ALL_ENEMY_ROUND;
+
 Enemy::Enemy()
 {
-
+    count--;
 }
 
 Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
@@ -162,4 +164,10 @@ void Enemy::setRemoved(int value)
 {
     removed = value;
 }
+
+int Enemy::getCount()
+{
+    return count;
+}
+
 } //namespace BattleCity

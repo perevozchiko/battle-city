@@ -32,11 +32,14 @@ public:
     int getRemoved() const;
     void setRemoved(int value);
 
+    static int getCount();
+
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
     SETTINGS::Direction direction;
     int removed{false};
+    static int count;
     //RandomGen random;
 };
 } //namespace BattleCity

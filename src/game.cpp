@@ -16,6 +16,14 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
+    // Отображение количества enemy за раунт
+    enemyCount.setFont(font);
+    enemyCount.setPosition(5, 18);
+    enemyCount.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
+
+
+
+
     // чтение данных уровня из файла (int level)
     std::vector<std::string> map = utils::readFromFileMap(1);
 
@@ -75,6 +83,7 @@ void Game::run()
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
         enemyTime += elapsedTime;
+
         if (enemyTime.asSeconds() > 0.5f)
         {
             while (enemyTime > SETTINGS::TIME_PER_FRAME)
@@ -87,9 +96,9 @@ void Game::run()
                 std::size_t i = static_cast<std::size_t>(random(0, static_cast<int>(enemies.size()-1)));
                 enemies[i]->changeDirectionMoving();
             }
-            if (enemies.size() < SETTINGS::MAX_NUM_ENEMY)
+            if (enemies.size() < SETTINGS::MAX_NUM_ENEMY and Enemy::getCount() > 0)
             {
-                std::size_t i = static_cast<std::size_t>(random(0, 3));
+                int i = random(0, 3);
                 auto en = std::unique_ptr<Enemy>(new Enemy());
                 sf::Vector2i offset = utils::getEnemyType(i);
 
@@ -113,7 +122,7 @@ void Game::run()
         bulletTime += elapsedTime;
         if (player.shoot)
         {
-            if (bulletTime.asSeconds() > 0.5f)
+            if (bulletTime.asSeconds() > 0.2f)
             {
                 while(bulletTime > SETTINGS::TIME_PER_FRAME)
                 {
@@ -143,7 +152,10 @@ void Game::run()
             }
         }
 
+        enemyCount.setString("Enemy: " + std::to_string(Enemy::getCount()));
+
         updateFPS(elapsedTime);
+
         render();
     }
 }
@@ -190,6 +202,20 @@ void Game::update(const sf::Time &elapsedTime)
         if(b.top < 0 || b.left < 0 || (b.top + b.height > SETTINGS::WINDOW_HEIGHT) || (b.left + b.width > SETTINGS::WINDOW_WIDTH) )
         {
             bullet->setRemoved(true);
+        }
+
+        for (const auto& otherBullet : bullets)
+        {
+            if (otherBullet != bullet)
+            {
+                auto ob = otherBullet->getGlobalRect();
+                if (b.intersects(ob))
+                {
+                    bullet->setRemoved(true);
+                    otherBullet->setRemoved(true);
+                }
+            }
+
         }
 
         for (const auto& tile : tiles)
@@ -372,10 +398,7 @@ void Game::update(const sf::Time &elapsedTime)
     enemies.erase(itEnemy, enemies.end());
 
     //удаление player
-    if (player.getRemoved())
-    {
-        delete &player;
-    }
+
 
 }
 
@@ -413,6 +436,7 @@ void Game::render()
         }
     }
     window.draw(fpsInfo.text);
+    window.draw(enemyCount);
     window.display();
 }
 

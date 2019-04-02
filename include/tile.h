@@ -14,6 +14,7 @@ class Tile : public Entity
 public:
     Tile() = default;
     Tile(const sf::Texture &texture, sf::Vector2i _offset);
+    ~Tile() override;
 
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

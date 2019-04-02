@@ -1,4 +1,4 @@
-#include "include/tile.h"
+#include "tile.h"
 
 namespace BattleCity {
 
@@ -10,6 +10,11 @@ Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
+}
+
+Tile::~Tile()
+{
+
 }
 
 void Tile::update(const sf::Time &elapsedTime)
