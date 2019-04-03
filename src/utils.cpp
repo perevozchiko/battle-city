@@ -23,14 +23,15 @@ std::vector<std::string> readFromFileMap(const int level)
         exit(1);
     }
     std::string str;
-    while(fileMap)
+    while(true)
     {
         str = "";
         std::getline(fileMap, str);
-        if (!fileMap.eof())
+        if (fileMap.eof())
         {
-            map.push_back(str);
+            break;
         }
+        map.push_back(str);
     }
     return map;
 }

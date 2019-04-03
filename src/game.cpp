@@ -254,67 +254,11 @@ void Game::update(const sf::Time &elapsedTime)
 
     }
 
-    // TODO Enemy with Player
-    //    sf::IntRect result;
-    //    if (e.intersects(p, result))
-    //    {
-    //        switch(player.getDirection())
-    //        {
-    //        case SET::Direction::RIGHT:
-    //        {
-    //            if(enemy.getDirection() == SET::Direction::LEFT)
-    //            {
-    //                player.setPosition(e.left - p.width/2, p.top + p.height/2);
-    //                enemy.setPosition(p.left + e.width/2, e.top + e.height/2);
-    //            }
-    //            break;
-    //        }
-    //        case SET::Direction::LEFT:
-    //        {
-    //            if(enemy.getDirection() == SET::Direction::RIGHT)
-    //            {
-    //                enemy.setPosition(p.left - e.width/2, e.top + e.height/2);
-    //                player.setPosition(p.left + p.width/2, p.top + p.height/2);
-    //            }
-    //            break;
-    //        }
-    //        case SET::Direction::UP:
-    //            player.setCollisionDetected(true);
-    //            if (enemy.getDirection() == SET::Direction::DOWN)
-    //            {
-    //                enemy.setCollisionDetected(true);
-    //            }
-    //            break;
-    //        case SET::Direction::DOWN:
-    //            player.setCollisionDetected(true);
-    //            if (enemy.getDirection() == SET::Direction::UP)
-    //            {
-    //                enemy.setCollisionDetected(true);
-    //            }
-    //            break;
-    //        }
+    // TODO Enemy with Enemy
 
 
-    //        switch(enemy.getDirection())
-    //        {
-    //        case SET::Direction::RIGHT:
-    //            enemy.setPosition(p.left - e.width/2, e.top + e.height/2);
-    //            break;
-    //        case SET::Direction::LEFT:
-    //            enemy.setPosition(p.left + e.width/2, e.top + e.height/2);
-    //            break;
-    //        case SET::Direction::UP:
-    //            enemy.setCollisionDetected(true);
-    //            break;
-    //        case SET::Direction::DOWN:
-    //            enemy.setCollisionDetected(true);
-    //            break;
-    //        }
-    //    }
-
-
-    // Коллизии Player
-    for(auto &tile : tiles)
+    // Коллизии Player with tile
+    for (auto &tile : tiles)
     {
         if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
         {
@@ -340,6 +284,21 @@ void Game::update(const sf::Time &elapsedTime)
                 }
             }
         }
+    }
+
+    // enemy with player collisions
+    for (auto &enemy : enemies)
+    {
+        auto e = enemy->getGlobalRect();
+
+        switch (player.getDirection())
+        {
+            case SETTINGS::Direction::UP:
+
+            break;
+
+        }
+
     }
 
     //Коллизии Enemy
@@ -398,7 +357,7 @@ void Game::update(const sf::Time &elapsedTime)
     enemies.erase(itEnemy, enemies.end());
 
     //удаление player
-
+   // delete &player;
 
 }
 
