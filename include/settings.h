@@ -10,14 +10,13 @@ namespace SETTINGS {
 // Настройки OpenGL
 const int MAJOR = 3;
 const int MINOR = 0;
-const int ANTIALIASING = 3;
+const int ANTIALIASING = 0;
 
 
 // Настройки Window
 const sf::String GAME_NAME = "Battle City";
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT =  640;
-
+const int WINDOW_WIDTH = 512;
+const int WINDOW_HEIGHT =  448;
 
 // FPS
 const float FPS_POS = 5.f;
@@ -29,6 +28,11 @@ const sf::String PATH_IMAGES = "resources/images/sprite.bmp";
 const sf::String PATH_MAPS = "resources/maps/";
 
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
+
+const int MAP_OFFSET_LEFT = 32;
+const int MAP_OFFSET_TOP = 16;
+const int MAP_SIZE = 416;
+const int СOUNT_TILES_MAP = 26; // Количество элементов на карте по высоте и ширине
 const int ENEMY_SPEED = 70;
 const int PLAYER_SPEED = 120;
 const int BULLET_SPEED = 500;
@@ -41,9 +45,7 @@ const sf::Vector2i SIZE_TILE_MAP = {16, 16};
 //Позиция player в начале добавить размер базы
 const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT-SIZE_TILE_PLAYER.y/2} ;
 
-// Количество элементов на карте по высоте и ширине
-const int MAP_WIDTH = WINDOW_WIDTH / SIZE_TILE_MAP.x;
-const int MAP_HEIGHT = WINDOW_HEIGHT / SIZE_TILE_MAP.y;
+
 enum class Type
 {
     Player = 0,

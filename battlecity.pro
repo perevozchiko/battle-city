@@ -68,4 +68,7 @@ DISTFILES += \
     resources/maps/4.txt \
     resources/maps/5 \
     resources/maps/6 \
+    resources/Templates/mapstemplate2.ods \
+    resources/Templates/battle_city_2.jpg \
+    resources/Templates/original_first_round.png
 

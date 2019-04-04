@@ -31,24 +31,29 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::Vector2i offset;
     std::string str;
     int type;
-    for (size_t i = 0; i < size_t(SETTINGS::MAP_HEIGHT); ++i)
+    for (size_t i = 0; i < size_t(SETTINGS::СOUNT_TILES_MAP); ++i)
     {
         str  = map[i];
-        for (size_t j = 0; j < size_t(SETTINGS::MAP_WIDTH); ++j)
+        for (size_t j = 0; j < size_t(SETTINGS::СOUNT_TILES_MAP); ++j)
         {
             type = utils::charToInt(str.c_str()[j]);
             if (type != 0)
             {
                 offset = utils::setOffset(type);
-                //auto b = std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, player.getPosition()));
                 auto t = std::unique_ptr<Tile>(new Tile(texture, offset));
                 t->setType(type);
-                t->setPosition(static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP.x, static_cast<int>(i) * SETTINGS::SIZE_TILE_MAP.y);
+                t->setPosition(SETTINGS::MAP_OFFSET_LEFT + static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP.x,
+                               SETTINGS::MAP_OFFSET_TOP + static_cast<int>(i) * SETTINGS::SIZE_TILE_MAP.y);
                 tiles.push_back(std::move(t));
             }
         }
     }
 
+
+
+
+
+    // Создание врагов
     for (int i = 0; i < SETTINGS::MAX_NUM_ENEMY; ++i)
     {
         auto en = std::unique_ptr<Enemy>(new Enemy());

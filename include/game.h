@@ -5,6 +5,7 @@
 #include <SFML/Window/ContextSettings.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 #include "settings.h"
 #include "tile.h"
@@ -42,6 +43,7 @@ private:
     std::vector<std::unique_ptr<Tile>> tiles;
     std::vector<std::unique_ptr<Bullet>> bullets;
     std::vector<std::unique_ptr<Enemy>> enemies;
+    std::vector<sf::RectangleShape> borders;
 
     sf::Font font;
     struct FPSInfo

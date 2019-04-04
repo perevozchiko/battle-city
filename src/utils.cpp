@@ -107,5 +107,12 @@ sf::Vector2i getEnemyType(const int &value)
     }
 }
 
+sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos)
+{
+    sf::RectangleShape border({static_cast<float>(size.x), static_cast<float>(size.y)});
+    border.setPosition(pos.x, pos.y);
+    border.setFillColor(sf::Color::White); // серый цвет rgb 116 116 116
+}
+
 } //namespace utils
 } //namespace BattleCity

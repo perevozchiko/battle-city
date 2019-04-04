@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 #include "settings.h"
 
@@ -28,6 +29,8 @@ std::string getStringMap(sf::Vector2i map, int numString);
 int charToInt(char ch);
 sf::IntRect toIntRect(const sf::FloatRect &value);
 sf::Vector2i getEnemyType(const int &value);
+sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos);
+
 //void print(Player &p);
 //std::ostream& operator<< (std::ostream &out, const Player &p);
 
