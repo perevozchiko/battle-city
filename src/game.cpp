@@ -16,7 +16,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
-    // Отображение количества enemy за раунт
+    // Отображение количества enemy за раунд
     enemyCount.setFont(font);
     enemyCount.setPosition(5, 18);
     enemyCount.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
@@ -31,10 +31,10 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::Vector2i offset;
     std::string str;
     int type;
-    for (size_t i = 0; i < size_t(SETTINGS::СOUNT_TILES_MAP); ++i)
+    for (int i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
     {
         str  = map[i];
-        for (size_t j = 0; j < size_t(SETTINGS::СOUNT_TILES_MAP); ++j)
+        for (int j = 0; j < SETTINGS::COUNT_TILES_MAP; ++j)
         {
             type = utils::charToInt(str.c_str()[j]);
             if (type != 0)
@@ -42,13 +42,22 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
                 offset = utils::setOffset(type);
                 auto t = std::unique_ptr<Tile>(new Tile(texture, offset));
                 t->setType(type);
-                t->setPosition(SETTINGS::MAP_OFFSET_LEFT + static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP.x,
-                               SETTINGS::MAP_OFFSET_TOP + static_cast<int>(i) * SETTINGS::SIZE_TILE_MAP.y);
+                t->setPosition(SETTINGS::MAP_OFFSET_LEFT + static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP,
+                               SETTINGS::MAP_OFFSET_TOP + static_cast<int>(i) * SETTINGS::SIZE_TILE_MAP);
                 tiles.push_back(std::move(t));
             }
         }
     }
 
+    // Создание рамок окна
+    sf::RectangleShape topBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},{0,0});
+    sf::RectangleShape leftBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 2, SETTINGS::WINDOW_HEIGHT}, {0,0});
+    sf::RectangleShape bottomBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},
+                                                          {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
+    sf::RectangleShape rightBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 4, SETTINGS::WINDOW_HEIGHT},
+                                                          {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
+
+    borders = {topBorder, leftBorder, bottomBorder, rightBorder};
 
 
 
@@ -298,7 +307,7 @@ void Game::update(const sf::Time &elapsedTime)
 
         switch (player.getDirection())
         {
-            case SETTINGS::Direction::UP:
+        case SETTINGS::Direction::UP:
 
             break;
 
@@ -362,13 +371,18 @@ void Game::update(const sf::Time &elapsedTime)
     enemies.erase(itEnemy, enemies.end());
 
     //удаление player
-   // delete &player;
+    // delete &player;
 
 }
 
 void Game::render()
 {
     window.clear();
+
+    for (const auto& border : borders)
+    {
+        window.draw(border);
+    }
 
     for(const auto& bullet : bullets)
     {

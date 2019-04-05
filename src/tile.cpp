@@ -5,7 +5,7 @@ namespace BattleCity {
 Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
     Entity ({0,0}),
     offset(_offset),
-    size(SETTINGS::SIZE_TILE_MAP),
+    size(SETTINGS::SIZE_TILE_MAP, SETTINGS::SIZE_TILE_MAP),
     type(SETTINGS::Tile::Empty)
 {
     sprite.setTexture(texture);
