@@ -106,6 +106,11 @@ sf::IntRect Bullet::getGlobalRect() const
     };
     r.left = pos.x - r.width/2;
     r.top = pos.y - r.height/2;
+
+    //увеличение размеров пули для уничтожение ближайших соседних тайлов карты
+    r.left = r.left - 5;
+    r.width = r.width + 10;
+
     return r;
 }
 } //namespace BattleCity

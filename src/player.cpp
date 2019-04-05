@@ -20,9 +20,11 @@ Player::~Player()
 
 void Player::setDirection(const SETTINGS::Direction &_direction)
 {
-    setSpeed(SETTINGS::PLAYER_SPEED);
 
+    setSpeed(SETTINGS::PLAYER_SPEED);
     direction = _direction;
+
+
     switch (direction)
     {
     case SETTINGS::Direction::LEFT:
@@ -83,6 +85,12 @@ void Player::update(const sf::Time &elapsedTime)
         dy = getSpeed();
         break;
     }
+    if (removed == true)
+    {
+        setPosition(SETTINGS::PLAYER_POSITION);
+        removed = false;
+    }
+
     setSpeed(0);
     move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
 }

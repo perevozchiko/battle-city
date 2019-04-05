@@ -51,9 +51,9 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::RectangleShape topBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},{0,0});
     sf::RectangleShape leftBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 2, SETTINGS::WINDOW_HEIGHT}, {0,0});
     sf::RectangleShape bottomBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},
-    {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
+                                                             {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
     sf::RectangleShape rightBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 4, SETTINGS::WINDOW_HEIGHT},
-    {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
+                                                            {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
     borders = {topBorder, leftBorder, bottomBorder, rightBorder};
 
@@ -210,6 +210,7 @@ void Game::update(const sf::Time &elapsedTime)
     // со стенками окна и с тайлами карты
     for (const auto& bullet : bullets)
     {
+        // со стенками окна
         auto b = bullet->getGlobalRect();
         if(b.top < SETTINGS::SIZE_TILE_MAP ||
                 (b.left < (SETTINGS::SIZE_TILE_MAP*2)) ||
@@ -219,6 +220,7 @@ void Game::update(const sf::Time &elapsedTime)
             bullet->setRemoved(true);
         }
 
+        // с другими пулями
         for (const auto& otherBullet : bullets)
         {
             if (otherBullet != bullet)
@@ -233,6 +235,7 @@ void Game::update(const sf::Time &elapsedTime)
 
         }
 
+        // с тайлами карты
         for (const auto& tile : tiles)
         {
             auto t = tile->getGlobalRect();
@@ -240,7 +243,7 @@ void Game::update(const sf::Time &elapsedTime)
             if(t.intersects(b))
             {
                 if(tile->getType() == SETTINGS::Tile::Brick)
-                {
+                {                    
                     tile->setRemoved(true);
                     bullet->setRemoved(true);
                 }
@@ -251,6 +254,7 @@ void Game::update(const sf::Time &elapsedTime)
             }
         }
 
+        // с врагами
         for(auto &enemy : enemies)
         {
             auto e = enemy->getGlobalRect();
@@ -261,12 +265,12 @@ void Game::update(const sf::Time &elapsedTime)
             }
         }
 
+        // с Игроком
         if(p.intersects(b) && bullet->getType() == SETTINGS::bulletType::Enemy)
         {
             bullet->setRemoved(true);
             player.setRemoved(true);
         }
-
     }
 
     // TODO Enemy with Enemy
