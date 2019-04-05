@@ -113,6 +113,7 @@ sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos)
     border.setPosition(pos.x, pos.y);
     sf::Color color(116, 116, 116);
     border.setFillColor(color); // серый цвет rgb 116 116 116
+
     return border;
 }
 

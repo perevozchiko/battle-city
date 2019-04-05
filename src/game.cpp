@@ -1,4 +1,5 @@
 #include "game.h"
+typedef unsigned long ul;
 
 namespace BattleCity {
 
@@ -21,9 +22,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     enemyCount.setPosition(5, 18);
     enemyCount.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
-
-
-
     // чтение данных уровня из файла (int level)
     std::vector<std::string> map = utils::readFromFileMap(1);
 
@@ -31,10 +29,10 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::Vector2i offset;
     std::string str;
     int type;
-    for (int i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
+    for (ul i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
     {
         str  = map[i];
-        for (int j = 0; j < SETTINGS::COUNT_TILES_MAP; ++j)
+        for (ul j = 0; j < SETTINGS::COUNT_TILES_MAP; ++j)
         {
             type = utils::charToInt(str.c_str()[j]);
             if (type != 0)
@@ -53,9 +51,9 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::RectangleShape topBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},{0,0});
     sf::RectangleShape leftBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 2, SETTINGS::WINDOW_HEIGHT}, {0,0});
     sf::RectangleShape bottomBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},
-                                                          {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
+    {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
     sf::RectangleShape rightBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 4, SETTINGS::WINDOW_HEIGHT},
-                                                          {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
+    {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
     borders = {topBorder, leftBorder, bottomBorder, rightBorder};
 
@@ -69,7 +67,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
         sf::Vector2i offset = utils::getEnemyType(i);
 
         en->setTexture(texture, offset);
-        int posX = SETTINGS::WINDOW_WIDTH * i/2 + (i%2) * SETTINGS::SIZE_TILE_ENEMY.x/2;
+        int posX = SETTINGS::MAP_SIZE * i/2 + (i%2) * SETTINGS::SIZE_TILE_ENEMY.x/2;
         int posY = SETTINGS::SIZE_TILE_ENEMY.y/2;
         //std::cout << posX << " " << posY << std::endl;
         en->setPosition(posX, posY);
@@ -213,7 +211,10 @@ void Game::update(const sf::Time &elapsedTime)
     for (const auto& bullet : bullets)
     {
         auto b = bullet->getGlobalRect();
-        if(b.top < 0 || b.left < 0 || (b.top + b.height > SETTINGS::WINDOW_HEIGHT) || (b.left + b.width > SETTINGS::WINDOW_WIDTH) )
+        if(b.top < SETTINGS::SIZE_TILE_MAP ||
+                (b.left < (SETTINGS::SIZE_TILE_MAP*2)) ||
+                (b.top + b.height > (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP)) ||
+                (b.left + b.width > (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_MAP*4)))
         {
             bullet->setRemoved(true);
         }
@@ -301,19 +302,19 @@ void Game::update(const sf::Time &elapsedTime)
     }
 
     // enemy with player collisions
-    for (auto &enemy : enemies)
-    {
-        auto e = enemy->getGlobalRect();
+    //    for (auto &enemy : enemies)
+    //    {
+    //        auto e = enemy->getGlobalRect();
 
-        switch (player.getDirection())
-        {
-        case SETTINGS::Direction::UP:
+    //        switch (player.getDirection())
+    //        {
+    //        case SETTINGS::Direction::UP:
 
-            break;
+    //            break;
 
-        }
+    //        }
 
-    }
+    //    }
 
     //Коллизии Enemy
     for (const auto& enemy : enemies)

@@ -34,7 +34,7 @@ const int MAP_OFFSET_TOP = 16;
 const int MAP_SIZE = 416;
 const int COUNT_TILES_MAP = 26;
 const int ENEMY_SPEED = 70;
-const int PLAYER_SPEED = 120;
+const int PLAYER_SPEED = 50;
 const int BULLET_SPEED = 500;
 const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
 const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
@@ -43,7 +43,7 @@ const int ALL_ENEMY_ROUND = 20;
 const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
 const int SIZE_TILE_MAP = 16;
 //Позиция player в начале добавить размер базы
-const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT-SIZE_TILE_PLAYER.y/2} ;
+const sf::Vector2i PLAYER_POSITION = {MAP_SIZE/2 - 16, MAP_SIZE-SIZE_TILE_PLAYER.y/2} ;
 
 
 enum class Type
