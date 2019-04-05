@@ -35,11 +35,13 @@ const int MAP_SIZE = 416;
 const int COUNT_TILES_MAP = 26;
 const int ENEMY_SPEED = 70;
 const int PLAYER_SPEED = 70;
-const int BULLET_SPEED = 300;
+const int BULLET_SPEED = 150;
 const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
 const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
 const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
 const sf::Vector2i SIZE_TILE_BASE = {32, 32};
+const sf::Vector2i BASE_OFFSET = {0, 360};
+const sf::Vector2i BASE_REMOVED_OFFSET = {32, 360};
 const int SIZE_TILE_MAP = 16;
 const int MAX_NUM_ENEMY = 4;
 const int ALL_ENEMY_ROUND = 20;
@@ -89,8 +91,6 @@ enum class Tile
     Ice,
     Water
 };
-
-
 
 enum class bulletType
 {

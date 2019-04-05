@@ -45,6 +45,8 @@ void Enemy::changeDirectionMoving()
         setDirection(SETTINGS::Direction::DOWN);
         break;
     }
+
+
 }
 
 void Enemy::setDirection(const SETTINGS::Direction &_direction)

@@ -7,7 +7,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
     player(texture, {3, 5}, {SETTINGS::PLAYER_POSITION}),
-    base(texture, {0, 360}, SETTINGS::BASE_POSITION)
+    base(texture, SETTINGS::BASE_OFFSET, SETTINGS::BASE_POSITION)
 
 {
     texture.loadFromFile(SETTINGS::PATH_IMAGES);
@@ -19,9 +19,17 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
     // Отображение количества enemy за раунд
-    enemyCount.setFont(font);
-    enemyCount.setPosition(5, 18);
-    enemyCount.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
+//    enemyCount.setFont(font);
+//    enemyCount.setPosition(5, 18);
+//    enemyCount.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            auto tank = std::unique_ptr<CountTanks>(new CountTanks(texture, {49, 273}, {j * 16 + 470, i * 16 + 50}));
+            tanks.push_back(std::move(tank));
+        }
+    }
 
     // чтение данных уровня из файла (int level)
     std::vector<std::string> map = utils::readFromFileMap(1);
@@ -46,15 +54,15 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
                 tiles.push_back(std::move(t));
             }
         }
-    }   
+    }
 
     // Создание рамок окна
     sf::RectangleShape topBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},{0,0});
     sf::RectangleShape leftBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 2, SETTINGS::WINDOW_HEIGHT}, {0,0});
     sf::RectangleShape bottomBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},
-                                                             {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
+    {0,SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP});
     sf::RectangleShape rightBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 4, SETTINGS::WINDOW_HEIGHT},
-                                                            {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
+    {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
     borders = {topBorder, leftBorder, bottomBorder, rightBorder};
 
@@ -97,7 +105,11 @@ void Game::run()
         timeSinceLastUpdate += elapsedTime;
         enemyTime += elapsedTime;
 
-        if (enemyTime.asSeconds() > 0.5f)
+
+
+
+
+        if (enemyTime.asSeconds() > (1.5f /enemies.size()))
         {
             while (enemyTime > SETTINGS::TIME_PER_FRAME)
             {
@@ -135,7 +147,7 @@ void Game::run()
         bulletTime += elapsedTime;
         if (player.shoot)
         {
-            if (bulletTime.asSeconds() > 0.2f)
+            if (bulletTime.asSeconds() > 0.4f)
             {
                 while(bulletTime > SETTINGS::TIME_PER_FRAME)
                 {
@@ -206,6 +218,9 @@ void Game::update(const sf::Time &elapsedTime)
     }
 
     auto p = player.getGlobalRect();
+    auto baseRect = base.getGlobalRect();
+
+    base.update(elapsedTime);
 
     //Коллизии bullet
     // со стенками окна и с тайлами карты
@@ -244,7 +259,7 @@ void Game::update(const sf::Time &elapsedTime)
             if(t.intersects(b))
             {
                 if(tile->getType() == SETTINGS::Tile::Brick)
-                {                    
+                {
                     tile->setRemoved(true);
                     bullet->setRemoved(true);
                 }
@@ -263,6 +278,7 @@ void Game::update(const sf::Time &elapsedTime)
             {
                 bullet->setRemoved(true);
                 enemy->setRemoved(true);
+                tanks.pop_back();
             }
         }
 
@@ -272,6 +288,15 @@ void Game::update(const sf::Time &elapsedTime)
             bullet->setRemoved(true);
             player.setRemoved(true);
         }
+
+        // С базой
+
+        if(baseRect.intersects(b))
+        {
+            bullet->setRemoved(true);
+            base.setRemoved(true);
+        }
+
     }
 
     // TODO Enemy with Enemy
@@ -306,20 +331,27 @@ void Game::update(const sf::Time &elapsedTime)
         }
     }
 
-    // enemy with player collisions
-    //    for (auto &enemy : enemies)
-    //    {
-    //        auto e = enemy->getGlobalRect();
+    // Коллизии player with base
+    sf::IntRect res;
+    if (p.intersects(baseRect, res))
+    {
+        switch(player.getDirection())
+        {
+        case SETTINGS::Direction::RIGHT:
+            player.setPosition(p.left + p.width/2 - res.width, p.top + p.width/2);
+            break;
+        case SETTINGS::Direction::LEFT:
+            player.setPosition(p.left + p.width/2 + res.width, p.top + p.width/2);
+            break;
+        case SETTINGS::Direction::UP:
+            player.setPosition(p.left + p.width/2, p.top + p.height/2 + res.height);
+            break;
+        case SETTINGS::Direction::DOWN:
+            player.setPosition(p.left + p.width/2, p.top + p.height/2 - res.height);
+            break;
+        }
+    }
 
-    //        switch (player.getDirection())
-    //        {
-    //        case SETTINGS::Direction::UP:
-
-    //            break;
-
-    //        }
-
-    //    }
 
     //Коллизии Enemy
     for (const auto& enemy : enemies)
@@ -334,6 +366,7 @@ void Game::update(const sf::Time &elapsedTime)
 
                 if(e.intersects(r, result))
                 {
+                    //enemy->changeDirectionMoving();
                     switch(enemy->getDirection())
                     {
                     case SETTINGS::Direction::RIGHT:
@@ -352,8 +385,29 @@ void Game::update(const sf::Time &elapsedTime)
                 }
             }
         }
-    }
 
+
+        //коллизии с базой
+        sf::IntRect result;
+        if (e.intersects(baseRect, result))
+        {
+            switch(enemy->getDirection())
+            {
+            case SETTINGS::Direction::RIGHT:
+                enemy->setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
+                break;
+            case SETTINGS::Direction::LEFT:
+                enemy->setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
+                break;
+            case SETTINGS::Direction::UP:
+                enemy->setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
+                break;
+            case SETTINGS::Direction::DOWN:
+                enemy->setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
+                break;
+            }
+        }
+    }
 
     // удаление Bullets
     auto it = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
@@ -376,9 +430,17 @@ void Game::update(const sf::Time &elapsedTime)
     });
     enemies.erase(itEnemy, enemies.end());
 
+    //удаление элемента счетчика танков
+//    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
+//    {
+//        return c->getRemoved();
+//    });
+//    tanks.erase(itCountTank, tanks.end());
+
+
+
     //удаление player
     // delete &player;
-
 }
 
 void Game::render()
@@ -419,9 +481,16 @@ void Game::render()
             window.draw(*tile);
         }
     }
+
+    for (auto &countTank : tanks)
+    {
+        window.draw(*countTank);
+    }
+
     window.draw(base);
+
     window.draw(fpsInfo.text);
-    window.draw(enemyCount);
+   // window.draw(enemyCount);
     window.display();
 }
 

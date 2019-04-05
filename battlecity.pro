@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     src/utils.cpp \
     src/tile.cpp \
     src/bullet.cpp \
-    src/base.cpp
+    src/base.cpp \
+    src/counttanks.cpp \
 
 HEADERS  += \
     include/game.h \
@@ -34,7 +35,8 @@ HEADERS  += \
     include/tile.h \
     include/bullet.h \
     include/settings.h \
-    include/base.h
+    include/base.h \
+    include/counttanks.h\
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"

@@ -14,6 +14,7 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "base.h"
+#include "counttanks.h"
 
 #include <memory>
 
@@ -46,6 +47,7 @@ private:
     std::vector<std::unique_ptr<Bullet>> bullets;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<sf::RectangleShape> borders;
+    std::vector<std::unique_ptr<CountTanks>> tanks;
 
     sf::Font font;
     struct FPSInfo
