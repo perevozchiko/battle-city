@@ -6,7 +6,8 @@ namespace BattleCity {
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {3, 5}, {SETTINGS::PLAYER_POSITION})
+    player(texture, {3, 5}, {SETTINGS::PLAYER_POSITION}),
+    base(texture, {0, 360}, SETTINGS::BASE_POSITION)
 
 {
     texture.loadFromFile(SETTINGS::PATH_IMAGES);
@@ -45,7 +46,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
                 tiles.push_back(std::move(t));
             }
         }
-    }
+    }   
 
     // Создание рамок окна
     sf::RectangleShape topBorder = utils::createBorder({SETTINGS::WINDOW_WIDTH, SETTINGS::SIZE_TILE_MAP},{0,0});
@@ -418,6 +419,7 @@ void Game::render()
             window.draw(*tile);
         }
     }
+    window.draw(base);
     window.draw(fpsInfo.text);
     window.draw(enemyCount);
     window.display();

@@ -16,7 +16,7 @@ public:
     ~Player() override;
 
     void update(const sf::Time& elapsedTime) override;
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void handleRealTimeInput();
     void adaptPlayerPosition();

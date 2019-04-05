@@ -39,11 +39,13 @@ const int BULLET_SPEED = 300;
 const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
 const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
 const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
+const sf::Vector2i SIZE_TILE_BASE = {32, 32};
 const int SIZE_TILE_MAP = 16;
 const int MAX_NUM_ENEMY = 4;
 const int ALL_ENEMY_ROUND = 20;
 //Позиция player в начале добавить размер базы
 const sf::Vector2i PLAYER_POSITION = {WINDOW_WIDTH/2 - 64, WINDOW_HEIGHT-SIZE_TILE_PLAYER.y/2 - 16};
+const sf::Vector2i BASE_POSITION = {WINDOW_WIDTH/2 - SIZE_TILE_BASE.x/2 - 16, WINDOW_HEIGHT - SIZE_TILE_BASE.y - 16};
 
 
 enum class Type
@@ -78,7 +80,8 @@ enum class Direction
     UP
 };
 
-enum class Tile {
+enum class Tile
+{
     Empty = 0,
     Brick,
     Concrete,
@@ -89,7 +92,8 @@ enum class Tile {
 
 
 
-enum class bulletType {
+enum class bulletType
+{
     Player,
     Enemy
 };

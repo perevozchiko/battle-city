@@ -22,7 +22,7 @@ SOURCES += main.cpp \
     src/utils.cpp \
     src/tile.cpp \
     src/bullet.cpp \
-
+    src/base.cpp
 
 HEADERS  += \
     include/game.h \
@@ -34,7 +34,7 @@ HEADERS  += \
     include/tile.h \
     include/bullet.h \
     include/settings.h \
-
+    include/base.h
 
 ROOT = $${PWD}/..
 LIBS        += -L"$${ROOT}/SFML/lib/debug/"
@@ -70,5 +70,5 @@ DISTFILES += \
     resources/maps/6 \
     resources/Templates/mapstemplate2.ods \
     resources/Templates/battle_city_2.jpg \
-    resources/Templates/original_first_round.png
+    resources/Templates/original_first_round.png \
 

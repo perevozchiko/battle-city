@@ -13,6 +13,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
+#include "base.h"
 
 #include <memory>
 
@@ -38,6 +39,7 @@ private:
     sf::RenderWindow window;
     sf::Texture texture;
     Player player;
+    Base base;
     sf::Text enemyCount;
 
     std::vector<std::unique_ptr<Tile>> tiles;
