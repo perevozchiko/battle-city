@@ -40,6 +40,7 @@ const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
 const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
 const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
 const sf::Vector2i SIZE_TILE_BASE = {32, 32};
+const sf::Vector2i PLAYER_OFFSET= {3, 5};
 const sf::Vector2i BASE_OFFSET = {0, 360};
 const sf::Vector2i BASE_REMOVED_OFFSET = {32, 360};
 const int SIZE_TILE_MAP = 16;

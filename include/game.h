@@ -49,6 +49,8 @@ private:
     std::vector<sf::RectangleShape> borders;
     std::vector<std::unique_ptr<CountTanks>> tanks;
 
+    std::vector<std::unique_ptr<Entity>> entity;
+
     sf::Font font;
     struct FPSInfo
     {

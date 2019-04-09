@@ -6,7 +6,7 @@ namespace BattleCity {
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
     //TODO сделать offset и position по умолчанию
-    player(texture, {3, 5}, {SETTINGS::PLAYER_POSITION}),
+    player(texture, SETTINGS::PLAYER_OFFSET, {SETTINGS::PLAYER_POSITION}),
     base(texture, SETTINGS::BASE_OFFSET, SETTINGS::BASE_POSITION)
 
 {
@@ -60,10 +60,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
     borders = {topBorder, leftBorder, bottomBorder, rightBorder};
-
-
-
-
     // Создание врагов
     for (int i = 0; i < SETTINGS::MAX_NUM_ENEMY; ++i)
     {
@@ -99,10 +95,6 @@ void Game::run()
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
         enemyTime += elapsedTime;
-
-
-
-
 
         if (enemyTime.asSeconds() > (1.5f /enemies.size()))
         {
@@ -407,7 +399,7 @@ void Game::update(const sf::Time &elapsedTime)
     // удаление Bullets
     auto itBullet = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
     {
-        return (c->isAlive() == false);
+        return !c->isAlive();
     });
     bullets.erase(itBullet, bullets.end());
 
