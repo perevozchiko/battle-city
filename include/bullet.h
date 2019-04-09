@@ -19,8 +19,8 @@ public:
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    bool getRemoved() const;
-    void setRemoved(bool value);
+    bool isAlive() const;
+    void setForRemoved();
 
     SETTINGS::bulletType getType() const;
     void setType(const SETTINGS::bulletType &value);
@@ -29,7 +29,7 @@ private:
     sf::Sprite sprite;
     SETTINGS::Direction direction;
     sf::Vector2i size;
-    bool removed{false};
+    bool life{true};
     SETTINGS::bulletType type;
 
 

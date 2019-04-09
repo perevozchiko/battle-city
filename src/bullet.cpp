@@ -74,14 +74,14 @@ void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
-bool Bullet::getRemoved() const
+bool Bullet::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void Bullet::setRemoved(bool value)
+void Bullet::setForRemoved()
 {
-    removed = value;
+    life = false;
 }
 
 SETTINGS::bulletType Bullet::getType() const

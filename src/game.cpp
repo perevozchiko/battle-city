@@ -11,17 +11,12 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
 
 {
     texture.loadFromFile(SETTINGS::PATH_IMAGES);
-
     // FPS
     font.loadFromFile(SETTINGS::PATH_FONTS);
     fpsInfo.text.setFont(font);
     fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
-    // Отображение количества enemy за раунд
-//    enemyCount.setFont(font);
-//    enemyCount.setPosition(5, 18);
-//    enemyCount.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 2; j++)
@@ -233,7 +228,7 @@ void Game::update(const sf::Time &elapsedTime)
                 (b.top + b.height > (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP)) ||
                 (b.left + b.width > (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_MAP*4)))
         {
-            bullet->setRemoved(true);
+            bullet->setForRemoved();
         }
 
         // с другими пулями
@@ -244,8 +239,8 @@ void Game::update(const sf::Time &elapsedTime)
                 auto ob = otherBullet->getGlobalRect();
                 if (b.intersects(ob))
                 {
-                    bullet->setRemoved(true);
-                    otherBullet->setRemoved(true);
+                    bullet->setForRemoved();
+                    otherBullet->setForRemoved();
                 }
             }
 
@@ -261,11 +256,11 @@ void Game::update(const sf::Time &elapsedTime)
                 if(tile->getType() == SETTINGS::Tile::Brick)
                 {
                     tile->setRemoved(true);
-                    bullet->setRemoved(true);
+                    bullet->setForRemoved();
                 }
                 if(tile->getType() == SETTINGS::Tile::Concrete)
                 {
-                    bullet->setRemoved(true);
+                    bullet->setForRemoved();
                 }
             }
         }
@@ -276,7 +271,7 @@ void Game::update(const sf::Time &elapsedTime)
             auto e = enemy->getGlobalRect();
             if (e.intersects(b) && bullet->getType() == SETTINGS::bulletType::Player)
             {
-                bullet->setRemoved(true);
+                bullet->setForRemoved();
                 enemy->setRemoved(true);
                 tanks.pop_back();
             }
@@ -285,7 +280,7 @@ void Game::update(const sf::Time &elapsedTime)
         // с Игроком
         if(p.intersects(b) && bullet->getType() == SETTINGS::bulletType::Enemy)
         {
-            bullet->setRemoved(true);
+            bullet->setForRemoved();
             player.setRemoved(true);
         }
 
@@ -293,7 +288,7 @@ void Game::update(const sf::Time &elapsedTime)
 
         if(baseRect.intersects(b))
         {
-            bullet->setRemoved(true);
+            bullet->setForRemoved();
             base.setRemoved(true);
         }
 
@@ -410,11 +405,11 @@ void Game::update(const sf::Time &elapsedTime)
     }
 
     // удаление Bullets
-    auto it = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
+    auto itBullet = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
     {
-        return c->getRemoved();
+        return (c->isAlive() == false);
     });
-    bullets.erase(it, bullets.end());
+    bullets.erase(itBullet, bullets.end());
 
     // удаление тайлов карты
     auto itTile = std::remove_if(tiles.begin(), tiles.end(), [](const std::unique_ptr<Tile>& c)
