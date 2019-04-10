@@ -67,4 +67,14 @@ void Entity::setCollisionDetected(bool value)
 {
     collisionDetected = value;
 }
+
+SETTINGS::ObjectType Entity::getObjectType() const
+{
+    return objectType;
+}
+
+void Entity::setObjectType(const SETTINGS::ObjectType &value)
+{
+    objectType = value;
+}
 } //namespace BattleCity

@@ -10,6 +10,7 @@ Enemy::Enemy(const sf::Texture &texture, SETTINGS::EnemyType _type, SETTINGS::Po
     setTexture(texture, offset);
     setPosition(getStartPosition(startPosition));
     setDirection(SETTINGS::Direction::DOWN);
+    setObjectType(SETTINGS::ObjectType::Enemy);
     count--;
 }
 

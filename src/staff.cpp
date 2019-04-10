@@ -1,8 +1,8 @@
-#include "base.h"
+#include "staff.h"
 
 namespace BattleCity {
 
-Base::Base(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position) :
+Staff::Staff(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position) :
     Entity(position),
     size(SETTINGS::SIZE_TILE_BASE)
 {
@@ -10,7 +10,7 @@ Base::Base(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i positio
     sprite.setTextureRect(sf::IntRect(offset, size));
 }
 
-void Base::update(const sf::Time &elapsedTime)
+void Staff::update(const sf::Time &elapsedTime)
 {
     if(removed)
     {
@@ -19,33 +19,33 @@ void Base::update(const sf::Time &elapsedTime)
     }
 }
 
-void Base::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void Staff::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
     target.draw(sprite, states);
 }
 
-bool Base::getRemoved() const
+bool Staff::getRemoved() const
 {
     return removed;
 }
 
-void Base::setRemoved(bool value)
+void Staff::setRemoved(bool value)
 {
     removed = value;
 }
 
-sf::Sprite& Base::getSprite()
+sf::Sprite& Staff::getSprite()
 {
     return sprite;
 }
 
-void Base::setSprite(const sf::Sprite &value)
+void Staff::setSprite(const sf::Sprite &value)
 {
     sprite = value;
 }
 
-sf::IntRect Base::getGlobalRect() const
+sf::IntRect Staff::getGlobalRect() const
 {
     sf::Vector2i pos = getPosition();
     sf::IntRect r = utils::toIntRect(sprite.getGlobalBounds());

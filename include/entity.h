@@ -38,10 +38,14 @@ public:
     bool getCollisionDetected() const;
     void setCollisionDetected(bool value);
 
+    SETTINGS::ObjectType getObjectType() const;
+    void setObjectType(const SETTINGS::ObjectType &value);
+
 private:
     sf::Vector2i position;
     int speed;
     bool collisionDetected {false};
+    SETTINGS::ObjectType objectType;
 
 };
 } //namespace BattleCity

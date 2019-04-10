@@ -1,13 +1,11 @@
 #include "game.h"
-typedef unsigned long ul;
 
 namespace BattleCity {
 
 Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
-    window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings),
+    window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings)
     //TODO сделать offset и position по умолчанию
-    player(texture, SETTINGS::PLAYER_OFFSET, {SETTINGS::PLAYER_POSITION}),
-    base(texture, SETTINGS::BASE_OFFSET, SETTINGS::BASE_POSITION)
+
 
 {    
     texture.loadFromFile(SETTINGS::PATH_IMAGES);
@@ -17,13 +15,19 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
+    auto player = std::unique_ptr<Player>(new Player(texture, SETTINGS::PLAYER_OFFSET, {SETTINGS::PLAYER_POSITION}));
+    auto base = std::unique_ptr<Staff> (new Staff(texture, SETTINGS::BASE_OFFSET, SETTINGS::BASE_POSITION));
+    entities.push_back(std::move(player));
+    entities.push_back(std::move(base));
+
+
     // Количество оставшихся enemy
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 2; j++)
         {
-            auto tank = std::unique_ptr<CountTanks>(new CountTanks(texture, {49, 273}, {j * 16 + 470, i * 16 + 50}));
-            tanks.push_back(std::move(tank));
+            auto count = std::unique_ptr<CounterEnemy>(new CounterEnemy(texture, {49, 273}, {j * 16 + 470, i * 16 + 50}));
+            entities.push_back(std::move(count));
         }
     }
 
@@ -34,20 +38,20 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::Vector2i offset;
     std::string str;
     int type;
-    for (ul i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
+    for (int i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
     {
         str  = map[i];
-        for (ul j = 0; j < SETTINGS::COUNT_TILES_MAP; ++j)
+        for (int j = 0; j < SETTINGS::COUNT_TILES_MAP; ++j)
         {
             type = utils::charToInt(str.c_str()[j]);
             if (type != 0)
             {
                 offset = utils::setOffset(type);
-                auto t = std::unique_ptr<Tile>(new Tile(texture, offset));
-                t->setType(type);
-                t->setPosition(SETTINGS::MAP_OFFSET_LEFT + static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP,
+                auto tile = std::unique_ptr<Tile>(new Tile(texture, offset));
+                tile->setType(type);
+                tile->setPosition(SETTINGS::MAP_OFFSET_LEFT + static_cast<int>(j) * SETTINGS::SIZE_TILE_MAP,
                                SETTINGS::MAP_OFFSET_TOP + static_cast<int>(i) * SETTINGS::SIZE_TILE_MAP);
-                tiles.push_back(std::move(t));
+                entities.push_back(std::move(tile));
             }
         }
     }
@@ -97,11 +101,11 @@ void Game::run()
                 enemyTime -= SETTINGS::TIME_PER_FRAME;
 
             }
-//            if (entities.size() > 0)
-//            {
-//                int i = random(0, enemies.size()-1);
-//                enemies[i]->changeDirectionMoving();
-//            }
+            //            if (entities.size() > 0)
+            //            {
+            //                int i = random(0, enemies.size()-1);
+            //                enemies[i]->changeDirectionMoving();
+            //            }
             if (entities.size() < SETTINGS::MAX_NUM_ENEMY and Enemy::getCount() > 0)
             {
                 auto enemy = std::unique_ptr<Entity>(new Enemy(texture, SETTINGS::EnemyType::Simple, utils::setStartPosition()));
@@ -176,10 +180,15 @@ void Game::update(const sf::Time &elapsedTime)
 {
     player.update(elapsedTime);
     player.adaptPlayerPosition();
-    for(const auto &enemy : entities)
+    for(const auto &entity : entities)
     {
-        enemy->update(elapsedTime);
-        static_cast<Enemy*>(enemy.get())->adaptEnemyPosition();
+        entity->update(elapsedTime);
+        switch (entity->getObjectType())
+        {
+        case SETTINGS::ObjectType::Enemy :
+            static_cast<Enemy*>(entity.get())->adaptEnemyPosition();
+            break;
+        }
     }
 
     for(const auto& bullet: bullets)

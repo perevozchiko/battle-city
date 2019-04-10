@@ -106,6 +106,15 @@ enum class PositionEnemy
     RightCorner
 };
 
+enum class ObjectType
+{
+    Player,
+    Enemy,
+    Tile,
+    Bullet,
+    CounterEnemy
+};
+
 } //namespace SET
 } //namespace BattleCity
 #endif // SET_H

@@ -13,8 +13,8 @@
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
-#include "base.h"
-#include "counttanks.h"
+#include "staff.h"
+#include "counterenemy.h"
 
 #include <memory>
 
@@ -39,15 +39,12 @@ private:
 
     sf::RenderWindow window;
     sf::Texture texture;
-    Player player;
-    Base base;
-    sf::Text enemyCount;
 
     std::vector<std::unique_ptr<Tile>> tiles;
     std::vector<std::unique_ptr<Bullet>> bullets;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<sf::RectangleShape> borders;
-    std::vector<std::unique_ptr<CountTanks>> tanks;
+    std::vector<std::unique_ptr<CounterEnemy>> tanks;
 
     std::vector<std::unique_ptr<Entity>> entities;
 
