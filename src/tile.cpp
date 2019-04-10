@@ -10,6 +10,7 @@ Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
+    setObjectType(SETTINGS::ObjectType::Tile);
 }
 
 Tile::~Tile()

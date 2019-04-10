@@ -64,7 +64,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::RectangleShape rightBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 4, SETTINGS::WINDOW_HEIGHT},
     {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
-    borders = {topBorder, leftBorder, bottomBorder, rightBorder};
+    borders = {&topBorder, &leftBorder, &bottomBorder, &rightBorder};
 
     // Создание врагов
     for (int i = 0; i < SETTINGS::MAX_NUM_ENEMY; ++i)

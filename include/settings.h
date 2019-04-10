@@ -111,6 +111,7 @@ enum class ObjectType
     Player,
     Enemy,
     Tile,
+    Staff,
     Bullet,
     CounterEnemy
 };
