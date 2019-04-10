@@ -17,6 +17,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
+    // Количество оставшихся enemy
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 2; j++)
@@ -89,22 +90,22 @@ void Game::run()
         timeSinceLastUpdate += elapsedTime;
         enemyTime += elapsedTime;
 
-        if (enemyTime.asSeconds() > (1.5f /enemies.size()))
+        if (enemyTime.asSeconds() > (1.5f /entities.size()))
         {
             while (enemyTime > SETTINGS::TIME_PER_FRAME)
             {
                 enemyTime -= SETTINGS::TIME_PER_FRAME;
 
             }
-            if (enemies.size() > 0)
+//            if (entities.size() > 0)
+//            {
+//                int i = random(0, enemies.size()-1);
+//                enemies[i]->changeDirectionMoving();
+//            }
+            if (entities.size() < SETTINGS::MAX_NUM_ENEMY and Enemy::getCount() > 0)
             {
-                int i = random(0, enemies.size()-1);
-                enemies[i]->changeDirectionMoving();
-            }
-            if (enemies.size() < SETTINGS::MAX_NUM_ENEMY and Enemy::getCount() > 0)
-            {
-                auto en = std::unique_ptr<Enemy>(new Enemy(texture, SETTINGS::EnemyType::Simple, utils::setStartPosition()));
-                enemies.push_back(std::move(en));
+                auto enemy = std::unique_ptr<Entity>(new Enemy(texture, SETTINGS::EnemyType::Simple, utils::setStartPosition()));
+                entities.push_back(std::move(enemy));
             }
         }
 
@@ -148,8 +149,6 @@ void Game::run()
             }
         }
 
-        enemyCount.setString("Enemy: " + std::to_string(Enemy::getCount()));
-
         updateFPS(elapsedTime);
 
         render();
@@ -177,10 +176,10 @@ void Game::update(const sf::Time &elapsedTime)
 {
     player.update(elapsedTime);
     player.adaptPlayerPosition();
-    for(const auto &enemy : enemies)
+    for(const auto &enemy : entities)
     {
         enemy->update(elapsedTime);
-        enemy->adaptEnemyPosition();
+        static_cast<Enemy*>(enemy.get())->adaptEnemyPosition();
     }
 
     for(const auto& bullet: bullets)
@@ -395,11 +394,11 @@ void Game::update(const sf::Time &elapsedTime)
     tiles.erase(itTile, tiles.end());
 
     //удаление enemy
-    auto itEnemy = std::remove_if(enemies.begin(), enemies.end(), [](const std::unique_ptr<Enemy>& c)
+    auto itEnemy = std::remove_if(entities.begin(), entities.end(), [](const std::unique_ptr<Entity>& c)
     {
-        return c->getRemoved();
+        return static_cast<Enemy *>(c.get())->getRemoved();
     });
-    enemies.erase(itEnemy, enemies.end());
+    entities.erase(itEnemy, entities.end());
 
     //удаление элемента счетчика танков
     //    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
@@ -439,8 +438,7 @@ void Game::render()
 
     window.draw(player);
 
-
-    for (auto &enemy : enemies)
+    for (auto &enemy : entities)
     {
         window.draw(*enemy);
     }

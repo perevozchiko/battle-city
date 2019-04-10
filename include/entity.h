@@ -42,6 +42,7 @@ private:
     sf::Vector2i position;
     int speed;
     bool collisionDetected {false};
+
 };
 } //namespace BattleCity
 #endif // ENTITY_H
