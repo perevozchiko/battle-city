@@ -173,29 +173,30 @@ void Game::processEvents()
             break;
         }
     }
-    player.handleRealTimeInput();
+    // обработка нажатий клавиш
+    static_cast<Player*>(entities[0].get())->handleRealTimeInput();
 }
 
 void Game::update(const sf::Time &elapsedTime)
 {
-    player.update(elapsedTime);
-    player.adaptPlayerPosition();
     for(const auto &entity : entities)
     {
         entity->update(elapsedTime);
+
         switch (entity->getObjectType())
         {
-        case SETTINGS::ObjectType::Enemy :
+        case SETTINGS::ObjectType::Enemy:
             static_cast<Enemy*>(entity.get())->adaptEnemyPosition();
             break;
+
+        case SETTINGS::ObjectType::Player:
+            static_cast<Player*>(entity.get())->adaptPlayerPosition();
         }
     }
-
-    for(const auto& bullet: bullets)
-    {
-        bullet->update(elapsedTime);
-    }
-
+////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
     auto p = player.getGlobalRect();
     auto baseRect = base.getGlobalRect();
 
