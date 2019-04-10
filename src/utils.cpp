@@ -91,21 +91,7 @@ sf::IntRect toIntRect(const sf::FloatRect &value)
     return r;
 }
 
-sf::Vector2i getEnemyType(const int &value)
-{
-    SETTINGS::EnemyType i = static_cast<SETTINGS::EnemyType>(value);
-    switch(i)
-    {
-    case SETTINGS::EnemyType::Simple:
-        return {3, 426};// size 26x30
-    case SETTINGS::EnemyType::LongLived:
-        return {3, 810};// size 26x30
-    case SETTINGS::EnemyType::QuickFiring:
-        return {3, 682};// size 26x30
-    case SETTINGS::EnemyType::QuickMoving:
-        return {3, 554};// size 26x30
-    }
-}
+
 
 sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos)
 {
@@ -115,6 +101,21 @@ sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos)
     border.setFillColor(color); // серый цвет rgb 116 116 116
 
     return border;
+}
+
+SETTINGS::PositionEnemy setStartPosition(int value)
+{
+    int position;
+    if (!value)
+    {
+        RandomGen rand;
+        position = rand(1,3);
+    }
+    else
+    {
+        position = value;
+    }
+    return static_cast<SETTINGS::PositionEnemy>(position);
 }
 
 } //namespace utils

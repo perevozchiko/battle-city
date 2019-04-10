@@ -98,6 +98,14 @@ enum class bulletType
     Player,
     Enemy
 };
+
+enum class PositionEnemy
+{
+    LeftCorner,
+    Center,
+    RightCorner
+};
+
 } //namespace SET
 } //namespace BattleCity
 #endif // SET_H

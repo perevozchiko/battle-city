@@ -3,19 +3,14 @@ namespace BattleCity {
 
 int Enemy::count = SETTINGS::ALL_ENEMY_ROUND;
 
-Enemy::Enemy()
+Enemy::Enemy(const sf::Texture &texture, SETTINGS::EnemyType _type, SETTINGS::PositionEnemy startPosition) :
+    type(_type)
 {
+    sf::Vector2i offset = getOffset(type);
+    setTexture(texture, offset);
+    setPosition(getStartPosition(startPosition));
+    setDirection(SETTINGS::Direction::DOWN);
     count--;
-}
-
-Enemy::Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position):
-    Entity(position),
-    size(SETTINGS::SIZE_TILE_ENEMY),
-    direction(SETTINGS::Direction::DOWN)
-{
-    sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(offset, size));
-    sprite.setOrigin(size.x/2, size.y/2);
 }
 
 Enemy::~Enemy()
@@ -165,6 +160,49 @@ int Enemy::getRemoved() const
 void Enemy::setRemoved(int value)
 {
     removed = value;
+}
+
+sf::Vector2i Enemy::getStartPosition(SETTINGS::PositionEnemy _startPosition)
+{
+    sf::Vector2i startPosition;
+    startPosition.y = SETTINGS::SIZE_TILE_ENEMY.y/2 + SETTINGS::MAP_OFFSET_TOP;
+    switch (_startPosition)
+    {
+    case SETTINGS::PositionEnemy::LeftCorner:
+        startPosition.x = SETTINGS::SIZE_TILE_ENEMY.x/2 + SETTINGS::MAP_OFFSET_LEFT;
+        break;
+
+    case SETTINGS::PositionEnemy::Center:
+        startPosition.x = SETTINGS::SIZE_TILE_ENEMY.x/2 + SETTINGS::MAP_OFFSET_LEFT + SETTINGS::MAP_SIZE / 2;
+        break;
+
+    case SETTINGS::PositionEnemy::RightCorner:
+        startPosition.x = SETTINGS::MAP_OFFSET_LEFT + SETTINGS::MAP_SIZE - SETTINGS::SIZE_TILE_ENEMY.x/2;
+        break;
+    }
+
+    return startPosition;
+}
+
+sf::Vector2i Enemy::getOffset(SETTINGS::EnemyType &value)
+{
+    sf::Vector2i offset;
+    switch(value)
+    {
+    case SETTINGS::EnemyType::Simple:
+        offset = {3, 426};// size 26x30
+        break;
+    case SETTINGS::EnemyType::LongLived:
+        offset = {3, 810};// size 26x30
+        break;
+    case SETTINGS::EnemyType::QuickFiring:
+        offset = {3, 682};// size 26x30
+        break;
+    case SETTINGS::EnemyType::QuickMoving:
+        offset = {3, 554};// size 26x30
+        break;
+    }
+    return offset;
 }
 
 int Enemy::getCount()

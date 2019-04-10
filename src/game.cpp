@@ -9,7 +9,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     player(texture, SETTINGS::PLAYER_OFFSET, {SETTINGS::PLAYER_POSITION}),
     base(texture, SETTINGS::BASE_OFFSET, SETTINGS::BASE_POSITION)
 
-{
+{    
     texture.loadFromFile(SETTINGS::PATH_IMAGES);
     // FPS
     font.loadFromFile(SETTINGS::PATH_FONTS);
@@ -60,19 +60,12 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
     borders = {topBorder, leftBorder, bottomBorder, rightBorder};
+
     // Создание врагов
     for (int i = 0; i < SETTINGS::MAX_NUM_ENEMY; ++i)
     {
-        auto en = std::unique_ptr<Enemy>(new Enemy());
-        sf::Vector2i offset = utils::getEnemyType(i);
-
-        en->setTexture(texture, offset);
-        int posX = SETTINGS::MAP_SIZE * i/2 + (i%2) * SETTINGS::SIZE_TILE_ENEMY.x/2;
-        int posY = SETTINGS::SIZE_TILE_ENEMY.y/2;
-        //std::cout << posX << " " << posY << std::endl;
-        en->setPosition(posX, posY);
-        en->setDirection(SETTINGS::Direction::DOWN);
-        enemies.push_back(std::move(en));
+        auto enemy = std::unique_ptr<Enemy>(new Enemy(texture, SETTINGS::EnemyType::Simple, utils::setStartPosition(i)));
+        entities.push_back(std::move(enemy));
     }
 }
 
@@ -105,21 +98,12 @@ void Game::run()
             }
             if (enemies.size() > 0)
             {
-                std::size_t i = static_cast<std::size_t>(random(0, static_cast<int>(enemies.size()-1)));
+                int i = random(0, enemies.size()-1);
                 enemies[i]->changeDirectionMoving();
             }
             if (enemies.size() < SETTINGS::MAX_NUM_ENEMY and Enemy::getCount() > 0)
             {
-                int i = random(0, 3);
-                auto en = std::unique_ptr<Enemy>(new Enemy());
-                sf::Vector2i offset = utils::getEnemyType(i);
-
-                en->setTexture(texture, offset);
-                int posX = SETTINGS::WINDOW_WIDTH * i/2 + (i%2) * SETTINGS::SIZE_TILE_ENEMY.x/2;
-                int posY = SETTINGS::SIZE_TILE_ENEMY.y/2;
-                //std::cout << posX << " " << posY << std::endl;
-                en->setPosition(posX, posY);
-                en->setDirection(SETTINGS::Direction::DOWN);
+                auto en = std::unique_ptr<Enemy>(new Enemy(texture, SETTINGS::EnemyType::Simple, utils::setStartPosition()));
                 enemies.push_back(std::move(en));
             }
         }
@@ -418,11 +402,11 @@ void Game::update(const sf::Time &elapsedTime)
     enemies.erase(itEnemy, enemies.end());
 
     //удаление элемента счетчика танков
-//    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
-//    {
-//        return c->getRemoved();
-//    });
-//    tanks.erase(itCountTank, tanks.end());
+    //    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
+    //    {
+    //        return c->getRemoved();
+    //    });
+    //    tanks.erase(itCountTank, tanks.end());
 
 
 
@@ -477,7 +461,7 @@ void Game::render()
     window.draw(base);
 
     window.draw(fpsInfo.text);
-   // window.draw(enemyCount);
+    // window.draw(enemyCount);
     window.display();
 }
 

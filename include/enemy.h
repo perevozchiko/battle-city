@@ -13,7 +13,7 @@ class Enemy : public Entity
 {
 public:
     Enemy();
-    Enemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
+    Enemy(const sf::Texture &texture, SETTINGS::EnemyType _type, SETTINGS::PositionEnemy startPosition);
     ~Enemy() override;
 
     void changeDirectionMoving();
@@ -31,6 +31,8 @@ public:
 
     int getRemoved() const;
     void setRemoved(int value);
+    sf::Vector2i getStartPosition(SETTINGS::PositionEnemy _startPosition);
+    sf::Vector2i getOffset(SETTINGS::EnemyType &value);
 
     static int getCount();
 
@@ -40,6 +42,7 @@ private:
     SETTINGS::Direction direction;
     int removed{false};
     static int count;
+    SETTINGS::EnemyType type;
     //RandomGen random;
 };
 } //namespace BattleCity
