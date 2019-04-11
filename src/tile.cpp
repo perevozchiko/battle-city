@@ -6,7 +6,7 @@ Tile::Tile(const sf::Texture &texture, sf::Vector2i _offset) :
     Entity ({0,0}),
     offset(_offset),
     size(SETTINGS::SIZE_TILE_MAP, SETTINGS::SIZE_TILE_MAP),
-    type(SETTINGS::Tile::Empty)
+    type(SETTINGS::TileType::Empty)
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
@@ -24,7 +24,7 @@ void Tile::update(const sf::Time &elapsedTime)
 }
 
 
-SETTINGS::Tile Tile::getType() const
+SETTINGS::TileType Tile::getType() const
 {
     return type;
 }
@@ -34,27 +34,27 @@ void Tile::setType(const int &value)
     switch (value)
     {
     case 0:
-        type = SETTINGS::Tile::Empty;
+        type = SETTINGS::TileType::Empty;
         break;
 
     case 1:
-        type = SETTINGS::Tile::Brick;
+        type = SETTINGS::TileType::Brick;
         break;
 
     case 2:
-        type = SETTINGS::Tile::Concrete;
+        type = SETTINGS::TileType::Concrete;
         break;
 
     case 3:
-        type = SETTINGS::Tile::Shrub;
+        type = SETTINGS::TileType::Shrub;
         break;
 
     case 4:
-        type = SETTINGS::Tile::Ice;
+        type = SETTINGS::TileType::Ice;
         break;
 
     case 5:
-        type = SETTINGS::Tile::Water;
+        type = SETTINGS::TileType::Water;
         break;
     }
 }

@@ -4,12 +4,13 @@ namespace BattleCity {
 int Enemy::count = SETTINGS::ALL_ENEMY_ROUND;
 
 Enemy::Enemy(const sf::Texture &texture, SETTINGS::EnemyType _type, SETTINGS::PositionEnemy startPosition) :
+    size(SETTINGS::SIZE_TILE_ENEMY),
+    direction(SETTINGS::Direction::UP),
     type(_type)
 {
     sf::Vector2i offset = getOffset(type);
     setTexture(texture, offset);
     setPosition(getStartPosition(startPosition));
-    setDirection(SETTINGS::Direction::DOWN);
     setObjectType(SETTINGS::ObjectType::Enemy);
     count--;
 }
@@ -22,7 +23,6 @@ Enemy::~Enemy()
 void Enemy::changeDirectionMoving()
 {
     RandomGen random;
-
     switch(random(1,4))
     {
     case 1:
@@ -41,8 +41,6 @@ void Enemy::changeDirectionMoving()
         setDirection(SETTINGS::Direction::DOWN);
         break;
     }
-
-
 }
 
 void Enemy::setDirection(const SETTINGS::Direction &_direction)
@@ -126,10 +124,10 @@ void Enemy::adaptEnemyPosition()
 {
     sf::Vector2i pos = adaptPosition();
 
-    if ((utils::equalFloat(pos.x, SETTINGS::WINDOW_WIDTH - size.x/2) && direction == SETTINGS::Direction::RIGHT)
-            || (utils::equalFloat(pos.x, size.x/2) && direction == SETTINGS::Direction::LEFT)
-            || (utils::equalFloat(pos.y, SETTINGS::WINDOW_HEIGHT - size.y/2) && direction == SETTINGS::Direction::DOWN)
-            || (utils::equalFloat(pos.y, size.y/2) && direction == SETTINGS::Direction::UP))
+    if (((pos.x >= (SETTINGS::MAP_WIDTH - size.x/2)) && (direction == SETTINGS::Direction::RIGHT))
+            || ((pos.x <= (SETTINGS::MAP_LEFT + size.x/2)) && (direction == SETTINGS::Direction::LEFT))
+            || ((pos.y >= (SETTINGS::MAP_HEIGHT - size.y/2)) && (direction == SETTINGS::Direction::DOWN))
+            || ((pos.y <= (SETTINGS::MAP_TOP + size.y/2)) && (direction == SETTINGS::Direction::UP)))
     {
         changeDirectionMoving();
     }
@@ -166,19 +164,19 @@ void Enemy::setRemoved(int value)
 sf::Vector2i Enemy::getStartPosition(SETTINGS::PositionEnemy _startPosition)
 {
     sf::Vector2i startPosition;
-    startPosition.y = SETTINGS::SIZE_TILE_ENEMY.y/2 + SETTINGS::MAP_OFFSET_TOP;
+    startPosition.y = SETTINGS::SIZE_TILE_ENEMY.y/2 + SETTINGS::MAP_TOP;
     switch (_startPosition)
     {
     case SETTINGS::PositionEnemy::LeftCorner:
-        startPosition.x = SETTINGS::SIZE_TILE_ENEMY.x/2 + SETTINGS::MAP_OFFSET_LEFT;
+        startPosition.x = SETTINGS::SIZE_TILE_ENEMY.x/2 + SETTINGS::MAP_LEFT;
         break;
 
     case SETTINGS::PositionEnemy::Center:
-        startPosition.x = SETTINGS::SIZE_TILE_ENEMY.x/2 + SETTINGS::MAP_OFFSET_LEFT + SETTINGS::MAP_SIZE / 2;
+        startPosition.x = SETTINGS::SIZE_TILE_ENEMY.x/2 + SETTINGS::MAP_LEFT + SETTINGS::MAP_SIZE / 2;
         break;
 
     case SETTINGS::PositionEnemy::RightCorner:
-        startPosition.x = SETTINGS::MAP_OFFSET_LEFT + SETTINGS::MAP_SIZE - SETTINGS::SIZE_TILE_ENEMY.x/2;
+        startPosition.x = SETTINGS::MAP_LEFT + SETTINGS::MAP_SIZE - SETTINGS::SIZE_TILE_ENEMY.x/2;
         break;
     }
 

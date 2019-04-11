@@ -20,7 +20,7 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     sf::IntRect getGlobalRect() const;
-    SETTINGS::Tile getType() const;
+    SETTINGS::TileType getType() const;
     void setType(const int &value);
 
     bool getRemoved() const;
@@ -30,7 +30,7 @@ private:
     sf::Sprite sprite;
     sf::Vector2i offset;
     sf::Vector2i size;
-    SETTINGS::Tile type;
+    SETTINGS::TileType type;
     bool removed{false};
 };
 

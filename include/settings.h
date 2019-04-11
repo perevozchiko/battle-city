@@ -29,9 +29,11 @@ const sf::String PATH_MAPS = "resources/maps/";
 
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
 
-const int MAP_OFFSET_LEFT = 32;
-const int MAP_OFFSET_TOP = 16;
+const int MAP_LEFT = 32;
+const int MAP_TOP = 16;
 const int MAP_SIZE = 416;
+const int MAP_WIDTH = MAP_LEFT + MAP_SIZE;
+const int MAP_HEIGHT = MAP_TOP + MAP_SIZE;
 const int COUNT_TILES_MAP = 26;
 const int ENEMY_SPEED = 70;
 const int PLAYER_SPEED = 70;
@@ -83,7 +85,7 @@ enum class Direction
     UP
 };
 
-enum class Tile
+enum class TileType
 {
     Empty = 0,
     Brick,
