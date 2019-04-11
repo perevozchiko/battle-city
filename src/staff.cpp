@@ -16,7 +16,7 @@ void Staff::update(const sf::Time &elapsedTime)
     if(removed)
     {
         sprite.setTextureRect(sf::IntRect(SETTINGS::BASE_REMOVED_OFFSET, SETTINGS::SIZE_TILE_BASE));
-        removed = true;
+        removed = false;
     }
 }
 
