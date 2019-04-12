@@ -109,7 +109,7 @@ void Game::run()
                 auto player = static_cast<Player*>(entity.get());
                 if(player->shoot)
                 {
-                    if (delayPlayerShoot.asSeconds() > 0.4f)
+                    if (delayPlayerShoot.asSeconds() > 0.7f)
                     {
                         while(delayPlayerShoot > SETTINGS::TIME_PER_FRAME)
                         {
@@ -119,6 +119,7 @@ void Game::run()
                         const sf::Vector2i i = {1, 352};
                         auto bullet= std::make_unique<Bullet>(texture, i, player->getPosition());
                         bullet->setDirection(player->getDirection());
+                        bullet->setType(SETTINGS::bulletType::Player);
                         entities.push_back(std::move(bullet));
                         player->shoot = false;
                     }
@@ -128,10 +129,25 @@ void Game::run()
             {
                 auto enemy = static_cast<Enemy*>(entity.get());
 
-                if(timeEnemyChangeDirection.asSeconds() > 0.5f)
+                if(timeEnemyChangeDirection.asSeconds() > random(2, 5))
                 {
-                    timeEnemyChangeDirection -= SETTINGS::TIME_PER_FRAME;
-                    //enemy->changeDirectionMoving();
+                    while(timeEnemyChangeDirection > SETTINGS::TIME_PER_FRAME)
+                    {
+                        timeEnemyChangeDirection -= SETTINGS::TIME_PER_FRAME;
+                        enemy->changeDirectionMoving();
+                    }
+                }
+
+                if (timeEnemyShoot.asSeconds() > random(10 ,30))
+                {
+                    while (timeEnemyShoot > SETTINGS::TIME_PER_FRAME)
+                    {
+                        timeEnemyShoot -= SETTINGS::TIME_PER_FRAME;
+                        auto bullet= std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, enemy->getPosition()));
+                        bullet->setDirection(enemy->getDirection());
+                        bullet->setType(SETTINGS::bulletType::Enemy);
+                        entities.push_back(std::move(bullet));
+                    }
                 }
                 // выстрелы enemy
                 //                auto bullet= std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, enemy->getPosition()));
@@ -423,41 +439,12 @@ void Game::render()
         window.draw(border);
     }
 
-    //    for(const auto& bullet : bullets)
-    //    {
-    //        window.draw(*bullet);
-    //    }
-
-    //    for (auto &tile : tiles)
-    //    {
-    //        if (tile->getType() == SETTINGS::Tile::Ice)
-    //        {
-    //            window.draw(*tile);
-    //        }
-    //    }
-
     for (auto &entity : entities)
     {
         window.draw(*entity);
     }
 
-    //    for (auto &tile : tiles)
-    //    {
-    //        if (tile->getType() != SETTINGS::Tile::Ice)
-    //        {
-    //            window.draw(*tile);
-    //        }
-    //    }
-
-    //    for (auto &countTank : tanks)
-    //    {
-    //        window.draw(*countTank);
-    //    }
-
-    //    window.draw(base);
-
     window.draw(fpsInfo.text);
-    // window.draw(enemyCount);
     window.display();
 }
 
