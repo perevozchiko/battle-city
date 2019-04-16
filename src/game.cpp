@@ -120,7 +120,7 @@ void Game::run()
                         auto bullet= std::make_unique<Bullet>(texture, i, player->getPosition());
                         bullet->setDirection(player->getDirection());
                         bullet->setType(SETTINGS::bulletType::Player);
-                        entities.push_back(std::move(bullet));
+                        bullets.push_back(std::move(bullet));
                         player->shoot = false;
                     }
                 }
@@ -146,7 +146,7 @@ void Game::run()
                         auto bullet= std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, enemy->getPosition()));
                         bullet->setDirection(enemy->getDirection());
                         bullet->setType(SETTINGS::bulletType::Enemy);
-                        entities.push_back(std::move(bullet));
+                        bullets.push_back(std::move(bullet));
                     }
                 }
                 // выстрелы enemy
@@ -180,6 +180,12 @@ void Game::processEvents()
 
 void Game::update(const sf::Time &elapsedTime)
 {
+    for(auto &bullet : bullets)
+    {
+        bullet->update(elapsedTime);
+    }
+
+
     for(auto &entity : entities)
     {
         entity->update(elapsedTime);
@@ -442,6 +448,11 @@ void Game::render()
     for (auto &entity : entities)
     {
         window.draw(*entity);
+    }
+
+    for (auto &bullet : bullets)
+    {
+        window.draw(*bullet);
     }
 
     window.draw(fpsInfo.text);
