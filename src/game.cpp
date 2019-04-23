@@ -104,7 +104,7 @@ void Game::run()
 
         for (const auto &entity : entities)
         {
-            if (entity->getObjectType() == SETTINGS::ObjectType::Player)
+            if (entity->getObjectType() == Entity::ObjectType::Player)
             {
                 auto player = static_cast<Player*>(entity.get());
                 if(player->shoot)
@@ -125,7 +125,7 @@ void Game::run()
                     }
                 }
             }
-            else if (entity->getObjectType() == SETTINGS::ObjectType::Enemy)
+            else if (entity->getObjectType() == Entity::ObjectType::Enemy)
             {
                 auto enemy = static_cast<Enemy*>(entity.get());
 
@@ -138,7 +138,7 @@ void Game::run()
                     }
                 }
 
-                if (timeEnemyShoot.asSeconds() > random(10 ,30))
+                if (timeEnemyShoot.asSeconds() > random(1, 2))
                 {
                     while (timeEnemyShoot > SETTINGS::TIME_PER_FRAME)
                     {
@@ -149,9 +149,6 @@ void Game::run()
                         bullets.push_back(std::move(bullet));
                     }
                 }
-                // выстрелы enemy
-                //                auto bullet= std::unique_ptr<Bullet>(new Bullet(texture, {1, 352}, enemy->getPosition()));
-                //                entities.push_back(std::move(bullet));
             }
         }
 
@@ -180,11 +177,12 @@ void Game::processEvents()
 
 void Game::update(const sf::Time &elapsedTime)
 {
+
+
     for(auto &bullet : bullets)
     {
         bullet->update(elapsedTime);
     }
-
 
     for(auto &entity : entities)
     {
@@ -192,21 +190,42 @@ void Game::update(const sf::Time &elapsedTime)
 
         switch (entity->getObjectType())
         {
-        case SETTINGS::ObjectType::Enemy:
+        case Entity::ObjectType::Enemy:
             static_cast<Enemy*>(entity.get())->adaptEnemyPosition();
-            break;
 
-        case SETTINGS::ObjectType::Player:
-            static_cast<Player*>(entity.get())->adaptPlayerPosition();
+        case Entity::ObjectType::Player:
+            auto player = static_cast<Player*>(entity.get());
+            player->adaptPlayerPosition();
+            auto playerBounds = player->getGlobalRect();
+
+            for (auto &anotherEntity : entities)
+            {
+                entity
+                if(playerBounds.intersects(r, result))
+                {
+                    switch(player.getDirection())
+                    {
+                    case SETTINGS::Direction::RIGHT:
+                        player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
+                        break;
+                    case SETTINGS::Direction::LEFT:
+                        player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
+                        break;
+                    case SETTINGS::Direction::UP:
+                        player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
+                        break;
+                    case SETTINGS::Direction::DOWN:
+                        player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
+                        break;
+                    }
+                }
+            }
+            break;
         }
 
 
-        if (entity->getObjectType() == SETTINGS::ObjectType::Player or entity->getObjectType() == SETTINGS::ObjectType::Enemy)
-            // коллизии
-            for (auto &anotherEntity : entities)
-            {
 
-            }
+
 
     }
 
@@ -438,21 +457,19 @@ void Game::render()
 {
     window.clear();
 
-
-
     for (const auto& border : borders)
     {
         window.draw(border);
     }
 
-    for (auto &entity : entities)
-    {
-        window.draw(*entity);
-    }
-
     for (auto &bullet : bullets)
     {
         window.draw(*bullet);
+    }
+
+    for (auto &entity : entities)
+    {
+        window.draw(*entity);
     }
 
     window.draw(fpsInfo.text);
