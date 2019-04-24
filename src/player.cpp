@@ -11,7 +11,7 @@ Player::Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
-    setObjectType(SETTINGS::ObjectType::Player);
+    setObjectType(Entity::ObjectType::Player);
 }
 
 Player::~Player()
@@ -138,7 +138,6 @@ sf::IntRect Player::getGlobalRect() const
 {
     sf::Vector2i pos = getPosition();
     sf::IntRect r = utils::toIntRect(sprite.getGlobalBounds());
-
     r.left = pos.x - r.width/2;
     r.top = pos.y - r.height/2;
     return r;
