@@ -1,14 +1,14 @@
-#ifndef COUNTTANKS_H
-#define COUNTTANKS_H
+#ifndef COUNTERENEMY_H
+#define COUNTERENEMY_H
 
 #include "entity.h"
 
 namespace BattleCity {
 
-class CountTanks : public Entity
+class CounterEnemy : public Entity
 {
 public:
-    CountTanks(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
+    CounterEnemy(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
     void update(const sf::Time& elapsedTime) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -21,4 +21,4 @@ private:
     bool removed{false};
 };
 } //namespace BattleCity
-#endif // COUNTTANKS_H
+#endif // COUNTERENEMY

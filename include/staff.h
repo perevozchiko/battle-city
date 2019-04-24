@@ -5,10 +5,10 @@
 
 namespace BattleCity {
 
-class Base : public Entity
+class Staff : public Entity
 {
 public:
-    Base(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
+    Staff(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
     void update(const sf::Time& elapsedTime) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

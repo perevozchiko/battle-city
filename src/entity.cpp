@@ -32,11 +32,21 @@ void Entity::setSpeed(const int &value)
 sf::Vector2i Entity::adaptPosition()
 {
     sf::Vector2i position = getPosition();
+    sf::Vector2i size;
+    if (objectType == SETTINGS::ObjectType::Player)
+    {
+        size = SETTINGS::SIZE_TILE_PLAYER;
+    }
+    else if (objectType == SETTINGS::ObjectType::Enemy)
+    {
+        size = SETTINGS::SIZE_TILE_ENEMY;
+    }
 
-    position.x = std::max(position.x, SETTINGS::SIZE_TILE_PLAYER.x/2 + SETTINGS::SIZE_TILE_MAP * 2);
-    position.x = std::min(position.x, SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_PLAYER.x/2 - SETTINGS::SIZE_TILE_MAP * 4);
-    position.y = std::max(position.y, SETTINGS::SIZE_TILE_PLAYER.y/2 + SETTINGS::SIZE_TILE_MAP);
-    position.y = std::min(position.y, SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_PLAYER.y/2 - SETTINGS::SIZE_TILE_MAP);
+
+    position.x = std::max(position.x, SETTINGS::MAP_LEFT + size.x/2);
+    position.x = std::min(position.x, SETTINGS::MAP_WIDTH - size.x/2);
+    position.y = std::max(position.y, SETTINGS::MAP_TOP + size.y/2);
+    position.y = std::min(position.y, SETTINGS::MAP_HEIGHT - size.y/2);
 
     return position;
 }
@@ -66,5 +76,15 @@ bool Entity::getCollisionDetected() const
 void Entity::setCollisionDetected(bool value)
 {
     collisionDetected = value;
+}
+
+SETTINGS::ObjectType Entity::getObjectType() const
+{
+    return objectType;
+}
+
+void Entity::setObjectType(const SETTINGS::ObjectType &value)
+{
+    objectType = value;
 }
 } //namespace BattleCity

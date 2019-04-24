@@ -9,6 +9,8 @@ Bullet::Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
+    setObjectType(SETTINGS::ObjectType::Bullet);
+    setSpeed(SETTINGS::BULLET_SPEED);
 }
 
 Bullet::~Bullet()
@@ -23,7 +25,6 @@ SETTINGS::Direction Bullet::getDirection() const
 
 void Bullet::setDirection(const SETTINGS::Direction &value)
 {
-    setSpeed(SETTINGS::BULLET_SPEED);
     direction = value;
     switch (direction)
     {
