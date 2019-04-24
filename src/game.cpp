@@ -436,6 +436,7 @@ void Game::render()
         }
     }
 
+
     window.draw(player);
 
 
