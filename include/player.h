@@ -20,7 +20,7 @@ public:
 
     void handleRealTimeInput();
     void adaptPlayerPosition();
-    sf::IntRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const override;
 
 
     SETTINGS::Direction getDirection() const;

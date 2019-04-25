@@ -50,6 +50,7 @@ public:
 
     ObjectType getObjectType() const;
     void setObjectType(const ObjectType &value);
+    virtual sf::IntRect getGlobalRect() const;
 
 private:
     sf::Vector2i position;

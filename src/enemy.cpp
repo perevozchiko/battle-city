@@ -81,37 +81,9 @@ sf::IntRect Enemy::getGlobalRect() const
 
 void Enemy::update(const sf::Time &elapsedTime)
 {
-    float dx = 0;
-    float dy = 0;
-
-    switch (direction)
-    {
-    case SETTINGS::Direction::LEFT:
-        dx = -getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::RIGHT:
-        dx = getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::UP:
-        dx = 0;
-        dy = -getSpeed();
-        break;
-    case SETTINGS::Direction::DOWN:
-        dx = 0;
-        dy = getSpeed();
-        break;
-    }
-    if (getCollisionDetected() == false)
-    {
-        move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
-    }
-    else
-    {
-        move(0,0);
-        setCollisionDetected(false);
-    }
+    setMovement();
+    move(movement.x * elapsedTime.asSeconds(), movement.y * elapsedTime.asSeconds());
+    adaptEnemyPosition();
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -207,6 +179,34 @@ sf::Vector2i Enemy::getOffset(SETTINGS::EnemyType &value)
 int Enemy::getCount()
 {
     return count;
+}
+
+void Enemy::setMovement()
+{
+    switch (direction)
+    {
+    case SETTINGS::Direction::LEFT:
+        movement.x = -getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::RIGHT:
+        movement.x = getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::UP:
+        movement.x = 0;
+        movement.y = -getSpeed();
+        break;
+    case SETTINGS::Direction::DOWN:
+        movement.x = 0;
+        movement.y = getSpeed();
+        break;
+    }
+}
+
+sf::Vector2f Enemy::getMovement() const
+{
+    return movement;
 }
 
 } //namespace BattleCity

@@ -14,7 +14,7 @@ public:
 
     SETTINGS::Direction getDirection() const;
     void setDirection(const SETTINGS::Direction &value);
-    sf::IntRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const override;
 
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

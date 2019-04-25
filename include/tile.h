@@ -19,7 +19,7 @@ public:
     void update(const sf::Time& elapsedTime) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    sf::IntRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const override;
     SETTINGS::TileType getType() const;
     void setType(const int &value);
 

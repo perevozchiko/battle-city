@@ -87,4 +87,5 @@ void Entity::setObjectType(const Entity::ObjectType &value)
 {
     objectType = value;
 }
+
 } //namespace BattleCity

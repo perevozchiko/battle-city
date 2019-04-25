@@ -21,7 +21,9 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void adaptEnemyPosition();
     void setDirection(const SETTINGS::Direction &_direction);
-    sf::IntRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const override;
+
+    //sf::Vector2f getMovement();
 
     sf::Sprite getSprite() const;
 
@@ -36,6 +38,9 @@ public:
 
     static int getCount();
 
+    void setMovement();
+    sf::Vector2f getMovement() const;
+
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
@@ -43,6 +48,7 @@ private:
     int removed{false};
     static int count;
     SETTINGS::EnemyType type;
+    sf::Vector2f movement {0.f, 0.f};
     //RandomGen random;
 };
 } //namespace BattleCity

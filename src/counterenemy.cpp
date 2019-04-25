@@ -24,6 +24,11 @@ void CounterEnemy::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
+sf::IntRect CounterEnemy::getGlobalRect() const
+{
+
+}
+
 bool CounterEnemy::getRemoved() const
 {
     return removed;

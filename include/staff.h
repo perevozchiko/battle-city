@@ -18,7 +18,7 @@ public:
     sf::Sprite& getSprite();
     void setSprite(const sf::Sprite &value);
 
-    sf::IntRect getGlobalRect() const;
+    sf::IntRect getGlobalRect() const override;
 
 private:
     sf::Vector2i size;
