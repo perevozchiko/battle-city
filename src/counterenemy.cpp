@@ -29,7 +29,7 @@ sf::IntRect CounterEnemy::getGlobalRect() const
 
 }
 
-bool CounterEnemy::getRemoved() const
+bool CounterEnemy::isAlive() const
 {
     return removed;
 }

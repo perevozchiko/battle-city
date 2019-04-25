@@ -65,7 +65,7 @@ bool Tile::isAlive() const
     return life;
 }
 
-void Tile::setForRemoved()
+void Tile::setForRemove()
 {
     life = false;
 }

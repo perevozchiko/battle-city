@@ -112,6 +112,13 @@ void Game::run()
                 player->shoot = false;
             }
         }
+
+        if (enemies.size() < SETTINGS::MAX_NUM_ENEMY)
+        {
+            auto enemy = std::make_unique<Enemy>(texture, SETTINGS::EnemyType::Simple, utils::setStartPosition(false));
+            enemies.push_back(std::move(enemy));
+        }
+
         for (const auto &enemy : enemies)
         {
             if(timeEnemyChangeDirection.asSeconds() > random(2, 5))
@@ -173,10 +180,8 @@ void Game::update(const sf::Time &elapsedTime)
 //            bullet->setForRemove();
 //        }
 
-        if(b.top < SETTINGS::MAP_TOP ||
-                (b.left < (SETTINGS::MAP_LEFT)) ||
-                (b.top + b.height > SETTINGS::MAP_HEIGHT) ||
-                (b.left + b.width > SETTINGS::MAP_WIDTH))
+        if(b.top < SETTINGS::MAP_TOP || (b.left < (SETTINGS::MAP_LEFT)) ||
+                (b.top + b.height > SETTINGS::MAP_HEIGHT) || (b.left + b.width > SETTINGS::MAP_WIDTH))
         {
             bullet->setForRemove();
         }
@@ -189,6 +194,7 @@ void Game::update(const sf::Time &elapsedTime)
                 {
                     bullet->setForRemove();
                     enemy->setForRemove();
+                    aliveTanks.pop_back();
                 }
             }
         }
@@ -212,7 +218,7 @@ void Game::update(const sf::Time &elapsedTime)
             if (b.intersects(t))
             {
                 bullet->setForRemove();
-                tile->setForRemoved();
+                tile->setForRemove();
             }
         }
     }
@@ -483,7 +489,7 @@ void Game::update(const sf::Time &elapsedTime)
     //удаление элемента счетчика танков
     auto itCountTank = std::remove_if(aliveTanks.begin(), aliveTanks.end(), [](const std::unique_ptr<CounterEnemy>& c)
     {
-        return c->getRemoved();
+        return !c->isAlive();
     });
     aliveTanks.erase(itCountTank, aliveTanks.end());
 

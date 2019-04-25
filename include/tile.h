@@ -24,7 +24,7 @@ public:
     void setType(const int &value);
 
     bool isAlive() const;
-    void setForRemoved();
+    void setForRemove();
 
 private:
     sf::Sprite sprite;

@@ -14,7 +14,7 @@ public:
     sf::IntRect getGlobalRect() const;
 
 
-    bool getRemoved() const;
+    bool isAlive() const;
     void setRemoved(bool value);
 
 
