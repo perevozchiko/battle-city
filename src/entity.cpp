@@ -33,11 +33,11 @@ sf::Vector2i Entity::adaptPosition()
 {
     sf::Vector2i position = getPosition();
     sf::Vector2i size;
-    if (objectType == SETTINGS::ObjectType::Player)
+    if (objectType == Entity::ObjectType::Player)
     {
         size = SETTINGS::SIZE_TILE_PLAYER;
     }
-    else if (objectType == SETTINGS::ObjectType::Enemy)
+    else if (objectType == Entity::ObjectType::Enemy)
     {
         size = SETTINGS::SIZE_TILE_ENEMY;
     }
@@ -78,12 +78,12 @@ void Entity::setCollisionDetected(bool value)
     collisionDetected = value;
 }
 
-SETTINGS::ObjectType Entity::getObjectType() const
+Entity::ObjectType Entity::getObjectType() const
 {
     return objectType;
 }
 
-void Entity::setObjectType(const SETTINGS::ObjectType &value)
+void Entity::setObjectType(const Entity::ObjectType &value)
 {
     objectType = value;
 }

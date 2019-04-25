@@ -8,7 +8,7 @@ Staff::Staff(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i posit
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
-    setObjectType(SETTINGS::ObjectType::Staff);
+    setObjectType(Entity::ObjectType::Staff);
 }
 
 void Staff::update(const sf::Time &elapsedTime)

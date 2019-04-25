@@ -12,7 +12,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     // FPS
     font.loadFromFile(SETTINGS::PATH_FONTS);
     fpsInfo.text.setFont(font);
-    fpsInfo.text.setPosition(SETTINGS::FPS_POS, SETTINGS::FPS_POS);
+    fpsInfo.text.setPosition(SETTINGS::FPS_POS);
     fpsInfo.text.setCharacterSize(SETTINGS::FPS_FONT_SIZE);
 
     auto player = std::unique_ptr<Player>(new Player(texture, SETTINGS::PLAYER_OFFSET, {SETTINGS::PLAYER_POSITION}));
@@ -198,260 +198,255 @@ void Game::update(const sf::Time &elapsedTime)
             player->adaptPlayerPosition();
             auto playerBounds = player->getGlobalRect();
 
-            for (auto &anotherEntity : entities)
-            {
-                entity
-                if(playerBounds.intersects(r, result))
-                {
-                    switch(player.getDirection())
-                    {
-                    case SETTINGS::Direction::RIGHT:
-                        player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
-                        break;
-                    case SETTINGS::Direction::LEFT:
-                        player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
-                        break;
-                    case SETTINGS::Direction::UP:
-                        player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
-                        break;
-                    case SETTINGS::Direction::DOWN:
-                        player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
-                        break;
-                    }
-                }
-            }
-            break;
+            //            for (auto &anotherEntity : entities)
+            //            {
+            //                entity
+            //                if(playerBounds.intersects(r, result))
+            //                {
+            //                    switch(player.getDirection())
+            //                    {
+            //                    case SETTINGS::Direction::RIGHT:
+            //                        player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
+            //                        break;
+            //                    case SETTINGS::Direction::LEFT:
+            //                        player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
+            //                        break;
+            //                    case SETTINGS::Direction::UP:
+            //                        player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
+            //                        break;
+            //                    case SETTINGS::Direction::DOWN:
+            //                        player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
+            //                        break;
+            //                    }
+            //                }
         }
-
-
-
-
-
+        break;
     }
-
-    //    auto p = player.getGlobalRect();
-    //    auto baseRect = base.getGlobalRect();
-
-    //    //Коллизии bullet
-    //    // со стенками окна и с тайлами карты
-    //    for (const auto& bullet : bullets)
-    //    {
-    //        // со стенками окна
-    //        auto b = bullet->getGlobalRect();
-    //        if(b.top < SETTINGS::SIZE_TILE_MAP ||
-    //                (b.left < (SETTINGS::SIZE_TILE_MAP*2)) ||
-    //                (b.top + b.height > (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP)) ||
-    //                (b.left + b.width > (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_MAP*4)))
-    //        {
-    //            bullet->setForRemoved();
-    //        }
-
-    //        // с другими пулями
-    //        for (const auto& otherBullet : bullets)
-    //        {
-    //            if (otherBullet != bullet)
-    //            {
-    //                auto ob = otherBullet->getGlobalRect();
-    //                if (b.intersects(ob))
-    //                {
-    //                    bullet->setForRemoved();
-    //                    otherBullet->setForRemoved();
-    //                }
-    //            }
-
-    //        }
-
-    //        // с тайлами карты
-    //        for (const auto& tile : tiles)
-    //        {
-    //            auto t = tile->getGlobalRect();
-
-    //            if(t.intersects(b))
-    //            {
-    //                if(tile->getType() == SETTINGS::Tile::Brick)
-    //                {
-    //                    tile->setRemoved(true);
-    //                    bullet->setForRemoved();
-    //                }
-    //                if(tile->getType() == SETTINGS::Tile::Concrete)
-    //                {
-    //                    bullet->setForRemoved();
-    //                }
-    //            }
-    //        }
-
-    //        // с врагами
-    //        for(auto &enemy : enemies)
-    //        {
-    //            auto e = enemy->getGlobalRect();
-    //            if (e.intersects(b) && bullet->getType() == SETTINGS::bulletType::Player)
-    //            {
-    //                bullet->setForRemoved();
-    //                enemy->setRemoved(true);
-    //                tanks.pop_back();
-    //            }
-    //        }
-
-    //        // с Игроком
-    //        if(p.intersects(b) && bullet->getType() == SETTINGS::bulletType::Enemy)
-    //        {
-    //            bullet->setForRemoved();
-    //            player.setRemoved(true);
-    //        }
-
-    //        // С базой
-
-    //        if(baseRect.intersects(b))
-    //        {
-    //            bullet->setForRemoved();
-    //            base.setRemoved(true);
-    //        }
-
-    //    }
-
-    //    // TODO Enemy with Enemy
-
-
-    //    // Коллизии Player with tile
-    //    for (auto &tile : tiles)
-    //    {
-    //        if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
-    //        {
-    //            auto r = tile->getGlobalRect();
-    //            sf::IntRect result;
-
-    //            if(p.intersects(r, result))
-    //            {
-    //                switch(player.getDirection())
-    //                {
-    //                case SETTINGS::Direction::RIGHT:
-    //                    player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
-    //                    break;
-    //                case SETTINGS::Direction::LEFT:
-    //                    player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
-    //                    break;
-    //                case SETTINGS::Direction::UP:
-    //                    player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
-    //                    break;
-    //                case SETTINGS::Direction::DOWN:
-    //                    player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    // Коллизии player with base
-    //    sf::IntRect res;
-    //    if (p.intersects(baseRect, res))
-    //    {
-    //        switch(player.getDirection())
-    //        {
-    //        case SETTINGS::Direction::RIGHT:
-    //            player.setPosition(p.left + p.width/2 - res.width, p.top + p.width/2);
-    //            break;
-    //        case SETTINGS::Direction::LEFT:
-    //            player.setPosition(p.left + p.width/2 + res.width, p.top + p.width/2);
-    //            break;
-    //        case SETTINGS::Direction::UP:
-    //            player.setPosition(p.left + p.width/2, p.top + p.height/2 + res.height);
-    //            break;
-    //        case SETTINGS::Direction::DOWN:
-    //            player.setPosition(p.left + p.width/2, p.top + p.height/2 - res.height);
-    //            break;
-    //        }
-    //    }
-
-
-    //    //Коллизии Enemy
-    //    for (const auto& enemy : enemies)
-    //    {
-    //        auto e = enemy->getGlobalRect();
-    //        for(const auto& tile : tiles)
-    //        {
-    //            if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
-    //            {
-    //                sf::IntRect result;
-    //                auto r = tile->getGlobalRect();
-
-    //                if(e.intersects(r, result))
-    //                {
-    //                    //enemy->changeDirectionMoving();
-    //                    switch(enemy->getDirection())
-    //                    {
-    //                    case SETTINGS::Direction::RIGHT:
-    //                        enemy->setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
-    //                        break;
-    //                    case SETTINGS::Direction::LEFT:
-    //                        enemy->setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
-    //                        break;
-    //                    case SETTINGS::Direction::UP:
-    //                        enemy->setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
-    //                        break;
-    //                    case SETTINGS::Direction::DOWN:
-    //                        enemy->setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
-    //                        break;
-    //                    }
-    //                }
-    //            }
-    //        }
-
-
-    //        //коллизии с базой
-    //        sf::IntRect result;
-    //        if (e.intersects(baseRect, result))
-    //        {
-    //            switch(enemy->getDirection())
-    //            {
-    //            case SETTINGS::Direction::RIGHT:
-    //                enemy->setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
-    //                break;
-    //            case SETTINGS::Direction::LEFT:
-    //                enemy->setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
-    //                break;
-    //            case SETTINGS::Direction::UP:
-    //                enemy->setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
-    //                break;
-    //            case SETTINGS::Direction::DOWN:
-    //                enemy->setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
-    //                break;
-    //            }
-    //        }
-    //    }
-
-    //    // удаление Bullets
-    //    auto itBullet = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
-    //    {
-    //        return !c->isAlive();
-    //    });
-    //    bullets.erase(itBullet, bullets.end());
-
-    //    // удаление тайлов карты
-    //    auto itTile = std::remove_if(tiles.begin(), tiles.end(), [](const std::unique_ptr<Tile>& c)
-    //    {
-    //        return c->getRemoved();
-    //    });
-    //    tiles.erase(itTile, tiles.end());
-
-    //    //удаление enemy
-    //    auto itEnemy = std::remove_if(entities.begin(), entities.end(), [](const std::unique_ptr<Entity>& c)
-    //    {
-    //        return static_cast<Enemy *>(c.get())->getRemoved();
-    //    });
-    //    entities.erase(itEnemy, entities.end());
-
-    //удаление элемента счетчика танков
-    //    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
-    //    {
-    //        return c->getRemoved();
-    //    });
-    //    tanks.erase(itCountTank, tanks.end());
-
-
-
-    //удаление player
-    // delete &player;
 }
+
+//    auto p = player.getGlobalRect();
+//    auto baseRect = base.getGlobalRect();
+
+//    //Коллизии bullet
+//    // со стенками окна и с тайлами карты
+//    for (const auto& bullet : bullets)
+//    {
+//        // со стенками окна
+//        auto b = bullet->getGlobalRect();
+//        if(b.top < SETTINGS::SIZE_TILE_MAP ||
+//                (b.left < (SETTINGS::SIZE_TILE_MAP*2)) ||
+//                (b.top + b.height > (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP)) ||
+//                (b.left + b.width > (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_MAP*4)))
+//        {
+//            bullet->setForRemoved();
+//        }
+
+//        // с другими пулями
+//        for (const auto& otherBullet : bullets)
+//        {
+//            if (otherBullet != bullet)
+//            {
+//                auto ob = otherBullet->getGlobalRect();
+//                if (b.intersects(ob))
+//                {
+//                    bullet->setForRemoved();
+//                    otherBullet->setForRemoved();
+//                }
+//            }
+
+//        }
+
+//        // с тайлами карты
+//        for (const auto& tile : tiles)
+//        {
+//            auto t = tile->getGlobalRect();
+
+//            if(t.intersects(b))
+//            {
+//                if(tile->getType() == SETTINGS::Tile::Brick)
+//                {
+//                    tile->setRemoved(true);
+//                    bullet->setForRemoved();
+//                }
+//                if(tile->getType() == SETTINGS::Tile::Concrete)
+//                {
+//                    bullet->setForRemoved();
+//                }
+//            }
+//        }
+
+//        // с врагами
+//        for(auto &enemy : enemies)
+//        {
+//            auto e = enemy->getGlobalRect();
+//            if (e.intersects(b) && bullet->getType() == SETTINGS::bulletType::Player)
+//            {
+//                bullet->setForRemoved();
+//                enemy->setRemoved(true);
+//                tanks.pop_back();
+//            }
+//        }
+
+//        // с Игроком
+//        if(p.intersects(b) && bullet->getType() == SETTINGS::bulletType::Enemy)
+//        {
+//            bullet->setForRemoved();
+//            player.setRemoved(true);
+//        }
+
+//        // С базой
+
+//        if(baseRect.intersects(b))
+//        {
+//            bullet->setForRemoved();
+//            base.setRemoved(true);
+//        }
+
+//    }
+
+//    // TODO Enemy with Enemy
+
+
+//    // Коллизии Player with tile
+//    for (auto &tile : tiles)
+//    {
+//        if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
+//        {
+//            auto r = tile->getGlobalRect();
+//            sf::IntRect result;
+
+//            if(p.intersects(r, result))
+//            {
+//                switch(player.getDirection())
+//                {
+//                case SETTINGS::Direction::RIGHT:
+//                    player.setPosition(p.left + p.width/2 - result.width, p.top + p.width/2);
+//                    break;
+//                case SETTINGS::Direction::LEFT:
+//                    player.setPosition(p.left + p.width/2 + result.width, p.top + p.width/2);
+//                    break;
+//                case SETTINGS::Direction::UP:
+//                    player.setPosition(p.left + p.width/2, p.top + p.height/2 + result.height);
+//                    break;
+//                case SETTINGS::Direction::DOWN:
+//                    player.setPosition(p.left + p.width/2, p.top + p.height/2 - result.height);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+
+//    // Коллизии player with base
+//    sf::IntRect res;
+//    if (p.intersects(baseRect, res))
+//    {
+//        switch(player.getDirection())
+//        {
+//        case SETTINGS::Direction::RIGHT:
+//            player.setPosition(p.left + p.width/2 - res.width, p.top + p.width/2);
+//            break;
+//        case SETTINGS::Direction::LEFT:
+//            player.setPosition(p.left + p.width/2 + res.width, p.top + p.width/2);
+//            break;
+//        case SETTINGS::Direction::UP:
+//            player.setPosition(p.left + p.width/2, p.top + p.height/2 + res.height);
+//            break;
+//        case SETTINGS::Direction::DOWN:
+//            player.setPosition(p.left + p.width/2, p.top + p.height/2 - res.height);
+//            break;
+//        }
+//    }
+
+
+//    //Коллизии Enemy
+//    for (const auto& enemy : enemies)
+//    {
+//        auto e = enemy->getGlobalRect();
+//        for(const auto& tile : tiles)
+//        {
+//            if (tile->getType() != SETTINGS::Tile::Ice && tile->getType() != SETTINGS::Tile::Shrub)
+//            {
+//                sf::IntRect result;
+//                auto r = tile->getGlobalRect();
+
+//                if(e.intersects(r, result))
+//                {
+//                    //enemy->changeDirectionMoving();
+//                    switch(enemy->getDirection())
+//                    {
+//                    case SETTINGS::Direction::RIGHT:
+//                        enemy->setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
+//                        break;
+//                    case SETTINGS::Direction::LEFT:
+//                        enemy->setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
+//                        break;
+//                    case SETTINGS::Direction::UP:
+//                        enemy->setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
+//                        break;
+//                    case SETTINGS::Direction::DOWN:
+//                        enemy->setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+
+
+//        //коллизии с базой
+//        sf::IntRect result;
+//        if (e.intersects(baseRect, result))
+//        {
+//            switch(enemy->getDirection())
+//            {
+//            case SETTINGS::Direction::RIGHT:
+//                enemy->setPosition(e.left + e.width/2 - result.width, e.top + e.height/2);
+//                break;
+//            case SETTINGS::Direction::LEFT:
+//                enemy->setPosition(e.left + e.width/2 + result.width, e.top + e.height/2);
+//                break;
+//            case SETTINGS::Direction::UP:
+//                enemy->setPosition(e.left + e.width/2, e.top + e.height/2 + result.height);
+//                break;
+//            case SETTINGS::Direction::DOWN:
+//                enemy->setPosition(e.left + e.width/2, e.top + e.height/2 - result.height);
+//                break;
+//            }
+//        }
+//    }
+
+//    // удаление Bullets
+//    auto itBullet = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
+//    {
+//        return !c->isAlive();
+//    });
+//    bullets.erase(itBullet, bullets.end());
+
+//    // удаление тайлов карты
+//    auto itTile = std::remove_if(tiles.begin(), tiles.end(), [](const std::unique_ptr<Tile>& c)
+//    {
+//        return c->getRemoved();
+//    });
+//    tiles.erase(itTile, tiles.end());
+
+//    //удаление enemy
+//    auto itEnemy = std::remove_if(entities.begin(), entities.end(), [](const std::unique_ptr<Entity>& c)
+//    {
+//        return static_cast<Enemy *>(c.get())->getRemoved();
+//    });
+//    entities.erase(itEnemy, entities.end());
+
+//удаление элемента счетчика танков
+//    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
+//    {
+//        return c->getRemoved();
+//    });
+//    tanks.erase(itCountTank, tanks.end());
+
+
+
+//удаление player
+// delete &player;
+
 
 void Game::render()
 {

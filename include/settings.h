@@ -19,7 +19,7 @@ const int WINDOW_WIDTH = 512;
 const int WINDOW_HEIGHT =  448;
 
 // FPS
-const float FPS_POS = 5.f;
+const sf::Vector2f FPS_POS = {5.f, 5.f};
 const int FPS_FONT_SIZE = 12;
 
 // Paths

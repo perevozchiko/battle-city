@@ -10,7 +10,7 @@ CounterEnemy::CounterEnemy(const sf::Texture &texture, sf::Vector2i offset, sf::
 {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
-    setObjectType(SETTINGS::ObjectType::CounterEnemy);
+    setObjectType(Entity::ObjectType::CounterEnemy);
 }
 
 void CounterEnemy::update(const sf::Time &elapsedTime)

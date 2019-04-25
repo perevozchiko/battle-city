@@ -11,7 +11,7 @@ Enemy::Enemy(const sf::Texture &texture, SETTINGS::EnemyType _type, SETTINGS::Po
     sf::Vector2i offset = getOffset(type);
     setTexture(texture, offset);
     setPosition(getStartPosition(startPosition));
-    setObjectType(SETTINGS::ObjectType::Enemy);
+    setObjectType(Entity::ObjectType::Enemy);
     count--;
 }
 
