@@ -168,10 +168,15 @@ void Game::update(const sf::Time &elapsedTime)
         bullet->update(elapsedTime);
         auto b = bullet->getGlobalRect();
 
-        if(b.top < SETTINGS::SIZE_TILE_MAP ||
-                (b.left < (SETTINGS::SIZE_TILE_MAP*2)) ||
-                (b.top + b.height > (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP)) ||
-                (b.left + b.width > (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_MAP*4)))
+//        if(bullet->collisionDtect())
+//        {
+//            bullet->setForRemove();
+//        }
+
+        if(b.top < SETTINGS::MAP_TOP ||
+                (b.left < (SETTINGS::MAP_LEFT)) ||
+                (b.top + b.height > SETTINGS::MAP_HEIGHT) ||
+                (b.left + b.width > SETTINGS::MAP_WIDTH))
         {
             bullet->setForRemove();
         }
