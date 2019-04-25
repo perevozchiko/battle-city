@@ -123,14 +123,14 @@ void Enemy::setTexture(const sf::Texture &texture, sf::Vector2i offset)
     sprite.setOrigin(SETTINGS::SIZE_TILE_ENEMY.x/2, SETTINGS::SIZE_TILE_ENEMY.y/2);
 }
 
-int Enemy::getRemoved() const
+bool Enemy::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void Enemy::setRemoved(int value)
+void Enemy::setForRemove()
 {
-    removed = value;
+    life = false;
 }
 
 sf::Vector2i Enemy::getStartPosition(SETTINGS::PositionEnemy _startPosition)

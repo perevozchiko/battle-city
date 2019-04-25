@@ -12,18 +12,18 @@ public:
     void update(const sf::Time& elapsedTime) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    bool getRemoved() const;
-    void setRemoved(bool value);
+    bool isAlive() const;
+    void setForRemove();
 
     sf::Sprite& getSprite();
     void setSprite(const sf::Sprite &value);
 
-    sf::IntRect getGlobalRect() const override;
+    sf::IntRect getGlobalRect() const;
 
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
-    bool removed{false};
+    bool life{true};
 };
 
 } //namespace BattleCity

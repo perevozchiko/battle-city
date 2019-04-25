@@ -6,7 +6,6 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     window(sf::VideoMode(SETTINGS::WINDOW_WIDTH, SETTINGS::WINDOW_HEIGHT), name, sf::Style::Titlebar | sf::Style::Close, settings)
   //TODO сделать offset и position по умолчанию
 
-
 {    
     texture.loadFromFile(SETTINGS::PATH_IMAGES);
     // FPS
@@ -35,7 +34,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::Vector2i offset;
     std::string str;
     int type;
-    for (int i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
+    for (std::size_t i = 0; i < SETTINGS::COUNT_TILES_MAP; ++i)
     {
         str  = map[i];
         for (int j = 0; j < SETTINGS::COUNT_TILES_MAP; ++j)
@@ -61,7 +60,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     sf::RectangleShape rightBorder = utils::createBorder({SETTINGS::SIZE_TILE_MAP * 4, SETTINGS::WINDOW_HEIGHT},
     {SETTINGS::WINDOW_WIDTH - 4 * SETTINGS::SIZE_TILE_MAP, 0});
 
-    borders = {&topBorder, &leftBorder, &bottomBorder, &rightBorder};
+    borders = {topBorder, leftBorder, bottomBorder, rightBorder};
 
     // Создание врагов
     for (int i = 0; i < SETTINGS::MAX_NUM_ENEMY; ++i)
@@ -97,7 +96,7 @@ void Game::run()
             processEvents();
             update(SETTINGS::TIME_PER_FRAME);
         }
-        if(player->shoot)
+        if(player->isAlive() && player->shoot)
         {
             if (delayPlayerShoot.asSeconds() > 0.7f)
             {
@@ -155,14 +154,67 @@ void Game::processEvents()
         }
     }
     // обработка нажатий клавиш
-    static_cast<Player*>(entities[0].get())->handleRealTimeInput();
+    player->handleRealTimeInput();
 }
 
 void Game::update(const sf::Time &elapsedTime)
 {
+    auto p = player->getGlobalRect();
+    auto s = staff->getGlobalRect();
+
+    // коллизии bullet
     for(auto &bullet : bullets)
     {
         bullet->update(elapsedTime);
+        auto b = bullet->getGlobalRect();
+
+        if(b.top < SETTINGS::SIZE_TILE_MAP ||
+                (b.left < (SETTINGS::SIZE_TILE_MAP*2)) ||
+                (b.top + b.height > (SETTINGS::WINDOW_HEIGHT - SETTINGS::SIZE_TILE_MAP)) ||
+                (b.left + b.width > (SETTINGS::WINDOW_WIDTH - SETTINGS::SIZE_TILE_MAP*4)))
+        {
+            bullet->setForRemove();
+        }
+        else if (bullet->getType() == SETTINGS::bulletType::Player)
+        {
+            for (auto &enemy : enemies)
+            {
+                auto e = enemy->getGlobalRect();
+                if (b.intersects(e))
+                {
+                    bullet->setForRemove();
+                    enemy->setForRemove();
+                }
+            }
+        }
+        else if (bullet->getType() == SETTINGS::bulletType::Enemy)
+        {
+            if (b.intersects(p))
+            {
+                bullet->setForRemove();
+                player->setForRemove();
+            }
+        }
+
+        if (b.intersects(s))
+        {
+            bullet->setForRemove();
+            staff->setForRemove();
+        }
+        for (const auto &tile : tiles)
+        {
+            auto t = tile->getGlobalRect();
+            if (b.intersects(t))
+            {
+                bullet->setForRemove();
+                tile->setForRemoved();
+            }
+        }
+    }
+
+    for (auto &tile : tiles)
+    {
+        tile->update(elapsedTime);
     }
 
     for(auto &enemy : enemies)
@@ -170,36 +222,45 @@ void Game::update(const sf::Time &elapsedTime)
         enemy->update(elapsedTime);
     }
 
+    player->update(elapsedTime);
+    staff->update(elapsedTime);
 
-//        case Entity::ObjectType::Player:
-//            auto player = static_cast<Player*>(entity.get());
-//            player->adaptPlayerPosition();
-//            auto playerBounds = player->getGlobalRect();
-//            sf::IntRect result;
+    for(auto &aliveTank : aliveTanks)
+    {
+        aliveTank->update(elapsedTime);
+    }
 
-            //            for (auto &anotherEntity : entities)
-            //            {
-            //                auto entityBounds = anotherEntity->getGlobalRect();
 
-            //                if(playerBounds.intersects(entityBounds, result))
-            //                {
-            //                    switch(player->getDirection())
-            //                    {
-            //                    case SETTINGS::Direction::RIGHT:
-            //                        player->setPosition(playerBounds.left + playerBounds.width/2 - result.width, playerBounds.top + playerBounds.width/2);
-            //                        break;
-            //                    case SETTINGS::Direction::LEFT:
-            //                        player->setPosition(playerBounds.left + playerBounds.width/2 + result.width, playerBounds.top + playerBounds.width/2);
-            //                        break;
-            //                    case SETTINGS::Direction::UP:
-            //                        player->setPosition(playerBounds.left + playerBounds.width/2, playerBounds.top + playerBounds.height/2 + result.height);
-            //                        break;
-            //                    case SETTINGS::Direction::DOWN:
-            //                        player->setPosition(playerBounds.left + playerBounds.width/2, playerBounds.top + playerBounds.height/2 - result.height);
-            //                        break;
-            //                    }
-            //                }
-            //            }
+
+    //        case Entity::ObjectType::Player:
+    //            auto player = static_cast<Player*>(entity.get());
+    //            player->adaptPlayerPosition();
+    //            auto playerBounds = player->getGlobalRect();
+    //            sf::IntRect result;
+
+    //            for (auto &anotherEntity : entities)
+    //            {
+    //                auto entityBounds = anotherEntity->getGlobalRect();
+
+    //                if(playerBounds.intersects(entityBounds, result))
+    //                {
+    //                    switch(player->getDirection())
+    //                    {
+    //                    case SETTINGS::Direction::RIGHT:
+    //                        player->setPosition(playerBounds.left + playerBounds.width/2 - result.width, playerBounds.top + playerBounds.width/2);
+    //                        break;
+    //                    case SETTINGS::Direction::LEFT:
+    //                        player->setPosition(playerBounds.left + playerBounds.width/2 + result.width, playerBounds.top + playerBounds.width/2);
+    //                        break;
+    //                    case SETTINGS::Direction::UP:
+    //                        player->setPosition(playerBounds.left + playerBounds.width/2, playerBounds.top + playerBounds.height/2 + result.height);
+    //                        break;
+    //                    case SETTINGS::Direction::DOWN:
+    //                        player->setPosition(playerBounds.left + playerBounds.width/2, playerBounds.top + playerBounds.height/2 - result.height);
+    //                        break;
+    //                    }
+    //                }
+    //            }
 
 
 
@@ -393,38 +454,34 @@ void Game::update(const sf::Time &elapsedTime)
     //        }
     //    }
 
-    //    // удаление Bullets
-    //    auto itBullet = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
-    //    {
-    //        return !c->isAlive();
-    //    });
-    //    bullets.erase(itBullet, bullets.end());
+    // удаление Bullets
+    auto itBullet = std::remove_if(bullets.begin(), bullets.end(), [](const std::unique_ptr<Bullet>& c)
+    {
+        return !c->isAlive();
+    });
+    bullets.erase(itBullet, bullets.end());
 
-    //    // удаление тайлов карты
-    //    auto itTile = std::remove_if(tiles.begin(), tiles.end(), [](const std::unique_ptr<Tile>& c)
-    //    {
-    //        return c->getRemoved();
-    //    });
-    //    tiles.erase(itTile, tiles.end());
+    // удаление тайлов карты
+    auto itTile = std::remove_if(tiles.begin(), tiles.end(), [](const std::unique_ptr<Tile>& c)
+    {
+        return !c->isAlive();
+    });
+    tiles.erase(itTile, tiles.end());
 
-    //    //удаление enemy
-    //    auto itEnemy = std::remove_if(entities.begin(), entities.end(), [](const std::unique_ptr<Entity>& c)
-    //    {
-    //        return static_cast<Enemy *>(c.get())->getRemoved();
-    //    });
-    //    entities.erase(itEnemy, entities.end());
+    //удаление enemy
+    auto itEnemy = std::remove_if(enemies.begin(), enemies.end(), [](const std::unique_ptr<Enemy>& c)
+    {
+        return !c->isAlive();
+    });
+    enemies.erase(itEnemy, enemies.end());
 
     //удаление элемента счетчика танков
-    //    auto itCountTank = std::remove_if(tanks.begin(), tanks.end(), [](const std::unique_ptr<CountTanks>& c)
-    //    {
-    //        return c->getRemoved();
-    //    });
-    //    tanks.erase(itCountTank, tanks.end());
+    auto itCountTank = std::remove_if(aliveTanks.begin(), aliveTanks.end(), [](const std::unique_ptr<CounterEnemy>& c)
+    {
+        return c->getRemoved();
+    });
+    aliveTanks.erase(itCountTank, aliveTanks.end());
 
-
-
-    //удаление player
-    // delete &player;
 }
 
 void Game::render()
@@ -436,7 +493,17 @@ void Game::render()
         window.draw(border);
     }
 
-    for (const auto& bullet : bullets)
+    for (const auto &aliveTank : aliveTanks)
+    {
+        window.draw(*aliveTank);
+    }
+
+    for (const auto &tile : tiles)
+    {
+        window.draw(*tile);
+    }
+
+    for (const auto &bullet : bullets)
     {
         window.draw(*bullet);
     }
@@ -446,6 +513,12 @@ void Game::render()
         window.draw(*enemy);
     }
 
+    if (player->isAlive())
+    {
+        window.draw(*player);
+    }
+
+    window.draw(*staff);
     window.draw(fpsInfo.text);
     window.display();
 }

@@ -45,28 +45,8 @@ void Bullet::setDirection(const SETTINGS::Direction &value)
 
 void Bullet::update(const sf::Time &elapsedTime)
 {
-    int dx = 0;
-    int dy = 0;
-    switch (direction)
-    {
-    case SETTINGS::Direction::LEFT:
-        dx = -getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::RIGHT:
-        dx = getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::UP:
-        dx = 0;
-        dy = -getSpeed();
-        break;
-    case SETTINGS::Direction::DOWN:
-        dx = 0;
-        dy = getSpeed();
-        break;
-    }
-    move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    setMovement();
+    move(movement.x * elapsedTime.asSeconds(), movement.y * elapsedTime.asSeconds());
 }
 
 void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -80,7 +60,7 @@ bool Bullet::isAlive() const
     return life;
 }
 
-void Bullet::setForRemoved()
+void Bullet::setForRemove()
 {
     life = false;
 }
@@ -114,4 +94,34 @@ sf::IntRect Bullet::getGlobalRect() const
 
     return r;
 }
+
+void Bullet::setMovement()
+{
+    switch (direction)
+    {
+    case SETTINGS::Direction::LEFT:
+        movement.x = -getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::RIGHT:
+        movement.x = getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::UP:
+        movement.x = 0;
+        movement.y = -getSpeed();
+        break;
+    case SETTINGS::Direction::DOWN:
+        movement.x = 0;
+        movement.y = getSpeed();
+        break;
+    }
+}
+
+sf::Vector2f Bullet::getMovement() const
+{
+    return movement;
+}
+
+
 } //namespace BattleCity

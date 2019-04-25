@@ -13,10 +13,10 @@ Staff::Staff(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i posit
 
 void Staff::update(const sf::Time &elapsedTime)
 {
-    if(removed)
+    if(!life)
     {
         sprite.setTextureRect(sf::IntRect(SETTINGS::BASE_REMOVED_OFFSET, SETTINGS::SIZE_TILE_BASE));
-        removed = false;
+        life = true;
     }
 }
 
@@ -26,14 +26,14 @@ void Staff::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
-bool Staff::getRemoved() const
+bool Staff::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void Staff::setRemoved(bool value)
+void Staff::setForRemove()
 {
-    removed = value;
+    life = false;
 }
 
 sf::Sprite& Staff::getSprite()

@@ -20,6 +20,7 @@ Tile::~Tile()
 
 void Tile::update(const sf::Time &elapsedTime)
 {
+  auto a = elapsedTime;
 
 }
 
@@ -59,14 +60,14 @@ void Tile::setType(const int &value)
     }
 }
 
-bool Tile::getRemoved() const
+bool Tile::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void Tile::setRemoved(bool value)
+void Tile::setForRemoved()
 {
-    removed = value;
+    life = false;
 }
 
 sf::IntRect Tile::getGlobalRect() const

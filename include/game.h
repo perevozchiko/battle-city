@@ -43,7 +43,7 @@ private:
     std::vector<std::unique_ptr<Tile>> tiles;
     std::vector<std::unique_ptr<Bullet>> bullets;
     std::vector<std::unique_ptr<Enemy>> enemies;
-    std::vector<sf::RectangleShape&> borders;
+    std::vector<sf::RectangleShape> borders;
     std::vector<std::unique_ptr<CounterEnemy>> aliveTanks;
     std::unique_ptr<Player> player;
     std::unique_ptr<Staff> staff;

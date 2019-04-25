@@ -20,7 +20,7 @@ public:
 
     void handleRealTimeInput();
     void adaptPlayerPosition();
-    sf::IntRect getGlobalRect() const override;
+    sf::IntRect getGlobalRect() const;
 
 
     SETTINGS::Direction getDirection() const;
@@ -29,14 +29,17 @@ public:
     sf::Vector2i getSize() const;
     bool shoot{false};
 
-    bool getRemoved() const;
-    void setRemoved(bool value);
+    bool isAlive() const;
+    void setForRemove();
+    sf::Vector2f getMovement() const;
+    void setMovement();
 
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
     SETTINGS::Direction direction;
-    bool removed{false};
+    bool life{true};
+    sf::Vector2f movement;
 };
 } //namespace BattleCity
 #endif // PLAYER_H

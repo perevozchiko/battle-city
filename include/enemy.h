@@ -21,7 +21,7 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void adaptEnemyPosition();
     void setDirection(const SETTINGS::Direction &_direction);
-    sf::IntRect getGlobalRect() const override;
+    sf::IntRect getGlobalRect() const;
 
     //sf::Vector2f getMovement();
 
@@ -31,8 +31,8 @@ public:
 
     void setTexture(const sf::Texture &texture, sf::Vector2i offset);
 
-    int getRemoved() const;
-    void setRemoved(int value);
+    bool isAlive() const;
+    void setForRemove();
     sf::Vector2i getStartPosition(SETTINGS::PositionEnemy _startPosition);
     sf::Vector2i getOffset(SETTINGS::EnemyType &value);
 
@@ -45,7 +45,7 @@ private:
     sf::Vector2i size;
     sf::Sprite sprite;
     SETTINGS::Direction direction;
-    int removed{false};
+    bool life{true};
     static int count;
     SETTINGS::EnemyType type;
     sf::Vector2f movement {0.f, 0.f};
