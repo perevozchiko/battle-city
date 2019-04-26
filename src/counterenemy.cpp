@@ -31,12 +31,12 @@ sf::IntRect CounterEnemy::getGlobalRect() const
 
 bool CounterEnemy::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void CounterEnemy::setRemoved(bool value)
+void CounterEnemy::setForRemove()
 {
-    removed = value;
+    life = false;
 }
 
 } //namespace BattleCity

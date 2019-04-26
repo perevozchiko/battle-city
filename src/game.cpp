@@ -22,8 +22,7 @@ Game::Game(const sf::String& name, const sf::ContextSettings& settings) :
     {
         for (int j = 0; j < 2; j++)
         {
-            auto count = std::unique_ptr<CounterEnemy>(new CounterEnemy(texture, {49, 273}, {j * 16 + 470, i * 16 + 50}));
-            aliveTanks.push_back(std::move(count));
+            aliveTanks.push_back(CounterEnemy(texture, {49, 273}, {j * 16 + 470, i * 16 + 50}));
         }
     }
 
@@ -238,7 +237,7 @@ void Game::update(const sf::Time &elapsedTime)
 
     for(auto &aliveTank : aliveTanks)
     {
-        aliveTank->update(elapsedTime);
+        aliveTank.update(elapsedTime);
     }
 
 
@@ -485,14 +484,6 @@ void Game::update(const sf::Time &elapsedTime)
         return !c->isAlive();
     });
     enemies.erase(itEnemy, enemies.end());
-
-    //удаление элемента счетчика танков
-    auto itCountTank = std::remove_if(aliveTanks.begin(), aliveTanks.end(), [](const std::unique_ptr<CounterEnemy>& c)
-    {
-        return !c->isAlive();
-    });
-    aliveTanks.erase(itCountTank, aliveTanks.end());
-
 }
 
 void Game::render()
@@ -506,7 +497,7 @@ void Game::render()
 
     for (const auto &aliveTank : aliveTanks)
     {
-        window.draw(*aliveTank);
+        window.draw(aliveTank);
     }
 
     for (const auto &tile : tiles)

@@ -15,13 +15,13 @@ public:
 
 
     bool isAlive() const;
-    void setRemoved(bool value);
+    void setForRemove();
 
 
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
-    bool removed{false};
+    bool life{true};
 };
 } //namespace BattleCity
 #endif // COUNTERENEMY
