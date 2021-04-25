@@ -5,15 +5,15 @@
 
 namespace BattleCity {
 
-class Base : public Entity
+class Staff : public Entity
 {
 public:
-    Base(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
+    Staff(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i position);
     void update(const sf::Time& elapsedTime) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    bool getRemoved() const;
-    void setRemoved(bool value);
+    bool isAlive() const;
+    void setForRemove();
 
     sf::Sprite& getSprite();
     void setSprite(const sf::Sprite &value);
@@ -23,7 +23,7 @@ public:
 private:
     sf::Vector2i size;
     sf::Sprite sprite;
-    bool removed{false};
+    bool life{true};
 };
 
 } //namespace BattleCity

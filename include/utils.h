@@ -13,6 +13,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "settings.h"
+#include "randomgen.h"
 
 namespace BattleCity {
 
@@ -22,17 +23,14 @@ namespace utils {
  *
  */
 bool equalFloat(float x, float y);
-
 std::vector<std::string> readFromFileMap(const int level);
 sf::Vector2i setOffset(int type);
 std::string getStringMap(sf::Vector2i map, int numString);
 int charToInt(char ch);
 sf::IntRect toIntRect(const sf::FloatRect &value);
-sf::Vector2i getEnemyType(const int &value);
+sf::Vector2i getEnemyType(SETTINGS::EnemyType &value);
 sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos);
-
-//void print(Player &p);
-//std::ostream& operator<< (std::ostream &out, const Player &p);
+SETTINGS::PositionEnemy setStartPosition(int value = 0);
 
 } //namespace Utils
 } //namespace BattleCity

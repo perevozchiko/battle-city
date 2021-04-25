@@ -27,6 +27,16 @@ public:
     virtual ~Entity();
     virtual void update(const sf::Time &elapsedTime) = 0;
 
+    enum ObjectType
+    {
+        Player,
+        Enemy,
+        Tile,
+        Staff,
+        Bullet,
+        CounterEnemy
+    };
+
     int getSpeed() const;
     void setSpeed(const int &value);
     sf::Vector2i adaptPosition();
@@ -38,10 +48,15 @@ public:
     bool getCollisionDetected() const;
     void setCollisionDetected(bool value);
 
+    ObjectType getObjectType() const;
+    void setObjectType(const ObjectType &value);
+
 private:
     sf::Vector2i position;
     int speed;
     bool collisionDetected {false};
+    ObjectType objectType;
+
 };
 } //namespace BattleCity
 #endif // ENTITY_H

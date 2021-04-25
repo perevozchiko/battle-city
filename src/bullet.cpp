@@ -9,6 +9,8 @@ Bullet::Bullet(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
+    setObjectType(Entity::ObjectType::Bullet);
+    setSpeed(SETTINGS::BULLET_SPEED);
 }
 
 Bullet::~Bullet()
@@ -23,7 +25,6 @@ SETTINGS::Direction Bullet::getDirection() const
 
 void Bullet::setDirection(const SETTINGS::Direction &value)
 {
-    setSpeed(SETTINGS::BULLET_SPEED);
     direction = value;
     switch (direction)
     {
@@ -44,28 +45,8 @@ void Bullet::setDirection(const SETTINGS::Direction &value)
 
 void Bullet::update(const sf::Time &elapsedTime)
 {
-    int dx = 0;
-    int dy = 0;
-    switch (direction)
-    {
-    case SETTINGS::Direction::LEFT:
-        dx = -getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::RIGHT:
-        dx = getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::UP:
-        dx = 0;
-        dy = -getSpeed();
-        break;
-    case SETTINGS::Direction::DOWN:
-        dx = 0;
-        dy = getSpeed();
-        break;
-    }
-    move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    setMovement();
+    move(movement.x * elapsedTime.asSeconds(), movement.y * elapsedTime.asSeconds());
 }
 
 void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -74,14 +55,14 @@ void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
-bool Bullet::getRemoved() const
+bool Bullet::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void Bullet::setRemoved(bool value)
+void Bullet::setForRemove()
 {
-    removed = value;
+    life = false;
 }
 
 SETTINGS::bulletType Bullet::getType() const
@@ -113,4 +94,34 @@ sf::IntRect Bullet::getGlobalRect() const
 
     return r;
 }
+
+void Bullet::setMovement()
+{
+    switch (direction)
+    {
+    case SETTINGS::Direction::LEFT:
+        movement.x = -getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::RIGHT:
+        movement.x = getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::UP:
+        movement.x = 0;
+        movement.y = -getSpeed();
+        break;
+    case SETTINGS::Direction::DOWN:
+        movement.x = 0;
+        movement.y = getSpeed();
+        break;
+    }
+}
+
+sf::Vector2f Bullet::getMovement() const
+{
+    return movement;
+}
+
+
 } //namespace BattleCity

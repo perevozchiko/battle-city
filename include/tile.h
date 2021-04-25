@@ -20,18 +20,18 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     sf::IntRect getGlobalRect() const;
-    SETTINGS::Tile getType() const;
+    SETTINGS::TileType getType() const;
     void setType(const int &value);
 
-    bool getRemoved() const;
-    void setRemoved(bool value);
+    bool isAlive() const;
+    void setForRemove();
 
 private:
     sf::Sprite sprite;
     sf::Vector2i offset;
     sf::Vector2i size;
-    SETTINGS::Tile type;
-    bool removed{false};
+    SETTINGS::TileType type;
+    bool life{true};
 };
 
 } //namespace BattleCity

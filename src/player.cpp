@@ -11,6 +11,7 @@ Player::Player(const sf::Texture &texture, sf::Vector2i offset, sf::Vector2i pos
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(offset, size));
     sprite.setOrigin(size.x/2, size.y/2);
+    setObjectType(Entity::ObjectType::Player);
 }
 
 Player::~Player()
@@ -23,7 +24,6 @@ void Player::setDirection(const SETTINGS::Direction &_direction)
 
     setSpeed(SETTINGS::PLAYER_SPEED);
     direction = _direction;
-
 
     switch (direction)
     {
@@ -47,14 +47,14 @@ sf::Vector2i Player::getSize() const
     return size;
 }
 
-bool Player::getRemoved() const
+bool Player::isAlive() const
 {
-    return removed;
+    return life;
 }
 
-void Player::setRemoved(bool value)
+void Player::setForRemove()
 {
-    removed = value;
+    life = false;
 }
 
 SETTINGS::Direction Player::getDirection() const
@@ -64,35 +64,17 @@ SETTINGS::Direction Player::getDirection() const
 
 void Player::update(const sf::Time &elapsedTime)
 {
-    int dx = 0;
-    int dy = 0;
-    switch (direction)
-    {
-    case SETTINGS::Direction::LEFT:
-        dx = -getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::RIGHT:
-        dx = getSpeed();
-        dy = 0;
-        break;
-    case SETTINGS::Direction::UP:
-        dx = 0;
-        dy = -getSpeed();
-        break;
-    case SETTINGS::Direction::DOWN:
-        dx = 0;
-        dy = getSpeed();
-        break;
-    }
-    if (removed == true)
+    setMovement();
+
+    if (!life)
     {
         setPosition(SETTINGS::PLAYER_POSITION);
-        removed = false;
+        life = true;
     }
 
     setSpeed(0);
-    move(dx * elapsedTime.asSeconds(), dy * elapsedTime.asSeconds());
+    move(movement.x * elapsedTime.asSeconds(), movement.y * elapsedTime.asSeconds());
+    adaptPlayerPosition();
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -137,7 +119,6 @@ sf::IntRect Player::getGlobalRect() const
 {
     sf::Vector2i pos = getPosition();
     sf::IntRect r = utils::toIntRect(sprite.getGlobalBounds());
-
     r.left = pos.x - r.width/2;
     r.top = pos.y - r.height/2;
     return r;
@@ -147,4 +128,33 @@ void Player::adaptPlayerPosition()
 {
     setPosition(adaptPosition());
 }
+
+void Player::setMovement()
+{
+    switch (direction)
+    {
+    case SETTINGS::Direction::LEFT:
+        movement.x = -getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::RIGHT:
+        movement.x = getSpeed();
+        movement.y = 0;
+        break;
+    case SETTINGS::Direction::UP:
+        movement.x = 0;
+        movement.y = -getSpeed();
+        break;
+    case SETTINGS::Direction::DOWN:
+        movement.x = 0;
+        movement.y = getSpeed();
+        break;
+    }
+}
+
+sf::Vector2f Player::getMovement() const
+{
+    return movement;
+}
+
 } //namespace BattleCity

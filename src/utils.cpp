@@ -38,25 +38,24 @@ std::vector<std::string> readFromFileMap(const int level)
 
 sf::Vector2i setOffset(int type)
 {
-    switch (static_cast<SETTINGS::Tile>(type))
+    switch (static_cast<SETTINGS::TileType>(type))
     {
-    case SETTINGS::Tile::Empty:
+    case SETTINGS::TileType::Empty:
         return {1000, 1000};
 
-    case SETTINGS::Tile::Brick:
+    case SETTINGS::TileType::Brick:
         return {0, 256};
 
-    case SETTINGS::Tile::Concrete:
+    case SETTINGS::TileType::Concrete:
         return {0, 272};
 
-
-    case SETTINGS::Tile::Shrub:
+    case SETTINGS::TileType::Shrub:
         return {0, 304};
 
-    case SETTINGS::Tile::Ice:
+    case SETTINGS::TileType::Ice:
         return {0, 288};
 
-    case SETTINGS::Tile::Water:
+    case SETTINGS::TileType::Water:
         return {0, 320};
     }
     return {0,0};
@@ -66,20 +65,6 @@ int charToInt(char ch)
 {
     return ch - '0';
 }
-
-//std::ostream& operator<< (std::ostream &out, const Player &p)
-//{
-//    out << p.getPosition().x;
-//    return out;
-//}
-
-//void print(Player &player)
-//{
-//    auto p = player.getGlobalRect();
-//    std::cout << "Player - Нижняя левая : [ "<< std::round(p.top + p.height) << " " << std::round(p.left) << " ]" << std::endl;
-//    std::cout << "Player - Верхняя левая : [ "<< std::round(p.top) << " " << std::round(p.left) << " ]" << std::endl;
-
-//}
 
 sf::IntRect toIntRect(const sf::FloatRect &value)
 {
@@ -91,30 +76,30 @@ sf::IntRect toIntRect(const sf::FloatRect &value)
     return r;
 }
 
-sf::Vector2i getEnemyType(const int &value)
-{
-    SETTINGS::EnemyType i = static_cast<SETTINGS::EnemyType>(value);
-    switch(i)
-    {
-    case SETTINGS::EnemyType::Simple:
-        return {3, 426};// size 26x30
-    case SETTINGS::EnemyType::LongLived:
-        return {3, 810};// size 26x30
-    case SETTINGS::EnemyType::QuickFiring:
-        return {3, 682};// size 26x30
-    case SETTINGS::EnemyType::QuickMoving:
-        return {3, 554};// size 26x30
-    }
-}
+
 
 sf::RectangleShape createBorder(sf::Vector2i size, sf::Vector2i pos)
 {
     sf::RectangleShape border({static_cast<float>(size.x), static_cast<float>(size.y)});
     border.setPosition(pos.x, pos.y);
     sf::Color color(116, 116, 116);
-    border.setFillColor(color); // серый цвет rgb 116 116 116
-
+    border.setFillColor(color);
     return border;
+}
+
+SETTINGS::PositionEnemy setStartPosition(int value)
+{
+    int position;
+    if (!value)
+    {
+        RandomGen rand;
+        position = rand(1,3);
+    }
+    else
+    {
+        position = value;
+    }
+    return static_cast<SETTINGS::PositionEnemy>(position);
 }
 
 } //namespace utils

@@ -19,7 +19,7 @@ const int WINDOW_WIDTH = 512;
 const int WINDOW_HEIGHT =  448;
 
 // FPS
-const float FPS_POS = 5.f;
+const sf::Vector2f FPS_POS = {5.f, 5.f};
 const int FPS_FONT_SIZE = 12;
 
 // Paths
@@ -29,9 +29,11 @@ const sf::String PATH_MAPS = "resources/maps/";
 
 const sf::Time TIME_PER_FRAME = sf::seconds(1.f/60);
 
-const int MAP_OFFSET_LEFT = 32;
-const int MAP_OFFSET_TOP = 16;
+const int MAP_LEFT = 32;
+const int MAP_TOP = 16;
 const int MAP_SIZE = 416;
+const int MAP_WIDTH = MAP_LEFT + MAP_SIZE;
+const int MAP_HEIGHT = MAP_TOP + MAP_SIZE;
 const int COUNT_TILES_MAP = 26;
 const int ENEMY_SPEED = 70;
 const int PLAYER_SPEED = 70;
@@ -40,6 +42,7 @@ const sf::Vector2i SIZE_TILE_PLAYER = {26, 26};
 const sf::Vector2i SIZE_TILE_ENEMY = {26, 30};
 const sf::Vector2i SIZE_TILE_BULLET = {6, 8};
 const sf::Vector2i SIZE_TILE_BASE = {32, 32};
+const sf::Vector2i PLAYER_OFFSET= {3, 5};
 const sf::Vector2i BASE_OFFSET = {0, 360};
 const sf::Vector2i BASE_REMOVED_OFFSET = {32, 360};
 const int SIZE_TILE_MAP = 16;
@@ -82,7 +85,7 @@ enum class Direction
     UP
 };
 
-enum class Tile
+enum class TileType
 {
     Empty = 0,
     Brick,
@@ -97,6 +100,14 @@ enum class bulletType
     Player,
     Enemy
 };
+
+enum class PositionEnemy
+{
+    LeftCorner,
+    Center,
+    RightCorner
+};
+
 } //namespace SET
 } //namespace BattleCity
 #endif // SET_H
